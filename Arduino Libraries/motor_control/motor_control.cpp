@@ -37,7 +37,7 @@ void dwell()
   analogWrite(speedPinR,0);
 }
 
-//Moves foward 
+//Moves backward
 void backward(int pwm) 
 {
   // Set direction pins
@@ -50,7 +50,7 @@ void backward(int pwm)
   analogWrite(speedPinR,pwm);
 }
 
-//Moves backward
+//Moves forward
 void forward(int pwm)
 {
   // Set direction pins
@@ -91,7 +91,7 @@ void diff_right(int pwm)
   analogWrite(speedPinR,pwm);
 }
 
-// General control function, can pass a string and power to choose type of control defined below
+// General control function, can pass a command integer and power to choose type of control defined below
 // pwr should always be 0-100
 void control(int command, int pwr)
 {

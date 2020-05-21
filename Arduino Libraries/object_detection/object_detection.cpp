@@ -9,24 +9,52 @@
 int discrete_detection(float o[], float dist[], int len, int thresh)
 {
     // Check if we're clear of objects
-    bool control = check_clear(o, dist, len, thresh);
+    int control = check_distance(o, dist, len, thresh);
+    return control;
 
-    //Return 0 if clear (0 is move forward)
-    if(control){ return 0;}
-
-    //Return 1 if not clear (1 is move backward)
-    if(!control){ return 1;}
 }
 
 //Check to make sure that all distances in range are > thresh
-bool check_clear(float o[], float dist[], int len, int thresh)
+int check_distance(float o[], float dist[], int len, int thresh)
 {
-    //Check each element of distance array
-    for(int i=0; i < len; i++)
+    //Separate array indexs into left, center, right
+    int center_index = int(len/2); //casting to int will truncate remainder if value is odd
+    int center_window = 1; //How many indicies around center_index will we count as "center"
+
+    //Get the minimum distance value and index
+    int min_index = find_min(dist, len);
+    int min_value = dist[min_index];
+
+    //Check if minimum above threshold, if so return 0 to move foward
+    if(min_value > thresh) { return 0; }
+
+    //If minimum is within threshold, determine if it exists in right, center, or left, return appropriate 
+    //control direction
+    //Right segment
+    if(min_index < center_index-center_window){ return 3; } //Turn left
+
+    //Center segment
+    if(min_index < center_index+center_window && min_index > center_index-center_window)
     {
-        if(dist[i] <= thresh){ return false; } //If distance is <= thersh, object is detected
-        else{ continue; }
+        return 1; //Move backwards
     }
-    // If we get here no objects have been detected, so return True for 'clear' status
-    return true;
+
+    //Left segment
+    if(min_index < len && min_index > center_index+center_window) { return 2; }//Turn right
+
+}
+
+int find_min(float dist[], int arr_size)
+{
+  float minimum = dist[0];
+  int min_index = 0;
+  //Start at index 1 so we don't have to have complex logic inside the for loop
+  for (int i = 1; i < arr_size; i++)
+  {
+    if (dist[i] < dist[min_index]) {
+      min_index = i; //if new value is less than minimum, set min_index to new value index
+      minimum = dist[i];
+    }
+  }
+  return min_index;
 }

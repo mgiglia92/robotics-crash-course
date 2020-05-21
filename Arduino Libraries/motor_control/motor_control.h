@@ -1,7 +1,7 @@
 // #include "motor_control.h"
 
 //motor control setup
-void motor_control();
+void motor_steup();
 
 //Conversion utilities
 int convert_pwr_to_pwm(int pwr);

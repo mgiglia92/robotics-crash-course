@@ -1,3 +1,6 @@
+/* Let's include the library created for this lesson called 'library_lesson.h'
+ * 
+ */
 #include <library_lesson.h>
 
 //Global variable space
