@@ -1,0 +1,4 @@
+Manufacturing notes:
+
+Arduino ISP pins must be cut
+Need to design wiring harness for Motor controller and arduino to 9V battery

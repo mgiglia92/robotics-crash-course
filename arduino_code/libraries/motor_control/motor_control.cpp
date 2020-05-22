@@ -109,3 +109,24 @@ void control(int command, int pwr)
   if(command == 3){diff_left(pwm);}
   if(command == -1){dwell();}
 }
+
+//Control motors with raw pwm values (-255 -> 255)
+//This function will constrain the values to 0-255 in case it is sent bad numbers
+//Will change direction pins appropriately based on +/- value of pwm arguments
+void raw_motor_control(int pwmL, int pwmR)
+{
+  // Set direction pins dependent on if pwm is negative or positive
+  if(pwmR >= 0) {digitalWrite(RightDirectPin1, HIGH);digitalWrite(RightDirectPin2,LOW); }
+  else if (pwmR < 0){ digitalWrite(RightDirectPin1, LOW);digitalWrite(RightDirectPin2,HIGH); }
+  
+  if(pwmL >= 0){digitalWrite(LeftDirectPin1,HIGH); digitalWrite(LeftDirectPin2,LOW);}
+  else if(pwmL < 0){digitalWrite(LeftDirectPin1,LOW); digitalWrite(LeftDirectPin2,HIGH);}
+
+
+  //constrain input to 0-255, take absolute value of power first before constraining
+  pwmL = constrain(abs(pwmL), 0, 255);
+  pwmR = constrain(abs(pwmR), 0, 255);
+  //Write motor power to speed pins
+  analogWrite(speedPinL,pwmL);
+  analogWrite(speedPinR,pwmR);
+}

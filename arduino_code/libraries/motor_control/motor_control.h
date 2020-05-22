@@ -1,7 +1,7 @@
 // #include "motor_control.h"
 
 //motor control setup
-void motor_steup();
+void motor_setup();
 
 //Conversion utilities
 int convert_pwr_to_pwm(int pwr);
@@ -25,3 +25,6 @@ void diff_left(int pwm);
 
 //Rotate right using differential drive style
 void diff_right(int pwm);
+
+//control motors directly
+void raw_motor_control(int pwr1, int pwr2);

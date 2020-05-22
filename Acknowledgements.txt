@@ -1,0 +1,18 @@
+The following are material that has been produced by others which has helped prodcution of this curiculum. 
+These sources will most likely provide much help for you in any future projects.
+
+All open source communities and repositories!
+
+Arduino Libraries:
+PID by Brett Beauregard
+https://www.arduinolibraries.info/libraries/pid
+
+HC_SR04 "Non-blocking" library by jazzycamel
+https://www.instructables.com/id/Non-blocking-Ultrasonic-Sensor-for-Arduino/
+
+Floating point map function
+https://gist.github.com/nadavmatalon/71ccaf154bc4bd71f811289e78c65918
+
+Reading Materials:
+Overview of Control Theory by Kevin Kerliu, Armaan Kohli, Leart Krasniqi, Shyam Paidipati
+

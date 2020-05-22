@@ -1,0 +1,9 @@
+robot notes
+
+Remove front two holes from motor controller. 
+(12mm is good)Double check fastener length for motor bracket.
+(Good, 30mm is right, sits 5mm above frame)Double check fastener length for ball caster 
+(Done) Add motor wire routing holes
+Add servo motor connector routing holes
+Snap-fit battery mount for 9V
+Make frame sexy
