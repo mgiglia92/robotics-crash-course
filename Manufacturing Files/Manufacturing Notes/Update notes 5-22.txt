@@ -1,5 +1,1 @@
-robot notes
-
-Add 2 holes for an 'tie-down' mount for servo wire
-
-Make front end of frame sexy
+Sensor Mount, open up servo horn thickness.
