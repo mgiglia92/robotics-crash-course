@@ -4,11 +4,11 @@
 
 //Define Variables we'll be connecting to
 double input, output;
-double setpoint=45;
-int power = 140;//power to the robot
+double setpoint=0;
+int power = 100;//power to the robot
 
 //Specify the links and initial tuning parameters
-double kp=3, ki=0, kd=0;
+double kp=2, ki=0, kd=0;
 PID straight(&input, &output, &setpoint, kp, ki, kd, DIRECT);
 
 //IMU initailize

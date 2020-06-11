@@ -1,0 +1,4 @@
+Controls Lesson:
+Use math web graphing app (or python?) to set up system of equations for a robot with bias to turn. Do open loop model prediction
+
+Add p controller to system of equations, plot important functions that will show intuition

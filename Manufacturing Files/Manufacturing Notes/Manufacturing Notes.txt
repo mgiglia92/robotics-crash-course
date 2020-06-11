@@ -1,4 +1,23 @@
 Manufacturing notes:
 
-Arduino ISP pins must be cut
-Need to design wiring harness for Motor controller and arduino to 9V battery
+Arduino ISP pins must be cut to prevent shorting with the motor shield (added 3d printed cover for pins instead)
+
+Motor to Motor Controller Wire Length: 3.25" (done)
+
+Motor Controller to Arduino Wire Length: 6" (Vin and GND) 
+
+Drill out motor controller mounting holes (done)
+
+
+--------------------------------
+TODOs:
+1. cut all motor controller to arduino wires (60 red 60 black) strip as well
+
+2. Attach all wheels to motors
+
+-----------------------------------------------------------------------------
+Design Notes:
+Open servo opening a bit for wires so they don't have to be crushed when servo is pushed in (has been updated, cut to make sure it fits)
+
+
+--------------------------------------------------

@@ -68,7 +68,7 @@ void loop() {
   {
     //Update motor control
     int control_value = discrete_detection(orientation, dist, array_length, 25); //Get control command from detection
-    control(control_value, 30); //Control motor with value and power, adjust power so robot moves slowly
+    control(control_value, 50); //Control motor with value and power, adjust power so robot moves slowly
     
     //Run detect next, which will rotate servo and start next detection loop
     detect_next();
@@ -106,21 +106,21 @@ int analyze_data()
 }
 
 //Find the index of the array that has the minimum distance and return
-int find_min(float d[], int arr_size)
-{
-  float minimum = d[0];
-  int min_index = 0;
-  //Start at index 1 so we don't have to have complex logic inside the for loop
-  for (int i = 1; i < arr_size; i++)
-  {
-    if (d[i] < d[min_index]) {
-      min_index = i; //if new value is less than minimum, set min_index to new value index
-      minimum = d[i];
-    }
-  }
-  Serial.print("min index: ");
-  Serial.print(min_index);
-  Serial.print(" | minimum distance value: ");
-  Serial.println(d[min_index]);
-  return min_index;
-}
+//int find_min(float d[], int arr_size)
+//{
+//  float minimum = d[0];
+//  int min_index = 0;
+//  //Start at index 1 so we don't have to have complex logic inside the for loop
+//  for (int i = 1; i < arr_size; i++)
+//  {
+//    if (d[i] < d[min_index]) {
+//      min_index = i; //if new value is less than minimum, set min_index to new value index
+//      minimum = d[i];
+//    }
+//  }
+//  Serial.print("min index: ");
+//  Serial.print(min_index);
+//  Serial.print(" | minimum distance value: ");
+//  Serial.println(d[min_index]);
+//  return min_index;
+//}
