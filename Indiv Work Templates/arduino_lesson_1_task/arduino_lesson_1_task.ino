@@ -52,7 +52,7 @@ void setup() {
 }
 
 void loop() {
- 
+ //Loop stuff here
 }
 
 //raw_ang_vel_to_accel function (copy and rename the function from arduino_lesson_1.ino)

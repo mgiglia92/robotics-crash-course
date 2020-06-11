@@ -44,6 +44,6 @@ int add(int a, int b)
 
 //subtract
 
-//multiple
+//multiply
 
 //divide
