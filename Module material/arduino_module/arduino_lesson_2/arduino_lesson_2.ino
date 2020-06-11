@@ -106,7 +106,7 @@ void setup() {
   fill_degrees_array(deg, array_length);
   // Initialize the positions array with random values
   fill_distance_array(dist, array_length);
-  // Find the index correlated to the minimum value in the distacnesarray
+  // Find the index correlated to the minimum value in the distacnes array
   int min_index; //Define a variable for minimum index
   min_index = find_min(dist, array_length);
   // Print out the index of the minimum, and the degrees at this index, and the distance at this index

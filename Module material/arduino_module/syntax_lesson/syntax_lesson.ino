@@ -4,9 +4,14 @@
  * How to create your own function and use that function.
  * Loops/statements: while, for, if, else
  * 
+ * NOTE: This code will NOT compile.
  */
 
-//Comments are made by using the // . or multi line comments can use /*  */
+//Comments are made by using the // . or multi line comments can use /* */
+/*Multi
+Line
+Comment
+*/
 
 //Variable creation, datatypes
 int x; //Integer variable named x, not initialized to any value,  will be a random value
@@ -58,6 +63,7 @@ bool condition = true;
 while(condition == true) //NOTE: for comparison the syntax is '==' not '='.
 {
  //Do something here while condition==true
+ add_integers(4,4);
 }
 
 //For loop
