@@ -89,7 +89,7 @@ float MPU6050::get_temp() { return _temp; }
 //This will take 100 readings of the sensor, average them, and set the 
 //zero-error bias for each data (except temperature)
 //NOTE: The z axis bias is incorrect, this is removing the gravity vector
-//This is okay because we are not using the z-axis acceleration data for any feedback controls
+//This is okay because we are not currently using the z-axis acceleration data for any feedback controls
 void MPU6050::calibrate() 
 {
     //Sum buffer variables, init to 0
@@ -102,7 +102,7 @@ void MPU6050::calibrate()
     //Get 100 readings from sensor, and average them.
     for(int i=0; i<100; i++)
     {
-        //Update sensor and then add each value to local average variable
+        //Update sensor and then add each value to sum buffer variables
         update();
         ax_sum += get_accel('x');
         ay_sum += get_accel('y');
@@ -114,7 +114,7 @@ void MPU6050::calibrate()
     //Divide sum values by 100 to get the avg and set bias values
     _ax_bias = ax_sum/100;
     _ay_bias = ay_sum/100;
-    _az_bias = az_sum/100; //This bias will be incorrect since we're removing gravity
+    _az_bias = az_sum/100; //Z-axis bias will be incorrect since we're removing the gravity components and assuming calibration on a level surface
     _wx_bias = wx_sum/100;
     _wy_bias = wy_sum/100;
     _wz_bias = wz_sum/100;

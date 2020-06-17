@@ -4,14 +4,16 @@ Arduino ISP pins must be cut to prevent shorting with the motor shield (added 3d
 
 Motor to Motor Controller Wire Length: 3.25" (done)
 
-Motor Controller to Arduino Wire Length: 6" (Vin and GND) 
+Motor Controller to Arduino Wire Length: 6" (Vin and GND) (done)
 
 Drill out motor controller mounting holes (done)
+
+Sand PCBs of all MPU6050, and HC_SR04 that do not fit snugly into respective sensor mounts
 
 
 --------------------------------
 TODOs:
-1. cut all motor controller to arduino wires (60 red 60 black) strip as well
+1. cut all motor controller to arduino wires (60 red 60 black) strip as well (Done)
 
 2. Attach all wheels to motors
 

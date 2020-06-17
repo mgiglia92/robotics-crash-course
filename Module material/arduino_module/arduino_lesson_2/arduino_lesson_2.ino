@@ -28,8 +28,8 @@ int dist[array_length];
 // we are using something calleed pass by reference. Pass by reference isn't passing the data in deg, it's passing
 // a pointer to the first cell of data in 'deg'
 // Technically speaking the value of deg is actually a pointer pointing to an address in memory that holds data
-// When we call deg[integer] we are accessing the data at the pointer correlated to 'number' and returning that value
-// So if 'number' is 1, we are accessing the pointer at 1, which is the pointer at 0 iterated forward 1 time
+// When we call deg[integer] we are accessing the data at the pointer correlated to 'integer' and returning that value
+// So if 'integer' is 1, we are accessing the pointer at 1, which is the pointer at 0 iterated forward 1 time
 // If we access deg[10] but 'deg' only has a length of 10, we are actually acessing the 11th pointer
 // which is outside of the memory allocated for 'deg', and therefore we will be getting 'random' or unknown data
 // and if we write to a pointer outside of the array, this can have very bad unintended consequences, such as breaking
