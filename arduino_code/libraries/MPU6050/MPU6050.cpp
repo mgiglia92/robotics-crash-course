@@ -31,13 +31,13 @@ bool MPU6050::initialize()
     //configure gyro
     Wire.beginTransmission(0x68); //Address of the sensor on i2c line
     Wire.write(0x1B); //Address we want to edit
-    Wire.write(0b0000000); //data for that address
+    Wire.write(0b0000000); //Write Gyro sensitivity to +-250
     Wire.endTransmission();//end transmission
 
     //configure accel
     Wire.beginTransmission(0x68);
-    Wire.write(0x1C);
-    Wire.write(0b00000000);
+    Wire.write(0x1C);  //Address we want to edit
+    Wire.write(0b00000000); //Write accel sensitivity to +-2g
     Wire.endTransmission();
     delay(100);
     return true;

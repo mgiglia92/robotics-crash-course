@@ -25,7 +25,7 @@ State control_state;
 //PID control gains
 double kp = 2;
 double ki = 0;
-double kd = 0;
+double kd = 1;
 double output;
 double input;
 double setpoint;
@@ -35,6 +35,7 @@ void setup()
 {
   //Initialize accelerometer
   accel.initialize();
+  accel.calibrate();
   
   //Initialize SODAR
   mysodar.initialize_arrays();
@@ -43,10 +44,10 @@ void setup()
   //Set some PID class parameters
   controls.SetMode(1);
   controls.SetOutputLimits(-100, 100);
-  controls.SetSampleTime(100);
+  controls.SetSampleTime(10);
 
   //Set linear state for movement
-  control_state.setLinearState(80);
+  control_state.setLinearState(155);
   
   //Begin serial comms
   Serial.begin(9600);
@@ -55,7 +56,7 @@ void setup()
 void loop()
 {
   //update sodar
-  mysodar.update();
+//  mysodar.update();
   //update accelerometer
   accel.update();
   //PID input from accelerometer
@@ -66,6 +67,8 @@ void loop()
   controls.Compute();
   //Set motor power based on feedback from controls PID class
   raw_motor_control(control_state.getLinearState()-output, control_state.getLinearState()+output);
+//  raw_motor_control(control_state.getLinearState(), control_state.getLinearState());
+  
   //Print
   Serial.println(input);
 }

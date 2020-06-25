@@ -5,7 +5,7 @@
 //Define Variables we'll be connecting to
 double input, output;
 double setpoint=0;
-int power = 100;//power to the robot
+int power = 155;//power to the robot
 
 //Specify the links and initial tuning parameters
 double kp=2, ki=0, kd=0;
@@ -22,7 +22,7 @@ void setup()
   IMU.calibrate();  //calibrate the sensor(robot cannot move during this time)
   straight.SetMode(1);
   straight.SetOutputLimits(-100, 100);
-  straight.SetSampleTime(100);
+  straight.SetSampleTime(50);
   Serial.begin(9600);
 }
 
@@ -33,7 +33,7 @@ void loop()
   //compute
   straight.Compute();
   input = IMU.get_ang_vel('z');
-  raw_motor_control(power+output, power-output); //Need to make schema of robot for this
+  raw_motor_control(power-output, power+output); //Need to make schema of robot for this
   Serial.print("output: "); Serial.print(output); Serial.print(" input: "); Serial.println(input);
   
 }

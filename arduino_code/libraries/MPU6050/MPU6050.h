@@ -18,7 +18,7 @@ class MPU6050{
         //Sensitivity parameters
         float gyro_sensitivity;
         float accel_sensitivity;
-        //calibration bias parameters
+        //calibration bias parameters, these will be used to "calibrate" the sensors raw values
         float _ax_bias;
         float _ay_bias;
         float _az_bias;
