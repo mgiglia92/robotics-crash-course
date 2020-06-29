@@ -27,4 +27,4 @@ void diff_left(int pwm);
 void diff_right(int pwm);
 
 //control motors directly
-void raw_motor_control(int pwr1, int pwr2);
+void raw_motor_control(int pwm1, int pwm2);
