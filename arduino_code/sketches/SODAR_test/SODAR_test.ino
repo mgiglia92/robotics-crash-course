@@ -10,12 +10,12 @@
 #define ECHO_PIN 2
 #define ECHO_INT 0
 #define CENTER 91
-#define RESOLUTION 10
-#define UPPER_RANGE 111
-#define LOWER_RANGE 71
+#define RESOLUTION 45
+#define UPPER_RANGE 136
+#define LOWER_RANGE 46
 
 //Global Variable
-SODAR mysodar(TRIG_PIN, ECHO_PIN, ECHO_INT, SERVO_PIN, 91, 10, 131, 51);
+SODAR mysodar(TRIG_PIN, ECHO_PIN, ECHO_INT, SERVO_PIN, 91, RESOLUTION, UPPER_RANGE, LOWER_RANGE);
 
 
 void setup()

@@ -49,4 +49,5 @@ class SODAR
         int current_index; // The current array index the SODAR sensor is at
         int actuator_pin;
         bool down_flag=false; // Flag for increment or decrement of current_index
+        bool started_flag = false; //Flag to see if HC_SR04 has been started to not restart sensor by accident
 };
