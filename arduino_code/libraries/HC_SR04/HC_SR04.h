@@ -8,9 +8,11 @@
 
 class HC_SR04 {
   public:
+    // Params are pin numbers & max distance
     HC_SR04(int trigger, int echo, int interrupt, int max_dist=200);
-    
+    // Initializes pins
     void begin();
+    // Runs Sonar sensor
     void start();
     bool isFinished(){ return _finished; }
     unsigned int getRange(bool units=CM);

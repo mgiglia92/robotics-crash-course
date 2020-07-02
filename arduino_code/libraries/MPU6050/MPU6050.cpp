@@ -7,7 +7,7 @@
 //Default constructor
 MPU6050::MPU6050(int sda, int scl)
 {   
-     //Initialize address and parameter values
+    //Initialize address and parameter values
     gyro_sensitivity = 131.0;
     accel_sensitivity = 16384.0;
     _ax_bias=0;

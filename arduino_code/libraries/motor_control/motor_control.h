@@ -1,30 +1,34 @@
 // #include "motor_control.h"
 
-//motor control setup
+//  Sets up motors - sets pins
 void motor_setup();
 
-//Conversion utilities
+// Conversion utilities
 int convert_pwr_to_pwm(int pwr);
 
-//Motor Control Functions
-// General control function, can pass a string and power to choose type of control defined below
+// ------  Motor Control Functions ------
+
 // pwr should always be 0-100
+// commands: 0 - Forward
+//           1 - Backward
+//           2 - Right
+//           3 - Left
 void control(int command, int pwr);
 
-//Will cut power to all motors
+// Cuts power to all motors
 void dwell();
 
-//Moves foward 
+// Moves foward
 void backward(int pwm);
 
-//Moves backward
+// Moves backward
 void forward(int pwm);
 
-//Rotate left using differential drive style
+// Rotates left using differential drive style
 void diff_left(int pwm);
 
-//Rotate right using differential drive style
+// Rotates right using differential drive style
 void diff_right(int pwm);
 
-//control motors directly
+// Controls motors directly
 void raw_motor_control(int pwr1, int pwr2);
