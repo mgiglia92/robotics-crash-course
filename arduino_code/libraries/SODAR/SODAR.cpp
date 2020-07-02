@@ -19,7 +19,7 @@ SODAR::SODAR(int trig_pin,
     actuator_pin = servo_pin;
 
     //Default servo response time, to put delay between sensor readings to be sure sensor is pointing in proper direction
-    estimated_servo_response_time = 200; //in us (microseconds)
+    estimated_servo_response_time = 500; //in us (microseconds)
 
     // int distance[array_length];
     // int orientation[array_length] ;
@@ -53,6 +53,7 @@ void SODAR::update()
     // Serial.println(millis() - previous_millis);
     if((millis() - previous_millis) >= estimated_servo_response_time)
     {
+        if(!started_flag) { sensor.start(); started_flag=true;}
         if(sensor.isFinished()) //If sensor is finished update value in distance array
         {
             //Update distance value at current index
@@ -62,7 +63,6 @@ void SODAR::update()
         }
         else{return;}
     }
-    // else{sensor.start();} //Servo has reached position, start detecting
 }
 
 void SODAR::next()
@@ -80,8 +80,8 @@ void SODAR::next()
     //Reset previous_millis
     previous_millis = millis();
 
-    //restart sensor
-    sensor.start();
+    //restart sensor started_flag
+    started_flag=false;
 }
 
 void SODAR::init()
