@@ -83,7 +83,7 @@ float MPU6050::get_ang_vel(char c)
 }
 
 //Get temperature value
-float MPU6050::get_temp() { return _temp; }
+float MPU6050::get_temp() { return (_temp/340) + 36.53; }
 
 //Run this function while the robot is at equilibrium (no motion).
 //This will take 100 readings of the sensor, average them, and set the 
