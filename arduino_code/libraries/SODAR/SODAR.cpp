@@ -19,7 +19,7 @@ SODAR::SODAR(int trig_pin,
     actuator_pin = servo_pin;
 
     //Default servo response time, to put delay between sensor readings to be sure sensor is pointing in proper direction
-    estimated_servo_response_time = 500; //in us (microseconds)
+    estimated_servo_response_time = 200; //in us (microseconds)
 
     // int distance[array_length];
     // int orientation[array_length] ;

@@ -2,7 +2,7 @@
 #include "Arduino.h"
 
 //Define L298N Dual H-Bridge Motor Controller Pins
-#define speedPinR 3   // RIGHT PWM pin connect MODEL-X ENA
+#define speedPinR 5   // RIGHT PWM pin connect MODEL-X ENA
 #define RightDirectPin1  12    //  Right Motor direction pin 1 to MODEL-X IN1 
 #define RightDirectPin2  11    // Right Motor direction pin 2 to MODEL-X IN2
 #define speedPinL 6        //  Left PWM pin connect MODEL-X ENB

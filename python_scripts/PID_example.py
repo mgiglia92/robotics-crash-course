@@ -14,6 +14,72 @@ def PrintException():
     line = linecache.getline(filename, lineno, f.f_globals)
     print('EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj))
 
+class BikeSolver():
+    def __init__(self):
+        self.solver = GEKKO(remote=False)
+
+        ntd = 100
+
+        self.solver.time = np.linspace(0,50, ntd)
+
+        self.solver.options.NODES = 2
+        self.solver.options.SOLVER = 3  #Solver Type IPOPT
+        self.solver.options.IMODE = 6 #MPC solution mode, will manipulate MV's to minimize Objective functions
+
+        # final time for optimizer
+        self.tf = self.solver.FV(value=1.0,lb=0.1,ub=100.0)
+
+        # allow gekko to change the tf value
+        self.tf.STATUS = 1
+    
+    def solve_open_loop(self, v0, d0, L):
+        # Initialize all state variables
+        self.x = self.solver.Var(value = 0)
+        self.y = self.solver.Var(value = 0)
+        self.yaw = self.solver.Var(value = 0) # state orientation variable
+        self.vx = self.solver.Var(value = v0*np.cos(0))
+        self.vy = self.solver.Var(value = v0*np.sin(0))
+        self.omega_yaw = self.solver.Var(value = (np.tan(d0)/L))
+        self.v_mag = self.solver.Param(value = v0)
+        self.delta = self.solver.Var(value = d0) #steering angle
+        self.L = self.solver.Param(value = L)
+
+        # Add manipulatable variables
+        self.delta_control = self.solver.MV(value = self.delta)
+        self.delta_control.STATUS = 0  # Allow GEKKO to change this value
+
+        self.solver.Equation(self.vx == self.v_mag * self.solver.cos(self.yaw))
+        self.solver.Equation(self.vy == self.v_mag * self.solver.sin(self.yaw))
+        self.solver.Equation(self.omega_yaw == (self.solver.tan(self.delta_control) / self.L))
+        self.solver.Equation(self.x.dt() == self.vx)
+        self.solver.Equation(self.y.dt() == self.vy)
+        self.solver.Equation(self.yaw.dt() == self.omega_yaw)
+
+        self.solver.Obj((self.delta - self.delta_control)**2)
+
+        self.solver.solve(disp=True)  # Solve the system and display results to terminal
+
+    def plot_data(self):
+        """Will plot
+        """        
+        fig = plt.figure(2)
+        plt.subplot(4, 1, 1)
+        plt.plot(self.solver.time, self.vx.value, 'r-')
+        plt.ylabel('x pos')
+        plt.subplot(4, 1, 2)
+        plt.plot(self.solver.time, self.vy.value, 'b-')
+        plt.ylabel('y pos')
+        # plt.ylim(-280, 280)
+        plt.subplot(4, 1, 3)
+        plt.plot(self.solver.time, self.yaw.value, 'g-')
+        plt.ylabel('yaw val')
+        plt.subplot(4, 1, 4)
+        plt.plot(self.solver.time, self.omega_yaw.value, 'g-')
+        plt.ylabel('omega val')
+        # plt.ylim(-280, 280)       
+
+        plt.draw()
+        plt.show(block=True)
 
 class Solver():
     def __init__(self):
@@ -26,6 +92,7 @@ class Solver():
         self.solver.options.NODES = 2
         self.solver.options.SOLVER = 3  #Solver Type IPOPT
         self.solver.options.IMODE = 6 #MPC solution mode, will manipulate MV's to minimize Objective functions
+        
 
     
     def solve_pid(self, x0, v0, kp, ki, kd, xd):
@@ -43,7 +110,7 @@ class Solver():
         self.v = self.solver.Var(value = v0)  # Velocity of system
         self.e = self.solver.Var(value = (xd-x0)) # Positional error of system
         self.pid_output = self.solver.Var() # Output of PID algorithm
-        self.a = self.solver.MV(value = self.pid_output, lb=-10, ub=10) # Acceleration input to system
+        self.a = self.solver.MV(value = self.pid_output, lb=-10000, ub=10000) # Acceleration input to system
         self.a.STATUS = 1  # Allow GEKKO to change this value
 
         self.solver.Equation(self.e == xd - self.x) # Define error function
@@ -89,6 +156,16 @@ class RobotSolver():
         self.solver.options.IMODE = 6 #MPC solution mode, will manipulate MV's to minimize Objective functions
     
     def solve_pid(self, w0, wd, v_base, a1_bias, kp, kd):
+        """[summary]
+
+        Args:
+            w0 ([type]): [description]
+            wd ([type]): [description]
+            v_base ([type]): [description]
+            a1_bias ([type]): [description]
+            kp ([type]): [description]
+            kd ([type]): [description]
+        """        
         self.w = self.solver.Var(value = w0) # Angular Velocity of system
         self.a1 = self.solver.MV(value = v_base, lb=-255, ub=255) # Power of Wheel 1
         self.a1.STATUS = 1
@@ -133,9 +210,13 @@ class RobotSolver():
 
 if __name__ == "__main__":
     # s = Solver()
-    # s.solve_pid(x0=0, v0=10, kp=10, ki=0, kd=10, xd=10)
+    # s.solve_pid(x0=0, v0=0, kp=10, ki=0, kd=0, xd=10)
     # print(s.x.value)
     # s.plot_data()
-    r = RobotSolver()
-    r.solve_pid(w0 = 2, wd = 0, v_base = 100, a1_bias = 10, kp = 10, kd = 1)
-    r.plot_data()
+    # r = RobotSolver()
+    # r.solve_pid(w0 = 2, wd = 0, v_base = 100, a1_bias = 10, kp = 10, kd = 1)
+    # r.plot_data()
+    b = BikeSolver()
+    b.solve_open_loop(1, 1, 1)
+    b.plot_data()
+    # print(b.x.value, b.y.value, b.yaw.value)

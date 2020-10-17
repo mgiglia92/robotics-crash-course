@@ -12,8 +12,8 @@ void Timer::start(){
 
 // Checks if timer is finished & restarts timer if "true"
 bool Timer::is_finished(bool restart = true){
-    if(started && millis() - old_millis > wait_time){
-        started = false;
+    if(started && (millis() - old_millis > wait_time)){
+        // started = false;
         if(restart){ start(); }
         return true;
     } else {
