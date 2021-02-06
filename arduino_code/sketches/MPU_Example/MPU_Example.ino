@@ -6,9 +6,9 @@ MPU6050 IMU(4,5);
 void setup() {
   // Initializes and calibrates the MPU6050
   IMU.initialize();
-  IMU.calibrate();
+//  IMU.calibrate();
   
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
@@ -17,5 +17,5 @@ void loop() {
 
   // Replace this with other functions to get different information from the sensor
   Serial.print("accel. x: ");
-  Serial.println(IMU.get_ang_vel('x'));
+  Serial.println(IMU.get_accel('x'));
 }

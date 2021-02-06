@@ -12,12 +12,12 @@ HC_SR04 sensor(TRIG_PIN, ECHO_PIN, ECHO_INT);
 Servo actuator;
 
 //Setup PID controller variables
-double setpoint = 80;
+double setpoint = 20;
 double input;
 double output;
-double kp = 20;
+double kp = 25;
 double ki = 0;
-double kd = 2;
+double kd = 0;
 PID controller(&input, &output, &setpoint, kp, ki, kd, REVERSE);
 
 void setup() {
@@ -52,9 +52,13 @@ void loop() {
   
   //compute PID controller once input has been updated
   controller.Compute();
+
+  //Fix the dead band issue of the motors
+  //Logic to convert output from PID controller to a usable value for the motor controller
+  //that removes the deadband issue
   
   //set motor power based on output from PID controller
-  raw_motor_control(1.1*output, output);
+  raw_motor_control(output, output);
 
   Serial.print("output: "); Serial.print(output); Serial.print(" distance: "); Serial.println(input);
   
