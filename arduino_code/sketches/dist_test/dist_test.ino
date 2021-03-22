@@ -1,49 +1,47 @@
 #include <motor_control.h>
 #include <HC_SR04.h>
-#include <MPU6050.h>
 
 //Global variable scope
 HC_SR04 sensor(10, 2, 0);
-MPU6050 IMU(4, 5);
-double z;
 double distance;
+double threshold = 15; //threshold distance from object to trigger motion
 
 //--------------------------------------------------------------------
 void setup() {
-// Initialize the distance sensor
-sensor.begin();
-
-// Start the first reading of the sensor
-sensor.start(); 
-
-// Initialize the IMU (MPU6050)
-IMU.initialize();
-
-//Start serial comms for debugging
-Serial.begin(9600);
+  // Initialize the distance sensor
+  sensor.begin();
+  
+  // Start the first reading of the sensor
+  sensor.start(); 
+  
+  // Wait till sensor has first distance reading
+  while(sensor.isFinished() == false){}
+  
+  // Sensor has reading, update distance value
+  distance = sensor.getRange();
+  
+  //Start serial comms for debugging
+  Serial.begin(9600);
 }
 
 //----------------------------------------------------------------------
 void loop() {
-  //Update IMU each time the loop starts
-  IMU.update();
-  // Get the z acceleration from the sensor
-  z = IMU.get_accel('x');
-  
-  //Check if the sensor has finished detecting distance
-  if(sensor.isFinished())
+  //Subroutine 1: Drive forward till distance < threshold while updating distance variable
+  while(distance > threshold)
   {
-    //Get the distance saved in the sensor class
-    distance = sensor.getRange();
+    // Drive forward
+    raw_motor_control(155, 155);
 
-    // Restart the sensor to measure the next distance
-    sensor.start();
+    // If sensor has new reading update distance variable
+    if(sensor.isFinished() == true)
+    {
+      distance = sensor.getRange();
+
+      //Restart distance sensor for a new reading
+      sensor.start();
+    }
   }
-
-  //Raw motor control test
-  raw_motor_control(100, 100);
-
+  
   //Print the distance value to the serial monitor
   Serial.print("dist: "); Serial.print(distance);
-  Serial.print(" | z grav: "); Serial.println(z);
 }
