@@ -2,9 +2,9 @@ Manufacturing notes:
 
 Arduino ISP pins must be cut to prevent shorting with the motor shield (added 3d printed cover for pins instead)
 
-Motor to Motor Controller Wire Length: 3.25" (done)
+Motor to Motor Controller Wire Length: 3.25" (done) (Stranded core wire 22awg)
 
-Motor Controller to Arduino Wire Length: 6" (Vin and GND) (done)
+Motor Controller to Arduino Wire Length: 6" (Vin and GND) (done) (solid core wire 22awg)
 
 Drill out motor controller mounting holes (done)
 

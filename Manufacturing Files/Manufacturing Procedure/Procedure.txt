@@ -1,0 +1,25 @@
+For each kit the following needs to be done:
+Motor Manufacturing:
+1. Cut 2 lengths of red wire, 2 lengths of black wire 3.25" (stranded 22awg) (for motor -> motor controller)
+2. Strip 1/4" on each ends of these 4 wires.
+3. Solder wires onto motor (1 red 1 black each)
+4. Feed wires through strain relief, hot glue underneath strain relief. Make sure plastic motor holder is in 
+proper spot. Be generous with the hot glue.
+5. Hot glue (or epoxy) the encoder wheel onto the motor. (Note that the encoder wheels should be on the same side
+that the wires are on the motor, this way the encoder wheels sites INSIDE the robot)
+6. Attach the wheel to the motor such that it is on the side without the wires.
+
+Sensor Prep (HC_SR04 and MPU6050):
+1. Sand edges of PCBs to remove any extra material left on the pcb from the factory.
+2. Place the HC_SR04 into it's housing.
+3. Solder the header pins to the MPU6050, making sure the header pins long side sticks out on the same side as the
+componenets on the board.
+
+Motor Controller Prep:
+1. Drill out each of the mounting holes on the L298N breakout board with a 3.2 mm drill bit. This will ensure that
+the fasteners won't be a pain for the students to place.
+
+Bagging:
+1. Bag all fasteners, spacers, ICSP pin spacer, mini screw driver, hex nut key into one bag.
+2. Bag the sensors and sensor mounts in a bag. (MPU6050, HC_SR04, Optical Interrupt Sensor)
+3. Bag the Ball caster, ball caster spacer, motor mounts in a small bag.
