@@ -27,13 +27,13 @@ class MPU6050{
         float _wy_bias;
         float _wz_bias;
         //Accelerations
-        float _ax;
-        float _ay;
-        float _az;
+        int16_t _ax;
+        int16_t _ay;
+        int16_t _az;
         //Angular velocities
-        float _wx;
-        float _wy;
-        float _wz;
+        int16_t _wx;
+        int16_t _wy;
+        int16_t _wz;
         //Temperature
-        float _temp;
+        int16_t _temp;
 };      
