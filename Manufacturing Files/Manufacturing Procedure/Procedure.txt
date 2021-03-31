@@ -22,4 +22,11 @@ the fasteners won't be a pain for the students to place.
 Bagging:
 1. Bag all fasteners, spacers, ICSP pin spacer, mini screw driver, hex nut key into one bag.
 2. Bag the sensors and sensor mounts in a bag. (MPU6050, HC_SR04, Optical Interrupt Sensor)
-3. Bag the Ball caster, ball caster spacer, motor mounts in a small bag.
+3. Bag the Ball caster, ball caster spacer, motor mounts in a small bag.'
+
+Laser Cutting:
+Frame - Acrylic
+Encoder Wheel - Wood
+
+3D Printing:
+Clean support material from all parts.
