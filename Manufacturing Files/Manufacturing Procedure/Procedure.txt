@@ -6,7 +6,7 @@ Motor Manufacturing:
 4. Feed wires through strain relief, hot glue underneath strain relief. Make sure plastic motor holder is in 
 proper spot. Be generous with the hot glue.
 5. Hot glue (or epoxy) the encoder wheel onto the motor. (Note that the encoder wheels should be on the same side
-that the wires are on the motor, this way the encoder wheels sites INSIDE the robot)
+that the wires are on the motor, this way the encoder wheels sit INSIDE the robot)
 6. Attach the wheel to the motor such that it is on the side without the wires.
 
 Sensor Prep (HC_SR04 and MPU6050):
