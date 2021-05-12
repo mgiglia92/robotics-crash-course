@@ -14,10 +14,12 @@ Sensor Prep (HC_SR04 and MPU6050):
 2. Place the HC_SR04 into it's housing.
 3. Solder the header pins to the MPU6050, making sure the header pins long side sticks out on the same side as the
 componenets on the board.
-4.QC Testing for all sensors.
-5. QC Testing Code in repo, two scripts, 1 for each sensor, connect the sensor to the arduino, restart arduino, look for changing numbers on serial monitor.
-6. HC_SR04: Connect as follows: Vcc, TRIG, ECHO, GND -> +5V, D10, D2, GND
-7. MPU6050: Connect as follow: Vcc, GND, SCL, SDA -> +5V, GND, A4, A5
+
+QC Testing for all sensors.
+1. QC Testing Code in repo, two scripts, 1 for each sensor, connect the sensor to the arduino, restart arduino, look for changing numbers on serial monitor.
+2. Make sure you change sketchbook location to the arduino_code directory of this repository. File -> Preferences -> Sketchbook location
+3. HC_SR04: Connect as follows: Vcc, TRIG, ECHO, GND -> +5V, D10, D2, GND
+4. MPU6050: Connect as follow: Vcc, GND, SCL, SDA -> +5V, GND, A4, A5
 
 Motor Controller Prep:
 1. Drill out each of the mounting holes on the L298N breakout board with a 3.2 mm drill bit. This will ensure that
