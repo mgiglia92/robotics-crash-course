@@ -20,6 +20,8 @@ QC Testing for all sensors.
 2. Make sure you change sketchbook location to the arduino_code directory of this repository. File -> Preferences -> Sketchbook location
 3. HC_SR04: Connect as follows: Vcc, TRIG, ECHO, GND -> +5V, D10, D2, GND
 4. MPU6050: Connect as follow: Vcc, GND, SCL, SDA -> +5V, GND, A5, A4
+5. Optical Interrupt: OUT, VCC, GND -> D2, +5V, GND
+5b. For optical interrupt pass something through the sensor and you should see the serial monitor number increase
 
 Motor Controller Prep:
 1. Drill out each of the mounting holes on the L298N breakout board with a 3.2 mm drill bit. This will ensure that
