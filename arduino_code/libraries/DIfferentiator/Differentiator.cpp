@@ -1,4 +1,7 @@
+#ifndef DIFFERENTIATOR_H
+#define DIFFERENTIATOR_H
 #include <Differentiator.h>
+#endif
 
 Differentiator::Differentiator(double sig, double t_rate){
     sigma = sig;
