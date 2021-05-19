@@ -1,7 +1,8 @@
-#ifndef HC_SR04_H
-#define HC_SR04_H
 
+#ifndef ARDUINO_H
+#define ARDUINO_H
 #include <Arduino.h>
+#endif
 
 class HC_SR04 {
   public:

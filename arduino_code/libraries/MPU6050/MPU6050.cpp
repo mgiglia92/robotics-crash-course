@@ -1,6 +1,17 @@
+#ifndef MPU6050_H
+#define MPU6050_H
 #include "MPU6050.h"
+#endif
+
+#ifndef ARDUINO_H
+#define ARDUINO_H
 #include <Arduino.h>
+#endif
+
+#ifndef WIRE_H
+#define WIRE_H
 #include <Wire.h>
+#endif
 
 #define MPU6050_ADDRESS 0x68
 

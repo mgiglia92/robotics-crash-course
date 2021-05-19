@@ -1,5 +1,8 @@
+#ifndef HC_SR04_H
+#define HC_SR04_H
 #include "HC_SR04.h"
-//HC_SR04 *HC_SR04::_instance=NULL;
+#endif
+
 #define TRIG_PIN 10
 #define ECHO_PIN 2
 #define ECHO_INT 0

@@ -1,7 +1,10 @@
 //MPU6050 is an accel/gyro/temp sensor that uses I2C to communicate
 //This class will allow user to update the sensor state, and grab individual values
 
+#ifndef ARDUINO_H
+#define ARDUINO_H
 #include <Arduino.h>
+#endif
 
 class MPU6050{
     public:

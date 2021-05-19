@@ -1,5 +1,12 @@
+#ifndef MOTORCONTROL_H
+#define MOTORCONTROL_H
 #include "motor_control.h"
-#include "Arduino.h"
+#endif
+
+#ifndef ARDUINO_H
+#define ARDUINO_H
+#include <Arduino.h>
+#endif
 
 #define ENA 5
 #define ENB 6
