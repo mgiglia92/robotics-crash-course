@@ -30,7 +30,7 @@ void HC_SR04::start(){
   digitalWrite(_trigger, LOW);  
 }
 
-double HC_SR04::getRange(){
+double HC_SR04::getRangeReset(){
   //If sensors is finished, update distance value and restart sensor
   if(isFinished())
   {
@@ -39,6 +39,12 @@ double HC_SR04::getRange(){
   }
   //Return last distance value!
   return distance;
+}
+
+//This function lets you control when to restart the sensor
+// in case you want to move the sensor to a new orientation before you start a new reading
+unsigned int HC_SR04::getRange(bool units){
+  return (_end-_start)/((units)?58:148);
 }
 
 void HC_SR04::_echo_isr(){

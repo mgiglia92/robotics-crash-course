@@ -9,7 +9,7 @@ double threshold = 15; //threshold distance from object to trigger motion
 //--------------------------------------------------------------------
 void setup() {
   // Initialize the distance sensor
-  sensor.begin();
+  sensor.initialize();
   
   // Start the first reading of the sensor
   sensor.start(); 
@@ -26,22 +26,9 @@ void setup() {
 
 //----------------------------------------------------------------------
 void loop() {
-  //Subroutine 1: Drive forward till distance < threshold while updating distance variable
-  while(distance > threshold)
-  {
-    // Drive forward
-    raw_motor_control(155, 155);
+  distance = sensor.getRangeReset();
 
-    // If sensor has new reading update distance variable
-    if(sensor.isFinished() == true)
-    {
-      distance = sensor.getRange();
-
-      //Restart distance sensor for a new reading
-      sensor.start();
-    }
-  }
-  
   //Print the distance value to the serial monitor
   Serial.print("dist: "); Serial.print(distance);
+  Serial.println();
 }

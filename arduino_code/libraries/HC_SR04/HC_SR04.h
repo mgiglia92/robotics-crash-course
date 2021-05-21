@@ -13,7 +13,8 @@ class HC_SR04 {
     // Runs Sonar sensor
     void start();
     bool isFinished(){ return _finished; }
-    double getRange();
+    double getRangeReset(); //Update distance member, start next reading if updated, if not return old value
+    unsigned int getRange(); //Return distance calculated directly. Need to check if finished before calling this fucntion
     static HC_SR04* instance(){ return _instance; }
     
   private:
