@@ -25,5 +25,3 @@ class HC_SR04 {
     volatile bool _finished;
     static HC_SR04* _instance;
 };
-
-#endif

@@ -44,7 +44,7 @@ double HC_SR04::getRangeReset(){
 //This function lets you control when to restart the sensor
 // in case you want to move the sensor to a new orientation before you start a new reading
 unsigned int HC_SR04::getRange(bool units){
-  return (_end-_start)/((units)?58:148);
+  return (_end-_start)/(58.0f);
 }
 
 void HC_SR04::_echo_isr(){
