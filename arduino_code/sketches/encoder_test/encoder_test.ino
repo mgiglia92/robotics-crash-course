@@ -10,15 +10,17 @@ void setup() {
  
 }
 
+
 void loop() {
-//  turn_90_deg();   
+  turn_90_deg();   
   Serial.print(odom.left_count);
   Serial.print(" | ");
   Serial.println(odom.right_count);
 }
 
+
 void turn_90_deg()
 {
-  if(odom.right_count < 100) { raw_motor_control(0, 150); }
+  if(odom.right_count < 20) { raw_motor_control(0, 180); }
   else { raw_motor_control(0,0); }
 }

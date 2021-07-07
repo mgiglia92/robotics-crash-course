@@ -30,20 +30,21 @@ void HC_SR04::start(){
   digitalWrite(_trigger, LOW);  
 }
 
+//This function lets you control when to restart the sensor
+// in case you want to move the sensor to a new orientation before you start a new reading
 double HC_SR04::getRangeReset(){
   //If sensors is finished, update distance value and restart sensor
   if(isFinished())
   {
     distance = ((_end-_start)/(58.0f)); //Convert from time of flight to distance
-    start();
+    start(); //Restart, so we get the next reading ASAP
   }
   //Return last distance value!
   return distance;
 }
 
-//This function lets you control when to restart the sensor
-// in case you want to move the sensor to a new orientation before you start a new reading
-unsigned int HC_SR04::getRange(bool units){
+
+unsigned int HC_SR04::getRange(){
   return (_end-_start)/(58.0f);
 }
 

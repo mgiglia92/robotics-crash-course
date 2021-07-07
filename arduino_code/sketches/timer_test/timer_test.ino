@@ -1,30 +1,29 @@
-// Timer Test
-#import <motor_control.h>
-#import <Timer.h>
+//TimerIncomplete test
+#include <TimerIncomplete.h>
 
-Timer forwards_timer(2000);
-Timer backwards_timer(1000);
+double delta_time = 1000; //Time between process executions in milliseconds
 
-void setup() {
-  forwards_timer.start();
+//Construct a TimerIncomplete class
+TimerIncomplete timer(delta_time);
+
+void setup()
+{
+  //Start serial comms
   Serial.begin(9600);
 }
 
-float old_millis = millis();
+void loop()
+{
+  //Have timer check the duration between process executions, and update internal variable
+  timer.check_dt();
 
-void loop() {
-  Serial.println(millis() - old_millis);
-  
-  if(forwards_timer.is_finished(false)){
-    backward(150);
-    backwards_timer.start();
-    old_millis = millis();
+  //Check the run_process internal variable
+  if(timer.run_process == true)
+  {
+    Serial.print("Process executed!");
+    Serial.print(" | ");
+    Serial.print(" Current Time: ");
+    Serial.print(millis());
+    Serial.println();
   }
-
-  if(backwards_timer.is_finished(false)){
-    forward(150);
-    forwards_timer.start();
-    old_millis = millis();
-  }
-
 }
