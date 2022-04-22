@@ -18,7 +18,7 @@ void loop()
   timer.check_dt();
 
   //Check the run_process internal variable
-  if(timer.run_process == true)
+  if (timer.run_process == true)
   {
     Serial.print("Process executed!");
     Serial.print(" | ");
