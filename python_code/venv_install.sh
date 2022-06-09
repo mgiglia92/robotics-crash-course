@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+
 echo "Removing .venv"
 rm -r .venv
 echo "Making .venv"

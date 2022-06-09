@@ -15,7 +15,9 @@ class Game:
         self.exit = False
         self.vel_data = []
         self.time = []
+        
         self.Ts = 0.01
+
         self.n = 0
         self.center_offset = Vector2(self.width/2, self.height/2)
 
