@@ -1,3 +1,4 @@
 /.vscode
 arduino_code/.vscode
 .venv
+__pycache__
