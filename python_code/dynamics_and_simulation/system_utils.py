@@ -3,6 +3,7 @@ import numpy as np
 from pygame import Vector2
 from math_utils import EulerIntegrator, Derivative
 
+
 class System:
     def __init__(self):
         raise NotImplementedError
@@ -59,6 +60,8 @@ class SpringSystem(System):
 
     @staticmethod
     def xdot(x: np.array, u: np.array):
+        # x: [pos, vel]
+        # u: acceleration
         return np.array([x[1], u])
 
     def get_pos_vec2(self):
@@ -69,12 +72,12 @@ class SpringSystem(System):
 
 class SpringSystem2D(System):
     def __init__(self, state, dt, spring_constant = np.array([1,0.5])):
+        # [x,y,vx,vy]
         self.state = state # The current state of the system
         self.state_d1 = [0,0,0,0] # The state one time step back
         self.dt = dt # The delta t between time steps
         self.integrator = EulerIntegrator(0)
         self.spring_constant = spring_constant
-
 
     def step(self):
         # Get the spring force on the system

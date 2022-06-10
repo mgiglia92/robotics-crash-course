@@ -87,7 +87,7 @@ if __name__ == '__main__':
         s2 = System2D([0,0,10,10], 0.01)
         s3 = SpringSystem2D(np.array([100,100,0,0]), 0.01, spring_constant=np.array([4,1.1]))
         # Create Game object, pass in System
-        game = Game(s, keep_history=False)
+        game = Game(s3, keep_history=False)
         # Run Game
         game.run()
     except Exception as e:

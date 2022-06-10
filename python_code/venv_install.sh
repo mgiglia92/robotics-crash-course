@@ -22,12 +22,16 @@ then
     echo "Making .venv"
     python -m venv .venv
     source .venv/Scripts/activate
-elif [ -d $lin_dir ];
+    echo "Windows, Installing required libraries"
+    pip install -r requirements.txt
+elif machine==MACOS || machine==LINUX;
 then 
     echo "Linux"
     echo "Making .venv"
     python3 -m venv .venv
     source .venv/bin/activate
+    echo "Linux/Mac, Installing required libraries"
+    pip install -r requirements.txt
 else 
     echo "Error, venv activate script not found"
     exit
