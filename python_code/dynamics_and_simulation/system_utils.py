@@ -1,4 +1,3 @@
-from aifc import Error
 from matplotlib.pyplot import spring
 import numpy as np
 from pygame import Vector2
