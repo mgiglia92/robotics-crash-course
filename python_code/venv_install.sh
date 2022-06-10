@@ -33,7 +33,8 @@ then
     python3 -m venv .venv
     source .venv/bin/activate
     echo "Linux/Mac, Installing required libraries"
-    pip install -r requirements.txt
+    pip3 install wheel
+    pip3 install -r requirements.txt
     echo "Install completed"
 elif [ $machine == "WIN64" ] || [ $machine == "WIN32" ];
 then 
