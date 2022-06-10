@@ -1,3 +1,5 @@
+# TODO: Variable shebang?
+# How for each os?
 #!/usr/bin/env sh
 echo "Activating venv"
 
