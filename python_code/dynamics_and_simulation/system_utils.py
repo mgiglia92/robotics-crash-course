@@ -2,7 +2,7 @@ from matplotlib.pyplot import spring
 import numpy as np
 from pygame import Vector2
 from math_utils import EulerIntegrator, Derivative
-
+from controls_utils import PControl
 
 class System:
     def __init__(self):
@@ -16,6 +16,29 @@ class System:
         raise NotImplementedError
     def step(self):
         raise NotImplementedError
+
+class System1DControl(System):
+    def __init__(self, state = [0,0,0,0,0,0], dt = 0.01, controller = PControl()):
+        self.state = state # The current state of the system
+        self.state_d1 = [0,0,0,0,0,0] # The state one time step back
+        self.dt = controller.dt # The delta t between time steps
+        self.controller = controller
+    
+    def step(self, desired = [0,0,0,0,0,0]):
+        u = [0,0,0]
+        u[0] = self.controller.step(desired[0], self.state[0])
+        self.state = self.state + System1DControl.xdot(self.state, u)*self.dt
+        # print(f"u:{u}  | state: {self.state}")
+    
+    @staticmethod
+    def xdot(x: np.array, u: np.array):
+        return np.array([x[3], x[4], x[5], u[0],u[1],u[2]])
+
+    def get_pos_vec2(self):
+        return Vector2(self.state[0], self.state[1])
+    
+    def get_vel_vec2(self):
+        return Vector2(self.state[3], self.state[4])
 
 class System2D(System):
     def __init__(self, state, dt):
