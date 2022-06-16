@@ -16,6 +16,13 @@ class Controller:
     # Saturate the controller output
     def saturate(self, u):
         return np.clip(u, self.llim, self.ulim)
+    
+    def to_dict(self):
+        raise NotImplementedError
+
+    # Reset the integrator and derivative parameters for controller reset
+    def reset(self):
+        raise NotImplementedError
 
 class PControl(Controller):
     def __init__(self, dt=0.01, llim=-100, ulim=100, kp=0.0, ki=0.0, kd=0.0, antiwindup=True):
@@ -47,7 +54,31 @@ class PControl(Controller):
         # Get controller output
         output = self.kp*err + self.ki*integral_sum + self.kd*err_dot
 
-        print(f'p: {err*self.kp}, i: {integral_sum*self.ki}, d: {err_dot*self.kd}')
+        # print(f'p: {err*self.kp}, i: {integral_sum*self.ki}, d: {err_dot*self.kd}')
 
         # Saturate output
         return self.saturate(output)
+    
+    
+    def to_dict(self):
+        return dict({"kp":self.kp, "ki":self.ki, "kd":self.kd, "llim":self.llim, "ulim":self.llim, "dt":self.dt, "antiwindup":self.antiwindup})
+    
+    def reset(self):
+        self.integrator.integral=0
+        self.integrator.previous_value = 0
+        self.derivative.previous_value = 0
+
+
+
+    @staticmethod
+    def from_dict(d:dict):
+        dt = d['dt']
+        kp = d['kp']
+        ki = d['ki']
+        kd = d['kd']
+        llim = d['llim']
+        ulim = d['ulim']
+        antiwindup = d['antiwindup']
+        c = PControl(dt, llim, ulim, kp, ki, kd, antiwindup)
+        c.reset()
+        return c
