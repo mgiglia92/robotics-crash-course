@@ -1,0 +1,11 @@
+[book]
+title    = "Robotics Crash Course"
+language = "en"
+src      = "docs"
+
+[build]
+build-dir = "build/docs"
+
+[output.html]
+mathjax-support  = true
+no-section-label = true
