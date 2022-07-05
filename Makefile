@@ -1,5 +1,6 @@
-MDBOOK ?= mdbook
-SHFMT  ?= shfmt
+MDBOOK     ?= mdbook
+SHFMT      ?= shfmt
+SHELLCHECK ?= shellcheck
 
 SHFMTFLAGS += -w -fn -sr
 
@@ -26,6 +27,11 @@ docs: $(BUILD)
 .PHONY: format
 format: $(SHELL_SCRIPTS)
 	$(SHFMT) $(SHFMTFLAGS) $?
+
+
+.PHONY: lint
+lint: $(SHELL_SCRIPTS)
+	$(SHELLCHECK) $(SHELLCHECKFLAGS) $?
 
 
 $(BUILD):
