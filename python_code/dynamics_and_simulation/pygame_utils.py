@@ -61,18 +61,18 @@ class Game:
         sys_center = self.system.get_pos_vec2()
         sys_vel = self.system.get_vel_vec2()
         sys_angle = self.system.get_theta()
-        rw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,10), self.system)
-        lw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,-10), self.system)
-        local_x = self.rotate_to_body_to_pygame_frame(Vector2(10, 0), self.system)
         # print(f"rw: {rw_pos}, lw: {lw_pos}")
         # Draw actual position
         if type(self.system) == SystemRobot:
+            rw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,10), self.system)
+            lw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,-10), self.system)
+            local_x = self.rotate_to_body_to_pygame_frame(Vector2(10, 0), self.system)
             draw.circle(self.screen,  center = sys_center + self.center_offset, radius = 2, color = (255,255,255))
             draw.circle(self.screen,  center = rw_pos + sys_center + self.center_offset, radius = 2, color = (0,255,0))
             draw.circle(self.screen,  center = local_x + sys_center + self.center_offset, radius = 2, color = (255,0,0))
             
         else:
-            draw.circle(self.screen, center =sys_center, radius = 5, color = (255,0,0))
+            draw.circle(self.screen, center =sys_center + self.center_offset, radius = 5, color = (255,0,0))
         # Draw vel vector
         draw.line(self.screen, color = (255,125,0), start_pos=sys_center + self.center_offset, end_pos=sys_center + self.center_offset + sys_vel)
 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
             controllerx=PControl(kp=10,kd=1), controllery=PControl(kp=10,kd=1))
         s5 = SystemRobot([0,-100,0,0,0,0], controllerv=PControl(kp=10, ki=1), controllerw=PControl(kp=0.01, ki=0.1))
         # Create Game object, pass in System
-        game = Game(s5, keep_history=5000)
+        game = Game(s, keep_history=1)
         # Run Game
         game.run()
     except Exception as e:

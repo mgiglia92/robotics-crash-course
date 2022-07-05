@@ -16,6 +16,8 @@ class System:
         raise NotImplementedError
     def get_vel_vec2(self):
         raise NotImplementedError
+    def get_theta(self):
+        raise NotImplementedError
     def step(self):
         raise NotImplementedError
     def to_yaml(self):
@@ -110,10 +112,9 @@ class System1DControl(System):
         self.dt = controller.dt # The delta t between time steps
         self.controller = controller
     
-    def step(self, desired = [0,0,0,0,0,0]):
-        u = [0,0,0]
-        u[0] = self.controller.step(desired[0], self.state[0])
-        self.state = self.state + System1DControl.xdot(self.state, u)*self.dt
+    def step(self, input = 0):
+        # Do euler first order integration step
+        self.state = self.state + System1DControl.xdot(self.state, input)*self.dt
         # print(f"u:{u}  | state: {self.state}")
     
     @staticmethod
@@ -121,10 +122,10 @@ class System1DControl(System):
         return np.array([x[3], x[4], x[5], u[0],u[1],u[2]])
 
     def get_pos_vec2(self):
-        return Vector2(self.state[0], self.state[1])
+        return Vector2(self.state[0], 0)
     
     def get_vel_vec2(self):
-        return Vector2(self.state[3], self.state[4])
+        return Vector2(self.state[3], 0)
 
 class System2DControl(System):
     def __init__(self, state = [0,0,0,0,0,0], dt = 0.01, controllerx = PControl(), controllery = PControl()):
@@ -181,18 +182,21 @@ class System2D(System):
         return Vector2(self.state[2], self.state[3])
 
 class SpringSystem(System):
-    def __init__(self, state, dt, spring_constant = 1):
+    def __init__(self, state, dt, spring_constant = 1, mass=1):
         self.state = state # The current state of the system
         self.state_d1 = [0,0] # The state one time step back
         self.dt = dt # The delta t between time steps
         self.integrator = EulerIntegrator(0)
         self.spring_constant = spring_constant
+        self.mass = mass
 
 
     def step(self):
         # Get the spring force on the system
         spring_force = -1 * self.state[0]*self.spring_constant
-        self.state = self.state + SpringSystem.xdot(self.state, spring_force)*self.dt
+        acceleration = spring_force/self.mass
+        # Do euler first order integration step
+        self.state = self.state + SpringSystem.xdot(self.state, acceleration)*self.dt
 
     @staticmethod
     def xdot(x: np.array, u: np.array):
@@ -205,6 +209,9 @@ class SpringSystem(System):
     
     def get_vel_vec2(self):
         return Vector2(self.state[1], 0)
+    
+    def get_theta(self):
+        return 0
 
 class SpringSystem2D(System):
     def __init__(self, state, dt, spring_constant = np.array([1,0.5])):
