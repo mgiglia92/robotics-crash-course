@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+
 MDBOOK     ?= mdbook
 SHFMT      ?= shfmt
 SHELLCHECK ?= shellcheck

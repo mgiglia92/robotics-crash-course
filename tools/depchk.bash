@@ -1,4 +1,9 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# depchk.bash -- dependency checks
+#
+# Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
 
 set -eou pipefail
 
