@@ -16,9 +16,24 @@ void MPU6050::begin(void)
 {
 }
 
+void MPU6050::begin(int i2c_addr)
+{
+	this->i2c_addr = i2c_addr;
+
+	begin();
+}
+
 void MPU6050::begin(TwoWire *wire)
 {
 	this->wire = wire;
+
+	begin();
+}
+
+void MPU6050::begin(int i2c_addr, TwoWire *wire)
+{
+	this->i2c_addr = i2c_addr;
+	this->wire     = wire;
 
 	begin();
 }

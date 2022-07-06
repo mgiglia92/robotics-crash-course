@@ -19,11 +19,14 @@
 
 class MPU6050 {
 private:
-	TwoWire *wire = &Wire;
+	int      i2c_addr = RCC_MPU6050_ADDRESS;
+	TwoWire *wire     = &Wire;
 
 public:
 	void begin(void);
+	void begin(int i2c_addr);
 	void begin(TwoWire *wire);
+	void begin(int i2c_addr, TwoWire *wire);
 	void calibrate(void);
 	void update(void);
 };
