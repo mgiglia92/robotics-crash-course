@@ -12,6 +12,18 @@
 #include <Wire.h>
 
 
+void MPU6050::begin(void)
+{
+}
+
+void MPU6050::begin(TwoWire *wire)
+{
+	this->wire = wire;
+
+	begin();
+}
+
+
 /*
 //Default constructor
 MPU6050::MPU6050(int sda, int scl)
