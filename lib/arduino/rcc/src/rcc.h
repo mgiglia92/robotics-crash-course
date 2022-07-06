@@ -11,5 +11,7 @@
 
 #include <Arduino.h>
 
+#include "sensor/mpu6050.h"
+
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_H */

@@ -1,10 +1,17 @@
-//MPU6050 is an accel/gyro/temp sensor that uses I2C to communicate
-//This class will allow user to update the sensor state, and grab individual values
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * mpu6050.h -- MPU6050 interface
+ *
+ * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 
-#ifndef ARDUINO_H
-#define ARDUINO_H
+#ifndef CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_MPU6050_H
+#define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_MPU6050_H
+
+
 #include <Arduino.h>
-#endif
+
 
 class MPU6050{
     public:
@@ -39,4 +46,7 @@ class MPU6050{
         int16_t _wz;
         //Temperature
         int16_t _temp;
-};      
+};
+
+
+#endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_MPU6050_H */

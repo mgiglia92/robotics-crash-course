@@ -1,23 +1,23 @@
-#ifndef MPU6050_H
-#define MPU6050_H
-#include "MPU6050.h"
-#endif
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * mpu6050.cpp -- MPU6050 interface
+ *
+ * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 
-#ifndef ARDUINO_H
-#define ARDUINO_H
+#include "mpu6050.h"
+
 #include <Arduino.h>
-#endif
-
-#ifndef WIRE_H
-#define WIRE_H
 #include <Wire.h>
-#endif
+
 
 #define MPU6050_ADDRESS 0x68
 
+
 //Default constructor
 MPU6050::MPU6050(int sda, int scl)
-{   
+{
     //Initialize address and parameter values
     gyro_sensitivity = 131.0;
     accel_sensitivity = 16384.0;
@@ -38,7 +38,7 @@ bool MPU6050::initialize()
     Wire.write(0x6B);
     Wire.write(0x00);
     Wire.endTransmission();
-    
+
     //configure gyro
     Wire.beginTransmission(0x68); //Address of the sensor on i2c line
     Wire.write(0x1B); //Address we want to edit
@@ -89,7 +89,7 @@ float MPU6050::get_ang_vel(char c)
 {
     if(c=='x'){ return (_wx/gyro_sensitivity) - _wx_bias;}
     if(c=='y'){ return (_wy/gyro_sensitivity) - _wy_bias;}
-    if(c=='z'){ return (_wz/gyro_sensitivity) - _wz_bias;}    
+    if(c=='z'){ return (_wz/gyro_sensitivity) - _wz_bias;}
     else{ return -999999; }
 }
 
@@ -97,11 +97,11 @@ float MPU6050::get_ang_vel(char c)
 float MPU6050::get_temp() { return (_temp/340) + 36.53; }
 
 //Run this function while the robot is at equilibrium (no motion).
-//This will take 100 readings of the sensor, average them, and set the 
+//This will take 100 readings of the sensor, average them, and set the
 //zero-error bias for each data (except temperature)
 //NOTE: The z axis bias is incorrect, this is removing the gravity vector
 //This is okay because we are not currently using the z-axis acceleration data for any feedback controls
-void MPU6050::calibrate() 
+void MPU6050::calibrate()
 {
     //Sum buffer variables, init to 0
     float ax_sum=0;
