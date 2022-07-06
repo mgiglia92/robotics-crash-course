@@ -11,9 +11,25 @@
 
 
 #include <Arduino.h>
+#include <Wire.h>
 
 
-class MPU6050{
+#define RCC_MPU6050_ADDRESS 0x68
+
+
+class MPU6050 {
+private:
+	TwoWire *wire = &Wire;
+
+public:
+	void begin(void);
+	void begin(TwoWire *wire);
+	void calibrate(void);
+	void update(void);
+};
+
+/*
+class MPU6050 {
     public:
         MPU6050(int sda, int scl);   // Default constructor
         bool initialize();           // Initializes sensor
@@ -47,6 +63,7 @@ class MPU6050{
         //Temperature
         int16_t _temp;
 };
+*/
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_MPU6050_H */

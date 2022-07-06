@@ -12,9 +12,7 @@
 #include <Wire.h>
 
 
-#define MPU6050_ADDRESS 0x68
-
-
+/*
 //Default constructor
 MPU6050::MPU6050(int sda, int scl)
 {
@@ -131,3 +129,4 @@ void MPU6050::calibrate()
     _wz_bias = wz_sum/100;
 
 }
+*/
