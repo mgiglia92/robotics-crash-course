@@ -14,6 +14,23 @@
 
 void MPU6050::begin(void)
 {
+	// power management register
+	wire->beginTransmission(i2c_addr);
+	wire->write(0x6b);
+	wire->write(0x00);
+	wire->endTransmission();
+
+	// set gryo sensitivty to +-250
+	wire->beginTransmission(i2c_addr);
+	wire->write(0x1b);
+	wire->write(0x00);
+	wire->endTransmission();
+
+	// set acceleration sensitivity to +-2g
+	wire->beginTransmission(i2c_addr);
+	wire->write(0x1c);
+	wire->write(0x00);
+	wire->endTransmission();
 }
 
 void MPU6050::begin(int i2c_addr)
