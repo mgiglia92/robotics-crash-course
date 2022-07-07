@@ -9,8 +9,6 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_H
 
 
-#include <Arduino.h>
-
 #include "actuator/motor.h"
 #include "actuator/servo.h"
 #include "sensor/mpu6050.h"
