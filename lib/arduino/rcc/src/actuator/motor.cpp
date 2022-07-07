@@ -21,6 +21,34 @@ void motorSetup(void)
 	pinMode(RCC_MOTOR_IN4, OUTPUT);
 }
 
+void rawMotorCtrl(int left, int right)
+{
+	/*
+	 * since our motors can rotate either forwards or backwards we
+	 * must set the polarity of our motors according to the sign of
+	 * our input values
+	 */
+
+	if (left >= 0) {
+		digitalWrite(RCC_MOTOR_IN1, HIGH);
+		digitalWrite(RCC_MOTOR_IN2,  LOW);
+	} else {
+		digitalWrite(RCC_MOTOR_IN1,  LOW);
+		digitalWrite(RCC_MOTOR_IN2, HIGH);
+	}
+
+	if (right >= 0) {
+		digitalWrite(RCC_MOTOR_IN3, HIGH);
+		digitalWrite(RCC_MOTOR_IN4,  LOW);
+	} else {
+		digitalWrite(RCC_MOTOR_IN3,  LOW);
+		digitalWrite(RCC_MOTOR_IN4, HIGH);
+	}
+
+	analogWrite(RCC_MOTOR_ENA, constrain(left,  0, 255));
+	analogWrite(RCC_MOTOR_ENB, constrain(right, 0, 255));
+}
+
 //Motor Control Functions
 
 //Will cut power to all motors
@@ -103,24 +131,3 @@ void motorSetup(void)
 //   if(command == 3){diff_left(pwm);}
 //   if(command == -1){dwell();}
 // }
-
-//Control motors with raw pwm values (-255 -> 255)
-//This function will constrain the values to 0-255 in case it is sent bad numbers
-//Will change direction pins appropriately based on +/- value of pwm arguments
-void raw_motor_control(int left, int right)
-{
-  // Set direction pins dependent on if pwm is negative or positive
-
-  if(left >= 0){digitalWrite(RCC_MOTOR_IN1,HIGH); digitalWrite(RCC_MOTOR_IN2,LOW);}
-  else if(left < 0){digitalWrite(RCC_MOTOR_IN1,LOW); digitalWrite(RCC_MOTOR_IN2,HIGH);}
-
-  if(right >= 0) {digitalWrite(RCC_MOTOR_IN3, HIGH);digitalWrite(RCC_MOTOR_IN4,LOW); }
-  else if(right < 0){ digitalWrite(RCC_MOTOR_IN3, LOW);digitalWrite(RCC_MOTOR_IN4,HIGH); }
-
-  //constrain input to 0-255, take absolute value of power first before constraining
-  left = constrain(abs(left), 0, 255);
-  right = constrain(abs(right), 0, 255);
-  //Write motor power to speed pins
-  analogWrite(RCC_MOTOR_ENA,left);
-  analogWrite(RCC_MOTOR_ENB,right);
-}

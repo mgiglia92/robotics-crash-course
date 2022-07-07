@@ -23,6 +23,11 @@
 
 void motorSetup(void);
 
+/*
+ * control the direction of motors using signed pwm values
+ */
+void rawMotorCtrl(int left, int right);
+
 // Conversion utilities
 int convert_pwr_to_pwm(int pwr);
 
