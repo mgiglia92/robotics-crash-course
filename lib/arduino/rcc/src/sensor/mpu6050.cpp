@@ -55,6 +55,26 @@ void MPU6050::begin(int i2c_addr, TwoWire *wire)
 	begin();
 }
 
+inline float MPU6050::getAccelSensitivity(void)
+{
+	return accel_sensitivity;
+}
+
+inline float MPU6050::getGyroSensitivity(void)
+{
+	return gyro_sensitivity;
+}
+
+inline void MPU6050::setAccelSensitivity(float sensitivity)
+{
+	accel_sensitivity = sensitivity;
+}
+
+inline void MPU6050::setGyroSensitivity(float sensitivity)
+{
+	gyro_sensitivity = sensitivity;
+}
+
 
 /*
 //Default constructor

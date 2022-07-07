@@ -16,11 +16,17 @@
 
 #define RCC_MPU6050_ADDRESS 0x68
 
+#define RCC_MPU6050_ACCEL_SENSITIVITY 16384.0
+#define RCC_MPU6050_GYRO_SENSITIVITY  131.0
+
 
 class MPU6050 {
 private:
 	int      i2c_addr = RCC_MPU6050_ADDRESS;
 	TwoWire *wire     = &Wire;
+
+	float accel_sensitivity = RCC_MPU6050_ACCEL_SENSITIVITY;
+	float gyro_sensitivity  = RCC_MPU6050_GYRO_SENSITIVITY;
 
 public:
 	void begin(void);
@@ -28,6 +34,10 @@ public:
 	void begin(TwoWire *wire);
 	void begin(int i2c_addr, TwoWire *wire);
 	void calibrate(void);
+	inline float getAccelSensitivity(void);
+	inline float getGyroSensitivity(void);
+	inline void setAccelSensitivity(float sensitivity);
+	inline void setGyroSensitivity(float sensitivity);
 	void update(void);
 };
 
