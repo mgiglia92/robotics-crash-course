@@ -61,6 +61,14 @@ public:
 	void calibrate(void);
 
 	inline float getAccelSensitivity(void);
+	float getAccel(char axis);
+	inline float getAccelX(void);
+	inline float getAccelY(void);
+	inline float getAccelZ(void);
+	float getAngVel(char axis);
+	inline float getAngVelX(void);
+	inline float getAngVelY(void);
+	inline float getAngVelZ(void);
 	inline float getGyroSensitivity(void);
 	inline void setAccelSensitivity(float sensitivity);
 	inline void setGyroSensitivity(float sensitivity);

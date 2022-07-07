@@ -92,6 +92,58 @@ inline float MPU6050::getAccelSensitivity(void)
 	return accel_sensitivity;
 }
 
+float MPU6050::getAccel(char axis)
+{
+	switch (axis) {
+		case 'x': return getAccelX();
+		case 'y': return getAccelY();
+		case 'z': return getAccelZ();
+	}
+
+	return NAN;
+}
+
+inline float MPU6050::getAccelX(void)
+{
+	return (raw_ax / accel_sensitivity) - ax_bias;
+}
+
+inline float MPU6050::getAccelY(void)
+{
+	return (raw_ay / accel_sensitivity) - ay_bias;
+}
+
+inline float MPU6050::getAccelZ(void)
+{
+	return (raw_az / accel_sensitivity) - az_bias;
+}
+
+float MPU6050::getAngVel(char axis)
+{
+	switch (axis) {
+		case 'x': return getAngVelX();
+		case 'y': return getAngVelY();
+		case 'z': return getAngVelZ();
+	}
+
+	return NAN;
+}
+
+inline float MPU6050::getAngVelX(void)
+{
+	return (raw_wx / gyro_sensitivity) - wx_bias;
+}
+
+inline float MPU6050::getAngVelY(void)
+{
+	return (raw_wy / gyro_sensitivity) - wy_bias;
+}
+
+inline float MPU6050::getAngVelZ(void)
+{
+	return (raw_wz / gyro_sensitivity) - wz_bias;
+}
+
 inline float MPU6050::getGyroSensitivity(void)
 {
 	return gyro_sensitivity;
