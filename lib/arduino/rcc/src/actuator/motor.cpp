@@ -21,13 +21,6 @@ void motor_setup(void)
 	pinMode(RCC_MOTOR_IN4, OUTPUT);
 }
 
-//Conversion utilities
-int convert_pwr_to_pwm(int pwr)
-{
-  //Scale power (which should be 0-100, to 0-255 for 8bit pwm signal value)
-  return map(pwr, 0, 100, 0, 255);
-}
-
 //Motor Control Functions
 
 //Will cut power to all motors

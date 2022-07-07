@@ -18,6 +18,8 @@
 #define RCC_MOTOR_IN3 11
 #define RCC_MOTOR_IN4 12
 
+#define pwr2pwm(PWR) map(PWR, 0, 100, 0, 255)
+
 
 void motor_setup(void);
 
