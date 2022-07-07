@@ -56,6 +56,37 @@ void MPU6050::begin(int i2c_addr, TwoWire *wire)
 	begin();
 }
 
+void MPU6050::calibrate(void)
+{
+	float ax_sum = 0;
+	float ay_sum = 0;
+	float az_sum = 0;
+	float wx_sum = 0;
+	float wy_sum = 0;
+	float wz_sum = 0;
+
+	for (int i = 0; i < 100; i++) {
+		update();
+
+		ax_sum += raw_ax / accel_sensitivity;
+		ay_sum += raw_ay / accel_sensitivity;
+		az_sum += raw_az / accel_sensitivity;
+		wx_sum += raw_wx / gyro_sensitivity;
+		wy_sum += raw_wy / gyro_sensitivity;
+		wz_sum += raw_wz / gyro_sensitivity;
+	}
+
+	// NOTE: ax_bias will be incorrect since we're removing the
+	// gravity components and assuming calibration on a level
+	// surface
+	ax_bias = ax_sum / 100;
+	ay_bias = ay_sum / 100;
+	az_bias = az_sum / 100;
+	wx_bias = wx_sum / 100;
+	wy_bias = wy_sum / 100;
+	wz_bias = wz_sum / 100;
+}
+
 inline float MPU6050::getAccelSensitivity(void)
 {
 	return accel_sensitivity;
