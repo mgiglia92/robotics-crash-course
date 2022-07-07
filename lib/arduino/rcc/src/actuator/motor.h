@@ -19,8 +19,7 @@
 #define RCC_MOTOR_IN4 12
 
 
-//  Sets up motors - sets pins
-void motor_setup();
+void motor_setup(void);
 
 // Conversion utilities
 int convert_pwr_to_pwm(int pwr);

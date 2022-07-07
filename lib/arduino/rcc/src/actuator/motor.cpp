@@ -11,16 +11,14 @@
 #include <Arduino.h>
 
 
-//Motor control setup
-//Motor control setup
-void motor_setup()
+void motor_setup(void)
 {
-  pinMode(RCC_MOTOR_ENA, OUTPUT);
-  pinMode(RCC_MOTOR_ENB, OUTPUT);
-  pinMode(RCC_MOTOR_IN1, OUTPUT);
-  pinMode(RCC_MOTOR_IN2, OUTPUT);
-  pinMode(RCC_MOTOR_IN3, OUTPUT);
-  pinMode(RCC_MOTOR_IN4, OUTPUT);
+	pinMode(RCC_MOTOR_ENA, OUTPUT);
+	pinMode(RCC_MOTOR_ENB, OUTPUT);
+	pinMode(RCC_MOTOR_IN1, OUTPUT);
+	pinMode(RCC_MOTOR_IN2, OUTPUT);
+	pinMode(RCC_MOTOR_IN3, OUTPUT);
+	pinMode(RCC_MOTOR_IN4, OUTPUT);
 }
 
 //Conversion utilities
