@@ -13,6 +13,10 @@
 #include <Wire.h>
 
 
+#define ACCEL_SENSITIVITY 16384.0
+#define GYRO_SENSITIVITY  131.0
+
+
 void MPU6050::begin(void)
 {
 	// power management register
@@ -68,12 +72,12 @@ void MPU6050::calibrate(void)
 	for (int i = 0; i < 100; i++) {
 		update();
 
-		ax_sum += raw_ax / accel_sensitivity;
-		ay_sum += raw_ay / accel_sensitivity;
-		az_sum += raw_az / accel_sensitivity;
-		wx_sum += raw_wx / gyro_sensitivity;
-		wy_sum += raw_wy / gyro_sensitivity;
-		wz_sum += raw_wz / gyro_sensitivity;
+		ax_sum += raw_ax / ACCEL_SENSITIVITY;
+		ay_sum += raw_ay / ACCEL_SENSITIVITY;
+		az_sum += raw_az / ACCEL_SENSITIVITY;
+		wx_sum += raw_wx / GYRO_SENSITIVITY;
+		wy_sum += raw_wy / GYRO_SENSITIVITY;
+		wz_sum += raw_wz / GYRO_SENSITIVITY;
 	}
 
 	// NOTE: ax_bias will be incorrect since we're removing the
@@ -85,11 +89,6 @@ void MPU6050::calibrate(void)
 	wx_bias = wx_sum / 100;
 	wy_bias = wy_sum / 100;
 	wz_bias = wz_sum / 100;
-}
-
-inline float MPU6050::getAccelSensitivity(void)
-{
-	return accel_sensitivity;
 }
 
 float MPU6050::getAccel(char axis)
@@ -105,17 +104,17 @@ float MPU6050::getAccel(char axis)
 
 inline float MPU6050::getAccelX(void)
 {
-	return (raw_ax / accel_sensitivity) - ax_bias;
+	return (raw_ax / ACCEL_SENSITIVITY) - ax_bias;
 }
 
 inline float MPU6050::getAccelY(void)
 {
-	return (raw_ay / accel_sensitivity) - ay_bias;
+	return (raw_ay / ACCEL_SENSITIVITY) - ay_bias;
 }
 
 inline float MPU6050::getAccelZ(void)
 {
-	return (raw_az / accel_sensitivity) - az_bias;
+	return (raw_az / ACCEL_SENSITIVITY) - az_bias;
 }
 
 float MPU6050::getAngVel(char axis)
@@ -131,37 +130,22 @@ float MPU6050::getAngVel(char axis)
 
 inline float MPU6050::getAngVelX(void)
 {
-	return (raw_wx / gyro_sensitivity) - wx_bias;
+	return (raw_wx / GYRO_SENSITIVITY) - wx_bias;
 }
 
 inline float MPU6050::getAngVelY(void)
 {
-	return (raw_wy / gyro_sensitivity) - wy_bias;
+	return (raw_wy / GYRO_SENSITIVITY) - wy_bias;
 }
 
 inline float MPU6050::getAngVelZ(void)
 {
-	return (raw_wz / gyro_sensitivity) - wz_bias;
-}
-
-inline float MPU6050::getGyroSensitivity(void)
-{
-	return gyro_sensitivity;
+	return (raw_wz / GYRO_SENSITIVITY) - wz_bias;
 }
 
 inline float MPU6050::getTemp(void)
 {
 	return (raw_temp / 340) + 36.53;
-}
-
-inline void MPU6050::setAccelSensitivity(float sensitivity)
-{
-	accel_sensitivity = sensitivity;
-}
-
-inline void MPU6050::setGyroSensitivity(float sensitivity)
-{
-	gyro_sensitivity = sensitivity;
 }
 
 void MPU6050::update(void)
