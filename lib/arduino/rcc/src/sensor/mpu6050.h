@@ -15,7 +15,7 @@
 #include <Wire.h>
 
 
-#define RCC_MPU6050_ADDRESS 0x68
+#define RCC_MPU6050_I2C_ADDR 0x68
 
 #define RCC_MPU6050_ACCEL_SENSITIVITY 16384.0
 #define RCC_MPU6050_GYRO_SENSITIVITY  131.0
@@ -23,7 +23,7 @@
 
 class MPU6050 {
 private:
-	int      i2c_addr = RCC_MPU6050_ADDRESS;
+	int      i2c_addr = RCC_MPU6050_I2C_ADDR;
 	TwoWire *wire     = &Wire;
 
 	float accel_sensitivity = RCC_MPU6050_ACCEL_SENSITIVITY;
