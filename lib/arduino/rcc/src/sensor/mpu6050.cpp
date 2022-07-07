@@ -149,6 +149,11 @@ inline float MPU6050::getGyroSensitivity(void)
 	return gyro_sensitivity;
 }
 
+inline float MPU6050::getTemp(void)
+{
+	return (raw_temp / 340) + 36.53;
+}
+
 inline void MPU6050::setAccelSensitivity(float sensitivity)
 {
 	accel_sensitivity = sensitivity;

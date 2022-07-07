@@ -70,6 +70,7 @@ public:
 	inline float getAngVelY(void);
 	inline float getAngVelZ(void);
 	inline float getGyroSensitivity(void);
+	inline float getTemp(void);
 	inline void setAccelSensitivity(float sensitivity);
 	inline void setGyroSensitivity(float sensitivity);
 	void update(void);
