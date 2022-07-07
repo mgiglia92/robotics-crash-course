@@ -12,6 +12,7 @@
 #include <Arduino.h>
 
 #include "actuator/motor.h"
+#include "actuator/servo.h"
 #include "sensor/mpu6050.h"
 
 
