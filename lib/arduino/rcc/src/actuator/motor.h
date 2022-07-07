@@ -1,4 +1,14 @@
-// #include "motor_control.h"
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * motor.h -- motor utils
+ *
+ * Copyright (C) 2020-2022  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
+
+#ifndef CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_ACTUATOR_MOTOR_H
+#define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_ACTUATOR_MOTOR_H
 
 
 //  Sets up motors - sets pins
@@ -6,7 +16,7 @@ void motor_setup();
 
 // Conversion utilities
 int convert_pwr_to_pwm(int pwr);
-    
+
 // ------  Motor Control Functions ------
 
 // pwr should always be 0-100
@@ -33,3 +43,6 @@ void diff_right(int pwm);
 
 //control motors directly
 void raw_motor_control(int, int);
+
+
+#endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_ACTUATOR_MOTOR_H */

@@ -1,12 +1,15 @@
-#ifndef MOTORCONTROL_H
-#define MOTORCONTROL_H
-#include "motor_control.h"
-#endif
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * motor.cpp -- motor utils
+ *
+ * Copyright (C) 2020-2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 
-#ifndef ARDUINO_H
-#define ARDUINO_H
+#include "motor.h"
+
 #include <Arduino.h>
-#endif
+
 
 #define ENA 5
 #define ENB 6
@@ -45,7 +48,7 @@ int convert_pwr_to_pwm(int pwr)
 // }
 
 // //Moves backward
-// void backward(int pwm) 
+// void backward(int pwm)
 // {
 //   // Set direction pins
 //   digitalWrite(RightDirectPin1, LOW);
@@ -109,7 +112,7 @@ int convert_pwr_to_pwm(int pwr)
 //   //0 - forward
 //   //1 - backward
 //   //2 - right
-//   //3 - left 
+//   //3 - left
 //   if(command == 0){forward(pwm);}
 //   if(command == 1){backward(pwm);}
 //   if(command == 2){diff_right(pwm);}
@@ -123,13 +126,13 @@ int convert_pwr_to_pwm(int pwr)
 void raw_motor_control(int left, int right)
 {
   // Set direction pins dependent on if pwm is negative or positive
- 
+
   if(left >= 0){digitalWrite(IN1,HIGH); digitalWrite(IN2,LOW);}
   else if(left < 0){digitalWrite(IN1,LOW); digitalWrite(IN2,HIGH);}
 
   if(right >= 0) {digitalWrite(IN3, HIGH);digitalWrite(IN4,LOW); }
   else if(right < 0){ digitalWrite(IN3, LOW);digitalWrite(IN4,HIGH); }
-  
+
   //constrain input to 0-255, take absolute value of power first before constraining
   left = constrain(abs(left), 0, 255);
   right = constrain(abs(right), 0, 255);
