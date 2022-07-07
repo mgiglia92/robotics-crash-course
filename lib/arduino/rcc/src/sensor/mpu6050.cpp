@@ -76,6 +76,21 @@ inline void MPU6050::setGyroSensitivity(float sensitivity)
 	gyro_sensitivity = sensitivity;
 }
 
+void MPU6050::update(void)
+{
+	wire->beginTransmission(i2c_addr);
+	wire->write(0x3b);
+	wire->endTransmission(false);
+	wire->requestFrom(i2c_addr, 14);
+
+	raw_ax   = (wire->read() << 8) | wire->read();
+	raw_ay   = (wire->read() << 8) | wire->read();
+	raw_az   = (wire->read() << 8) | wire->read();
+	raw_temp = (wire->read() << 8) | wire->read();
+	raw_wx   = (wire->read() << 8) | wire->read();
+	raw_wy   = (wire->read() << 8) | wire->read();
+	raw_wz   = (wire->read() << 8) | wire->read();
+}
 
 /*
 //Default constructor
