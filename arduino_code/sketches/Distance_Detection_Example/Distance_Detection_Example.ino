@@ -3,8 +3,7 @@
 // If an object is within DESIRED_DISTANCE, then the car will stop.
 
 #include <Servo.h>
-#include <HC_SR04.h>
-#include <motor_control.h>
+#include <rcc.h>
 
 #define SERVO_PIN 9
 #define TRIG_PIN 10
@@ -26,7 +25,7 @@ void setup() {
   actuator.write(90);
 
   //Initialize distance sensor and start pinging for distances
-  dist_sensor.begin();
+  dist_sensor.initialize();
   dist_sensor.start();
 
 }
@@ -44,7 +43,7 @@ void loop() {
   if(distance <= DESIRED_DISTANCE){
     raw_motor_control(0,0);
   } else {
-    forward(200);
+    raw_motor_control(200, 200);
   }
   
 
