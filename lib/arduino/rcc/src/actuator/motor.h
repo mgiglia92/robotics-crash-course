@@ -21,7 +21,7 @@
 #define pwr2pwm(PWR) map(PWR, 0, 100, 0, 255)
 
 
-void motor_setup(void);
+void motorSetup(void);
 
 // Conversion utilities
 int convert_pwr_to_pwm(int pwr);

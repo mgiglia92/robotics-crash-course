@@ -11,7 +11,7 @@
 #include <Arduino.h>
 
 
-void motor_setup(void)
+void motorSetup(void)
 {
 	pinMode(RCC_MOTOR_ENA, OUTPUT);
 	pinMode(RCC_MOTOR_ENB, OUTPUT);
