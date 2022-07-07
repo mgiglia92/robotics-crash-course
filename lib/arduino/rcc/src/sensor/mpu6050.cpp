@@ -2,6 +2,7 @@
 /*
  * mpu6050.cpp -- MPU6050 interface
  *
+ * Copyright (C) 2020-2021  Michael Giglia <michael.a.giglia@gmail.com>
  * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
  * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
  */
