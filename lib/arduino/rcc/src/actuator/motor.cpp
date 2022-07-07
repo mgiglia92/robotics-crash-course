@@ -11,23 +11,16 @@
 #include <Arduino.h>
 
 
-#define ENA 5
-#define ENB 6
-#define IN1 7
-#define IN2 8
-#define IN3 11
-#define IN4 12
-
 //Motor control setup
 //Motor control setup
 void motor_setup()
 {
-  pinMode(ENA, OUTPUT);
-  pinMode(ENB, OUTPUT);
-  pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
-  pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
+  pinMode(RCC_MOTOR_ENA, OUTPUT);
+  pinMode(RCC_MOTOR_ENB, OUTPUT);
+  pinMode(RCC_MOTOR_IN1, OUTPUT);
+  pinMode(RCC_MOTOR_IN2, OUTPUT);
+  pinMode(RCC_MOTOR_IN3, OUTPUT);
+  pinMode(RCC_MOTOR_IN4, OUTPUT);
 }
 
 //Conversion utilities
@@ -127,16 +120,16 @@ void raw_motor_control(int left, int right)
 {
   // Set direction pins dependent on if pwm is negative or positive
 
-  if(left >= 0){digitalWrite(IN1,HIGH); digitalWrite(IN2,LOW);}
-  else if(left < 0){digitalWrite(IN1,LOW); digitalWrite(IN2,HIGH);}
+  if(left >= 0){digitalWrite(RCC_MOTOR_IN1,HIGH); digitalWrite(RCC_MOTOR_IN2,LOW);}
+  else if(left < 0){digitalWrite(RCC_MOTOR_IN1,LOW); digitalWrite(RCC_MOTOR_IN2,HIGH);}
 
-  if(right >= 0) {digitalWrite(IN3, HIGH);digitalWrite(IN4,LOW); }
-  else if(right < 0){ digitalWrite(IN3, LOW);digitalWrite(IN4,HIGH); }
+  if(right >= 0) {digitalWrite(RCC_MOTOR_IN3, HIGH);digitalWrite(RCC_MOTOR_IN4,LOW); }
+  else if(right < 0){ digitalWrite(RCC_MOTOR_IN3, LOW);digitalWrite(RCC_MOTOR_IN4,HIGH); }
 
   //constrain input to 0-255, take absolute value of power first before constraining
   left = constrain(abs(left), 0, 255);
   right = constrain(abs(right), 0, 255);
   //Write motor power to speed pins
-  analogWrite(ENA,left);
-  analogWrite(ENB,right);
+  analogWrite(RCC_MOTOR_ENA,left);
+  analogWrite(RCC_MOTOR_ENB,right);
 }

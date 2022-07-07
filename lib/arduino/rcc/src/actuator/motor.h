@@ -11,6 +11,14 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_ACTUATOR_MOTOR_H
 
 
+#define RCC_MOTOR_ENA 5
+#define RCC_MOTOR_ENB 6
+#define RCC_MOTOR_IN1 7
+#define RCC_MOTOR_IN2 8
+#define RCC_MOTOR_IN3 11
+#define RCC_MOTOR_IN4 12
+
+
 //  Sets up motors - sets pins
 void motor_setup();
 
