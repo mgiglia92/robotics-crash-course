@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * hc-sr04.h -- HC-SR04 interface
+ *
+ * Copyright (C) 2020-2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 
-#ifndef ARDUINO_H
-#define ARDUINO_H
-#include <Arduino.h>
-#endif
+#ifndef CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_H
+#define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_H
+
 
 class HC_SR04 {
   public:
@@ -16,7 +23,7 @@ class HC_SR04 {
     double getRangeReset(); //Update distance member, start next reading if updated, if not return old value
     unsigned int getRange(); //Return distance calculated directly. Need to check if finished before calling this fucntion
     static HC_SR04* instance(){ return _instance; }
-    
+
   private:
     static void _echo_isr();
     double distance;
@@ -25,3 +32,6 @@ class HC_SR04 {
     volatile bool _finished;
     static HC_SR04* _instance;
 };
+
+
+#endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_H */

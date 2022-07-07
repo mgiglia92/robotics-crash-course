@@ -1,7 +1,16 @@
-#ifndef HC_SR04_H
-#define HC_SR04_H
-#include "HC_SR04.h"
-#endif
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * hc-sr04.cpp -- HC-SR04 interface
+ *
+ * Copyright (C) 2020-2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2020  Andrew Lorber <andrewlorber@aol.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
+
+#include "hc-sr04.h"
+
+#include <Arduino.h>
+
 
 #define TRIG_PIN 10
 #define ECHO_PIN 2
@@ -12,13 +21,13 @@ HC_SR04 *HC_SR04::_instance(NULL);
 HC_SR04::HC_SR04(int trigger, int echo, int interrupt, int max_dist)
     : _trigger(trigger), _echo(echo), _int(interrupt), _max(max_dist), _finished(false)
 {
-  if(_instance==0) _instance=this;    
+  if(_instance==0) _instance=this;
 }
 
 void HC_SR04::initialize(){
   pinMode(_trigger, OUTPUT);
   digitalWrite(_trigger, LOW);
-  pinMode(_echo, INPUT);  
+  pinMode(_echo, INPUT);
   attachInterrupt(_int, _echo_isr, CHANGE);
   distance = 99999;
 }
@@ -27,7 +36,7 @@ void HC_SR04::start(){
   _finished=false;
   digitalWrite(_trigger, HIGH);
   delayMicroseconds(10);
-  digitalWrite(_trigger, LOW);  
+  digitalWrite(_trigger, LOW);
 }
 
 //This function lets you control when to restart the sensor
@@ -50,7 +59,7 @@ unsigned int HC_SR04::getRange(){
 
 void HC_SR04::_echo_isr(){
   HC_SR04* _this=HC_SR04::instance();
-  
+
   switch(digitalRead(_this->_echo)){
     case HIGH:
       _this->_start=micros();
@@ -59,5 +68,5 @@ void HC_SR04::_echo_isr(){
       _this->_end=micros();
       _this->_finished=true;
       break;
-  }   
+  }
 }
