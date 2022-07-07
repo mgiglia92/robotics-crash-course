@@ -145,6 +145,7 @@ inline float MPU6050::getAngVelZ(void)
 
 inline float MPU6050::getTemp(void)
 {
+	// TODO: figure out the names for these constants
 	return (raw_temp / 340) + 36.53;
 }
 
