@@ -38,4 +38,7 @@ class HC_SR04 {
 };
 
 
+void ultrasonicSetup(void);
+
+
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_H */

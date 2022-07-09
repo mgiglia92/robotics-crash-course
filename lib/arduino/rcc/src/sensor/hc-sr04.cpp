@@ -66,3 +66,13 @@ void HC_SR04::_echo_isr(){
       break;
   }
 }
+
+
+void ultrasonicSetup(void)
+{
+	pinMode(RCC_ECHO_PIN,  INPUT);
+	pinMode(RCC_TRIG_PIN, OUTPUT);
+
+	// ensure our trigger pin is inactive
+	digitalWrite(RCC_TRIG_PIN, LOW);
+}
