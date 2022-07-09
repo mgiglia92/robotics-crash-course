@@ -12,10 +12,6 @@
 #include <Arduino.h>
 
 
-#define TRIG_PIN 10
-#define ECHO_PIN 2
-#define ECHO_INT 0
-
 HC_SR04 *HC_SR04::_instance(NULL);
 
 HC_SR04::HC_SR04(int trigger, int echo, int interrupt, int max_dist)

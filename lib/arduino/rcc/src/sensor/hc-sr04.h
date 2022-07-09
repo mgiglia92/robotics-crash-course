@@ -11,6 +11,10 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_H
 
 
+#define RCC_ECHO_PIN 2
+#define RCC_TRIG_PIN 10
+
+
 class HC_SR04 {
   public:
     // Params are pin numbers & max distance
