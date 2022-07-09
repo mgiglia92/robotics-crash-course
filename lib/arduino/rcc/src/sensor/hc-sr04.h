@@ -14,6 +14,8 @@
 #define RCC_ECHO_PIN 4
 #define RCC_TRIG_PIN 10
 
+#define RCC_ULTRASONIC_TIMEOUT_US 5000
+
 
 class HC_SR04 {
   public:
@@ -38,6 +40,7 @@ class HC_SR04 {
 };
 
 
+unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 void ultrasonicSetup(void);
 
 

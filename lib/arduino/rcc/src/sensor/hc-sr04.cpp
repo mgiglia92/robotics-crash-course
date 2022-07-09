@@ -12,6 +12,9 @@
 #include <Arduino.h>
 
 
+#define PULSE_LEN_US 10
+
+
 HC_SR04 *HC_SR04::_instance(NULL);
 
 HC_SR04::HC_SR04(int trigger, int echo, int interrupt, int max_dist)
@@ -67,6 +70,31 @@ void HC_SR04::_echo_isr(){
   }
 }
 
+
+unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
+{
+#ifdef __AVR_ATmega328P__
+	/*
+	 * if we're running on the ATmega328P it's worth checking if
+	 * interrupts are disabled to to use pulseIn() over
+	 * pulseInLong() for more accurate results
+	 */
+	unsigned long (*pulse)(uint8_t pin, uint8_t state, unsigned long timeout)
+		= (SREG & (1 << 7))
+		? pulseInLong
+		: pulseIn;
+#endif /* __AVR_ATmega328P__ */
+
+	digitalWrite(RCC_TRIG_PIN, HIGH);
+	delayMicroseconds(PULSE_LEN_US);
+	digitalWrite(RCC_TRIG_PIN, LOW);
+
+#ifdef __AVR_ATmega328P__
+	return pulse(RCC_ECHO_PIN, HIGH, timeout_us);
+#else
+	return pulseInLong(RCC_ECHO_PIN, HIGH, timeout_us);
+#endif /* __AVR_ATmega328P__ */
+}
 
 void ultrasonicSetup(void)
 {
