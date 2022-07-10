@@ -103,6 +103,26 @@ void ultrasonicAsyncPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 	enablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
 }
 
+bool ultrasonicAsyncPulseDone(void)
+{
+	noInterrupts();
+
+	if (!async_pulse_done) {
+		if (micros() - async_pulse_us > async_pulse_timeout_us) {
+			async_pulse_us   = 0;
+			async_pulse_done = true;
+
+			disablePinChangeInterrupt(
+				digitalPinToPinChangeInterrupt(RCC_ECHO_PIN)
+			);
+		}
+	}
+
+	interrupts();
+
+	return async_pulse_done;
+}
+
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 {
 #ifdef __AVR_ATmega328P__
