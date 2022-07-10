@@ -9,4 +9,8 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_PRIVATE_H
 
 
+static void left_encoder_isr(void);
+static void right_encoder_isr(void);
+
+
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_PRIVATE_H */

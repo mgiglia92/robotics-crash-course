@@ -14,6 +14,10 @@
 #include <PinChangeInterrupt.h>
 
 
+static volatile unsigned left_cnt;
+static volatile unsigned right_cnt;
+
+
 //Initialize static class members so they are defined for the ISR
 static volatile int Odom::right_count=0;
 static volatile int Odom::left_count=0;
@@ -46,4 +50,15 @@ void cr(){
 
 void cl(){
     Odom::count_l();
+}
+
+
+static void left_encoder_isr(void)
+{
+	++left_cnt;
+}
+
+static void right_encoder_isr(void)
+{
+	++right_cnt;
 }
