@@ -14,6 +14,7 @@
 #include "sensor/encoder.h"
 #include "sensor/hc-sr04.h"
 #include "sensor/mpu6050.h"
+#include "util/array.h"
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_H */
