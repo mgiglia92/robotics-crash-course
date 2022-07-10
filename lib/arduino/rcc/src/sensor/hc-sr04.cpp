@@ -12,6 +12,12 @@
 
 #include <Arduino.h>
 
+#include <PinChangeInterrupt.h>
+
+
+static volatile bool          async_pulse_done;
+static volatile unsigned long async_pulse_us;
+
 
 HC_SR04 *HC_SR04::_instance(NULL);
 
@@ -101,4 +107,23 @@ void ultrasonicSetup(void)
 
 	// ensure our trigger pin is inactive
 	digitalWrite(RCC_TRIG_PIN, LOW);
+}
+
+
+static void ultrasonicPulseISR(void)
+{
+	static unsigned long start_us;
+
+	if (async_pulse_done) return;
+
+	switch (getPinChangeInterruptTrigger(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN))) {
+		case RISING:
+			start_us = micros();
+			return;
+
+		case FALLING:
+			async_pulse_us   = micros() - start_us;
+			async_pulse_done = true;
+			return;
+	}
 }

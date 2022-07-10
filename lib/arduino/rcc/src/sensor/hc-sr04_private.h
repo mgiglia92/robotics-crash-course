@@ -12,4 +12,7 @@
 #define PULSE_LEN_US 10
 
 
+static void ultrasonicPulseISR(void);
+
+
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_HC_SR04_PRIVATE_H */
