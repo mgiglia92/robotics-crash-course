@@ -14,8 +14,8 @@
 #define RCC_RIGHT_ENCODER_PIN 3
 
 
-inline unsigned int encoderGetLeftCount(void);
-inline unsigned int encoderGetRightCount(void);
+inline unsigned long encoderGetLeftCount(void);
+inline unsigned long encoderGetRightCount(void);
 void encoderSetup(void);
 
 

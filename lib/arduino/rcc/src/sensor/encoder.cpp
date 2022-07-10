@@ -12,16 +12,16 @@
 #include <Arduino.h>
 
 
-static volatile unsigned left_cnt;
-static volatile unsigned right_cnt;
+static volatile unsigned long left_cnt;
+static volatile unsigned long right_cnt;
 
 
-inline unsigned int encoderGetLeftCount(void)
+inline unsigned long encoderGetLeftCount(void)
 {
 	return left_cnt;
 }
 
-inline unsigned int encoderGetRightCount(void)
+inline unsigned long encoderGetRightCount(void)
 {
 	return right_cnt;
 }
