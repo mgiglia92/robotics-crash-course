@@ -123,6 +123,11 @@ bool ultrasonicAsyncPulseDone(void)
 	return async_pulse_done;
 }
 
+inline unsigned long ultrasonicAsyncPulseDuration(void)
+{
+	return (async_pulse_done) ? async_pulse_us : 0;
+}
+
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 {
 #ifdef __AVR_ATmega328P__
