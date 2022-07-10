@@ -16,6 +16,7 @@
 
 
 static volatile bool          async_pulse_done;
+static          unsigned long async_pulse_timeout_us;
 static volatile unsigned long async_pulse_us;
 
 
@@ -87,6 +88,19 @@ void ultrasonicAsyncSetup(void)
 
 	// temporarily disable our ISR until it is needed
 	disablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
+}
+
+void ultrasonicAsyncPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
+{
+	async_pulse_timeout_us = timeout_us;
+
+	digitalWrite(RCC_TRIG_PIN, HIGH);
+	delayMicroseconds(PULSE_LEN_US);
+	digitalWrite(RCC_TRIG_PIN, LOW);
+
+	async_pulse_done = false;
+	async_pulse_us   = micros();
+	enablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
 }
 
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)

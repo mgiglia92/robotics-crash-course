@@ -41,6 +41,7 @@ class HC_SR04 {
 
 
 void ultrasonicAsyncSetup(void);
+void ultrasonicAsyncPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 void ultrasonicSetup(void);
 
