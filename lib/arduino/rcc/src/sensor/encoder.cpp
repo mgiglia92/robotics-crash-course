@@ -7,6 +7,7 @@
  */
 
 #include "encoder.h"
+#include "encoder_private.h"
 
 #include <Arduino.h>
 
