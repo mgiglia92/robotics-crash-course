@@ -9,4 +9,7 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_ARRAY_H
 
 
+#define ARRAYSIZE(X) (sizeof(X) / sizeof((X)[0]))
+
+
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_ARRAY_H */
