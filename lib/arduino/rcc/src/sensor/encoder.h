@@ -14,21 +14,6 @@
 #define RCC_RIGHT_ENCODER_PIN 3
 
 
-class Odom{
-
-public:
-    Config();
-    static volatile int right_count;
-    static volatile int left_count;
-
-    static void count_l();
-    static void count_r();
-
-    void setup_interrupts();
-};
-
-extern void cr();
-extern void cl();
 void encoderSetup(void);
 inline unsigned int getLeftEncoderCount(void);
 inline unsigned int getRightEncoderCount(void);
