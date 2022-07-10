@@ -83,7 +83,7 @@ void ultrasonicAsyncSetup(void)
 	attachPinChangeInterrupt(
 		digitalPinToPinChangeInterrupt(RCC_ECHO_PIN),
 		ultrasonicPulseISR,
-		FALLING,
+		FALLING
 	);
 
 	// temporarily disable our ISR until it is needed
