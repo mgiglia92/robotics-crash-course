@@ -52,6 +52,23 @@ void cl(){
     Odom::count_l();
 }
 
+void encoderSetup(void)
+{
+	pinMode(RCC_LEFT_ENCODER_PIN,  INPUT);
+	pinMode(RCC_RIGHT_ENCODER_PIN, INPUT);
+
+	attachInterrupt(
+		digitalPinToInterrupt(RCC_LEFT_ENCODER_PIN),
+		left_encoder_isr,
+		RISING
+	);
+	attachInterrupt(
+		digitalPinToInterrupt(RCC_RIGHT_ENCODER_PIN),
+		right_encoder_isr,
+		RISING
+	);
+}
+
 
 static void left_encoder_isr(void)
 {

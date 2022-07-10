@@ -29,6 +29,7 @@ public:
 
 extern void cr();
 extern void cl();
+void encoderSetup(void);
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_H */
