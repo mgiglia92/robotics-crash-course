@@ -1,14 +1,17 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * encoder.cpp -- encoder interface
+ *
+ * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 
-#ifndef ODOM_H
-#define ODOM_H
-#include <odom.h>
-#endif
+#include "encoder.h"
 
-#ifndef PINCHANGEINTERRUPT_H
-#define PINCHANGEINTERRUPT_H
+#include <Arduino.h>
+
 #include <PinChangeInterrupt.h>
-#endif
-// #include "WInterrupts.c"
+
 
 //Initialize static class members so they are defined for the ISR
 static volatile int Odom::right_count=0;
