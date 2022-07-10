@@ -126,7 +126,13 @@ void ultrasonicSetup(void)
 
 static void ultrasonicPulseISR(void)
 {
-	if (async_pulse_done) return;
+	if (async_pulse_done) {
+		// temporarily disable our ISR until it is needed again
+		disablePinChangeInterrupt(
+			digitalPinToPinChangeInterrupt(RCC_ECHO_PIN)
+		);
+		return;
+	}
 
 	async_pulse_us   = micros() - async_pulse_us;
 	async_pulse_done = true;
