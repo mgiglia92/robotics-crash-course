@@ -32,10 +32,10 @@ static void Odom::count_l(){
 }
 
 void Odom::setup_interrupts(){
-    pinMode(RIGHT_ENCODER, INPUT_PULLUP);
-    pinMode(LEFT_ENCODER, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(RIGHT_ENCODER), cr, RISING);
-    attachPCINT(digitalPinToPCINT(LEFT_ENCODER), cl, RISING);
+    pinMode(RCC_RIGHT_ENCODER_PIN, INPUT_PULLUP);
+    pinMode(RCC_LEFT_ENCODER_PIN, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(RCC_RIGHT_ENCODER_PIN), cr, RISING);
+    attachPCINT(digitalPinToPCINT(RCC_LEFT_ENCODER_PIN), cl, RISING);
     Serial.print("init finished");
 }
 

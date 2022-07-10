@@ -10,9 +10,9 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_H
 
 
-//Pin definitions for robot's encoder pins!
-#define RIGHT_ENCODER 3
-#define LEFT_ENCODER 4
+#define RCC_LEFT_ENCODER_PIN  2
+#define RCC_RIGHT_ENCODER_PIN 3
+
 
 class Odom{
 
