@@ -69,6 +69,16 @@ void encoderSetup(void)
 	);
 }
 
+inline unsigned int getLeftEncoderCount(void)
+{
+	return left_cnt;
+}
+
+inline unsigned int getRightEncoderCount(void)
+{
+	return right_cnt;
+}
+
 
 static void left_encoder_isr(void)
 {

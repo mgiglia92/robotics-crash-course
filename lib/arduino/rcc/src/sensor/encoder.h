@@ -30,6 +30,8 @@ public:
 extern void cr();
 extern void cl();
 void encoderSetup(void);
+inline unsigned int getLeftEncoderCount(void);
+inline unsigned int getRightEncoderCount(void);
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_H */
