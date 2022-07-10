@@ -75,6 +75,20 @@ void HC_SR04::_echo_isr(){
 }
 
 
+void ultrasonicAsyncSetup(void)
+{
+	ultrasonicSetup();
+
+	attachPinChangeInterrupt(
+		digitalPinToPinChangeInterrupt(RCC_ECHO_PIN),
+		ultrasonicPulseISR,
+		CHANGE,
+	);
+
+	// temporarily disable our ISR until it is needed
+	disablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
+}
+
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 {
 #ifdef __AVR_ATmega328P__
