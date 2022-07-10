@@ -17,6 +17,10 @@
 #define RCC_ULTRASONIC_TIMEOUT_US 5000
 
 
+#define duration2distance(DURATION_US, DISTANCE_PER_US) \
+	(DISTANCE_PER_US * (DURATION_US / 2))
+
+
 class HC_SR04 {
   public:
     // Params are pin numbers & max distance
