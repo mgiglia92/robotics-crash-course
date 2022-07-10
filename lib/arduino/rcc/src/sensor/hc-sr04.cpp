@@ -82,7 +82,7 @@ void ultrasonicAsyncSetup(void)
 	attachPinChangeInterrupt(
 		digitalPinToPinChangeInterrupt(RCC_ECHO_PIN),
 		ultrasonicPulseISR,
-		CHANGE,
+		FALLING,
 	);
 
 	// temporarily disable our ISR until it is needed
@@ -126,18 +126,8 @@ void ultrasonicSetup(void)
 
 static void ultrasonicPulseISR(void)
 {
-	static unsigned long start_us;
-
 	if (async_pulse_done) return;
 
-	switch (getPinChangeInterruptTrigger(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN))) {
-		case RISING:
-			start_us = micros();
-			return;
-
-		case FALLING:
-			async_pulse_us   = micros() - start_us;
-			async_pulse_done = true;
-			return;
-	}
+	async_pulse_us   = micros() - async_pulse_us;
+	async_pulse_done = true;
 }
