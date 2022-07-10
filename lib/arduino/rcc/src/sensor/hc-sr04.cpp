@@ -8,11 +8,9 @@
  */
 
 #include "hc-sr04.h"
+#include "hc-sr04_private.h"
 
 #include <Arduino.h>
-
-
-#define PULSE_LEN_US 10
 
 
 HC_SR04 *HC_SR04::_instance(NULL);
