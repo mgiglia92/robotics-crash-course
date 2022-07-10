@@ -16,6 +16,16 @@ static volatile unsigned left_cnt;
 static volatile unsigned right_cnt;
 
 
+inline unsigned int encoderGetLeftCount(void)
+{
+	return left_cnt;
+}
+
+inline unsigned int encoderGetRightCount(void)
+{
+	return right_cnt;
+}
+
 void encoderSetup(void)
 {
 	pinMode(RCC_LEFT_ENCODER_PIN,  INPUT);
@@ -31,16 +41,6 @@ void encoderSetup(void)
 		right_encoder_isr,
 		RISING
 	);
-}
-
-inline unsigned int getLeftEncoderCount(void)
-{
-	return left_cnt;
-}
-
-inline unsigned int getRightEncoderCount(void)
-{
-	return right_cnt;
 }
 
 

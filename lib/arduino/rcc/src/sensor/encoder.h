@@ -14,9 +14,9 @@
 #define RCC_RIGHT_ENCODER_PIN 3
 
 
+inline unsigned int encoderGetLeftCount(void);
+inline unsigned int encoderGetRightCount(void);
 void encoderSetup(void);
-inline unsigned int getLeftEncoderCount(void);
-inline unsigned int getRightEncoderCount(void);
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_SENSOR_ENCODER_H */
