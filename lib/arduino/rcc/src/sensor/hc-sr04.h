@@ -11,6 +11,9 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_SENSOR_HC_SR04_H
 
 
+#include <Arduino.h>
+
+
 #define RCC_ECHO_PIN 4
 #define RCC_TRIG_PIN 10
 
@@ -33,35 +36,32 @@
 	duration2distance(DURATION_US, RCC_SOUND_INCHES_PER_MICROSECOND)
 
 
-/*
-class HC_SR04 {
-  public:
-    // Params are pin numbers & max distance
-    HC_SR04(int trigger, int echo, int interrupt, int max_dist=200);
-    // Initializes pins
-    void initialize();
-    // Runs Sonar sensor
-    void start();
-    bool isFinished(){ return _finished; }
-    double getRangeReset(); //Update distance member, start next reading if updated, if not return old value
-    unsigned int getRange(); //Return distance calculated directly. Need to check if finished before calling this fucntion
-    static HC_SR04* instance(){ return _instance; }
+class HC_SR04_async {
+private:
+	static HC_SR04_async *instance;
 
-  private:
-    static void _echo_isr();
-    double distance;
-    int _trigger, _echo, _int, _max;
-    volatile unsigned long _start, _end;
-    volatile bool _finished;
-    static HC_SR04* _instance;
+	uint8_t echo_pin = RCC_ECHO_PIN;
+	uint8_t trig_pin = RCC_TRIG_PIN;
+
+	volatile bool          pulse_done = false;
+	volatile unsigned long pulse_us;
+	unsigned long          pulse_start_us;
+	unsigned long          pulse_timeout_us = RCC_ULTRASONIC_TIMEOUT_US;
+
+	volatile unsigned long start;
+	volatile unsigned long end;
+
+	static void pulse_isr(void);
+
+public:
+	void begin(void);
+	void begin(uint8_t echo_pin, uint8_t trig_pin);
+	unsigned long getDuration(void);
+	bool isDone(void);
+	void pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 };
-*/
 
 
-void ultrasonicAsyncSetup(void);
-void ultrasonicAsyncPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
-bool ultrasonicAsyncPulseDone(void);
-unsigned long ultrasonicAsyncPulseDuration(void);
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 void ultrasonicSetup(void);
 

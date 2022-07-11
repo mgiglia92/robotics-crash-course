@@ -8,127 +8,117 @@
  */
 
 #include "hc-sr04.h"
-#include "hc-sr04_private.h"
 
 #include <Arduino.h>
 
 #include <PinChangeInterrupt.h>
 
 
-static volatile bool          async_pulse_done;
-static          unsigned long async_pulse_timeout_us;
-static volatile unsigned long async_pulse_us;
+#define PULSE_LEN_US 10
 
 
-/*
-HC_SR04 *HC_SR04::_instance(NULL);
+HC_SR04_async *HC_SR04_async::instance = nullptr;
 
-HC_SR04::HC_SR04(int trigger, int echo, int interrupt, int max_dist)
-    : _trigger(trigger), _echo(echo), _int(interrupt), _max(max_dist), _finished(false)
+
+static void HC_SR04_async::pulse_isr(void)
 {
-  if(_instance==0) _instance=this;
+	if (instance->pulse_done) {
+		// temporarily disable our ISR until it is needed again
+		disablePinChangeInterrupt(
+			digitalPinToPinChangeInterrupt(instance->echo_pin)
+		);
+		return;
+	}
+
+	uint8_t reason = getPinChangeInterruptTrigger(
+		digitalPinToPinChangeInterrupt(instance->echo_pin)
+	);
+
+	switch (reason) {
+		case RISING:
+			instance->pulse_us = micros();
+			break;
+
+		case FALLING:
+			instance->pulse_us   = micros() - instance->pulse_us;
+			instance->pulse_done = true;
+			break;
+	}
 }
 
-void HC_SR04::initialize(){
-  pinMode(_trigger, OUTPUT);
-  digitalWrite(_trigger, LOW);
-  pinMode(_echo, INPUT);
-  attachInterrupt(_int, _echo_isr, CHANGE);
-  distance = 99999;
-}
-
-void HC_SR04::start(){
-  _finished=false;
-  digitalWrite(_trigger, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(_trigger, LOW);
-}
-
-//This function lets you control when to restart the sensor
-// in case you want to move the sensor to a new orientation before you start a new reading
-double HC_SR04::getRangeReset(){
-  //If sensors is finished, update distance value and restart sensor
-  if(isFinished())
-  {
-    distance = ((_end-_start)/(58.0f)); //Convert from time of flight to distance
-    start(); //Restart, so we get the next reading ASAP
-  }
-  //Return last distance value!
-  return distance;
-}
-
-
-unsigned int HC_SR04::getRange(){
-  return (_end-_start)/(58.0f);
-}
-
-void HC_SR04::_echo_isr(){
-  HC_SR04* _this=HC_SR04::instance();
-
-  switch(digitalRead(_this->_echo)){
-    case HIGH:
-      _this->_start=micros();
-      break;
-    case LOW:
-      _this->_end=micros();
-      _this->_finished=true;
-      break;
-  }
-}
-*/
-
-
-void ultrasonicAsyncSetup(void)
+void HC_SR04_async::begin(void)
 {
-	ultrasonicSetup();
+	if (instance) return;
+	instance = this;
+
+	pinMode(echo_pin,  INPUT);
+	pinMode(trig_pin, OUTPUT);
+
+	// ensure our trigger pin is inactive
+	digitalWrite(trig_pin, LOW);
 
 	attachPinChangeInterrupt(
-		digitalPinToPinChangeInterrupt(RCC_ECHO_PIN),
-		ultrasonicPulseISR,
-		FALLING
+		digitalPinToPinChangeInterrupt(echo_pin),
+		pulse_isr,
+		CHANGE
 	);
 
 	// temporarily disable our ISR until it is needed
-	disablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
+	disablePinChangeInterrupt(digitalPinToPinChangeInterrupt(echo_pin));
 }
 
-void ultrasonicAsyncPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
+void HC_SR04_async::begin(uint8_t echo_pin, uint8_t trig_pin)
 {
-	async_pulse_timeout_us = timeout_us;
+	this->echo_pin = echo_pin;
+	this->trig_pin = trig_pin;
 
-	digitalWrite(RCC_TRIG_PIN, HIGH);
-	delayMicroseconds(PULSE_LEN_US);
-	digitalWrite(RCC_TRIG_PIN, LOW);
-
-	async_pulse_done = false;
-	async_pulse_us   = micros();
-	enablePinChangeInterrupt(digitalPinToPinChangeInterrupt(RCC_ECHO_PIN));
+	begin();
 }
 
-bool ultrasonicAsyncPulseDone(void)
+unsigned long HC_SR04_async::getDuration(void)
+{
+	return (pulse_done) ? pulse_us : 0;
+}
+
+bool HC_SR04_async::isDone(void)
 {
 	noInterrupts();
 
-	if (!async_pulse_done) {
-		if (micros() - async_pulse_us > async_pulse_timeout_us) {
-			async_pulse_us   = 0;
-			async_pulse_done = true;
+	if (!pulse_done) {
+		if (micros() - pulse_start_us > pulse_timeout_us) {
+			pulse_us   = 0;
+			pulse_done = true;
 
 			disablePinChangeInterrupt(
-				digitalPinToPinChangeInterrupt(RCC_ECHO_PIN)
+				digitalPinToPinChangeInterrupt(echo_pin)
 			);
 		}
 	}
 
 	interrupts();
 
-	return async_pulse_done;
+	if (pulse_done) {
+		disablePinChangeInterrupt(
+			digitalPinToPinChangeInterrupt(echo_pin)
+		);
+	}
+
+	return pulse_done;
 }
 
-unsigned long ultrasonicAsyncPulseDuration(void)
+void HC_SR04_async::pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 {
-	return (async_pulse_done) ? async_pulse_us : 0;
+	pulse_timeout_us = timeout_us;
+
+	digitalWrite(trig_pin, HIGH);
+	delayMicroseconds(PULSE_LEN_US);
+	digitalWrite(trig_pin, LOW);
+
+	pulse_start_us = micros();
+	pulse_done     = false;
+	enablePinChangeInterrupt(digitalPinToPinChangeInterrupt(echo_pin));
 }
+
 
 unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
 {
@@ -162,19 +152,4 @@ void ultrasonicSetup(void)
 
 	// ensure our trigger pin is inactive
 	digitalWrite(RCC_TRIG_PIN, LOW);
-}
-
-
-static void ultrasonicPulseISR(void)
-{
-	if (async_pulse_done) {
-		// temporarily disable our ISR until it is needed again
-		disablePinChangeInterrupt(
-			digitalPinToPinChangeInterrupt(RCC_ECHO_PIN)
-		);
-		return;
-	}
-
-	async_pulse_us   = micros() - async_pulse_us;
-	async_pulse_done = true;
 }
