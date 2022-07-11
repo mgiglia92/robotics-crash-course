@@ -45,6 +45,6 @@ void rawMotorCtrl(int left, int right)
 		digitalWrite(RCC_MOTOR_IN4, HIGH);
 	}
 
-	analogWrite(RCC_MOTOR_ENA, constrain(left,  0, 255));
-	analogWrite(RCC_MOTOR_ENB, constrain(right, 0, 255));
+	analogWrite(RCC_MOTOR_ENA, constrain(abs(left),  0, 255));
+	analogWrite(RCC_MOTOR_ENB, constrain(abs(right), 0, 255));
 }
