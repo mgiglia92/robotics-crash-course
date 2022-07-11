@@ -33,6 +33,7 @@
 	duration2distance(DURATION_US, RCC_SOUND_INCHES_PER_MICROSECOND)
 
 
+/*
 class HC_SR04 {
   public:
     // Params are pin numbers & max distance
@@ -54,6 +55,7 @@ class HC_SR04 {
     volatile bool _finished;
     static HC_SR04* _instance;
 };
+*/
 
 
 void ultrasonicAsyncSetup(void);

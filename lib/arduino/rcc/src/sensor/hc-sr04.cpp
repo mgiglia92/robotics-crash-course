@@ -20,6 +20,7 @@ static          unsigned long async_pulse_timeout_us;
 static volatile unsigned long async_pulse_us;
 
 
+/*
 HC_SR04 *HC_SR04::_instance(NULL);
 
 HC_SR04::HC_SR04(int trigger, int echo, int interrupt, int max_dist)
@@ -74,6 +75,7 @@ void HC_SR04::_echo_isr(){
       break;
   }
 }
+*/
 
 
 void ultrasonicAsyncSetup(void)
