@@ -11,9 +11,9 @@
 
 #include "actuator/motor.h"
 #include "actuator/servo.h"
-#include "sensor/encoder.h"
 #include "sensor/hc-sr04.h"
 #include "sensor/mpu6050.h"
+#include "sensor/odom.h"
 #include "util/array.h"
 
 

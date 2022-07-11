@@ -1,33 +1,34 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /*
- * encoder.cpp -- encoder interface
+ * odom.cpp -- encoder interface
  *
  * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
  * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
  */
 
-#include "encoder.h"
-#include "encoder_private.h"
+#include "odom.h"
 
 #include <Arduino.h>
 
 
-static volatile unsigned long left_cnt;
-static volatile unsigned long right_cnt;
+Odom *Odom::instance = nullptr;
 
 
-unsigned long encoderGetLeftCount(void)
+static void Odom::left_encoder_isr(void)
 {
-	return left_cnt;
+	++instance->left_cnt;
 }
 
-unsigned long encoderGetRightCount(void)
+static void Odom::right_encoder_isr(void)
 {
-	return right_cnt;
+	++instance->right_cnt;
 }
 
-void encoderSetup(void)
+void Odom::begin(void)
 {
+	if (instance) return;
+	instance = this;
+
 	pinMode(RCC_LEFT_ENCODER_PIN,  INPUT);
 	pinMode(RCC_RIGHT_ENCODER_PIN, INPUT);
 
@@ -43,13 +44,12 @@ void encoderSetup(void)
 	);
 }
 
-
-static void left_encoder_isr(void)
+unsigned long Odom::getLeftCount(void)
 {
-	++left_cnt;
+	return left_cnt;
 }
 
-static void right_encoder_isr(void)
+unsigned long Odom::getRightCount(void)
 {
-	++right_cnt;
+	return right_cnt;
 }
