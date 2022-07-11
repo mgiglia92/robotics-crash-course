@@ -123,7 +123,7 @@ bool ultrasonicAsyncPulseDone(void)
 	return async_pulse_done;
 }
 
-inline unsigned long ultrasonicAsyncPulseDuration(void)
+unsigned long ultrasonicAsyncPulseDuration(void)
 {
 	return (async_pulse_done) ? async_pulse_us : 0;
 }

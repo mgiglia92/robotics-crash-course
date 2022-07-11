@@ -16,12 +16,12 @@ static volatile unsigned long left_cnt;
 static volatile unsigned long right_cnt;
 
 
-inline unsigned long encoderGetLeftCount(void)
+unsigned long encoderGetLeftCount(void)
 {
 	return left_cnt;
 }
 
-inline unsigned long encoderGetRightCount(void)
+unsigned long encoderGetRightCount(void)
 {
 	return right_cnt;
 }

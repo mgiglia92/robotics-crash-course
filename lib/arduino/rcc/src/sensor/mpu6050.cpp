@@ -102,17 +102,17 @@ float MPU6050::getAccel(char axis)
 	return NAN;
 }
 
-inline float MPU6050::getAccelX(void)
+float MPU6050::getAccelX(void)
 {
 	return (raw_ax / ACCEL_SENSITIVITY) - ax_bias;
 }
 
-inline float MPU6050::getAccelY(void)
+float MPU6050::getAccelY(void)
 {
 	return (raw_ay / ACCEL_SENSITIVITY) - ay_bias;
 }
 
-inline float MPU6050::getAccelZ(void)
+float MPU6050::getAccelZ(void)
 {
 	return (raw_az / ACCEL_SENSITIVITY) - az_bias;
 }
@@ -128,22 +128,22 @@ float MPU6050::getAngVel(char axis)
 	return NAN;
 }
 
-inline float MPU6050::getAngVelX(void)
+float MPU6050::getAngVelX(void)
 {
 	return (raw_wx / GYRO_SENSITIVITY) - wx_bias;
 }
 
-inline float MPU6050::getAngVelY(void)
+float MPU6050::getAngVelY(void)
 {
 	return (raw_wy / GYRO_SENSITIVITY) - wy_bias;
 }
 
-inline float MPU6050::getAngVelZ(void)
+float MPU6050::getAngVelZ(void)
 {
 	return (raw_wz / GYRO_SENSITIVITY) - wz_bias;
 }
 
-inline float MPU6050::getTemp(void)
+float MPU6050::getTemp(void)
 {
 	// TODO: figure out the names for these constants
 	return (raw_temp / 340) + 36.53;

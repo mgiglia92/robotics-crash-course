@@ -55,14 +55,14 @@ public:
 	void calibrate(void);
 
 	float getAccel(char axis);
-	inline float getAccelX(void);
-	inline float getAccelY(void);
-	inline float getAccelZ(void);
+	float getAccelX(void);
+	float getAccelY(void);
+	float getAccelZ(void);
 	float getAngVel(char axis);
-	inline float getAngVelX(void);
-	inline float getAngVelY(void);
-	inline float getAngVelZ(void);
-	inline float getTemp(void);
+	float getAngVelX(void);
+	float getAngVelY(void);
+	float getAngVelZ(void);
+	float getTemp(void);
 	void update(void);
 };
 
