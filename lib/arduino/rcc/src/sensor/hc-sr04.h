@@ -17,7 +17,7 @@
 #define RCC_ECHO_PIN 4
 #define RCC_TRIG_PIN 10
 
-#define RCC_ULTRASONIC_TIMEOUT_US 5000
+#define RCC_HC_SR04_TIMEOUT_US 5000
 
 #define RCC_SOUND_METERS_PER_MICROSECOND      0.000346
 #define RCC_SOUND_CENTIMETERS_PER_MICROSECOND 0.0346
@@ -44,7 +44,7 @@ private:
 public:
 	void begin(void);
 	void begin(uint8_t echo_pin, uint8_t trig_pin);
-	unsigned long pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
+	unsigned long pulse(unsigned long timeout_us = RCC_HC_SR04_TIMEOUT_US);
 };
 
 class HC_SR04_async {
@@ -57,7 +57,7 @@ private:
 	volatile bool          pulse_done = false;
 	volatile unsigned long pulse_us;
 	unsigned long          pulse_start_us;
-	unsigned long          pulse_timeout_us = RCC_ULTRASONIC_TIMEOUT_US;
+	unsigned long          pulse_timeout_us = RCC_HC_SR04_TIMEOUT_US;
 
 	volatile unsigned long start;
 	volatile unsigned long end;
@@ -69,7 +69,7 @@ public:
 	void begin(uint8_t echo_pin, uint8_t trig_pin);
 	unsigned long getDuration(void);
 	bool isDone(void);
-	void pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
+	void pulse(unsigned long timeout_us = RCC_HC_SR04_TIMEOUT_US);
 };
 
 

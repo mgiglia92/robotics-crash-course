@@ -37,7 +37,7 @@ void HC_SR04::begin(uint8_t echo_pin, uint8_t trig_pin)
 	begin();
 }
 
-unsigned long HC_SR04::pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
+unsigned long HC_SR04::pulse(unsigned long timeout_us = RCC_HC_SR04_TIMEOUT_US)
 {
 #ifdef __AVR_ATmega328P__
 	/*
@@ -148,7 +148,7 @@ bool HC_SR04_async::isDone(void)
 	return pulse_done;
 }
 
-void HC_SR04_async::pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US)
+void HC_SR04_async::pulse(unsigned long timeout_us = RCC_HC_SR04_TIMEOUT_US)
 {
 	pulse_timeout_us = timeout_us;
 
