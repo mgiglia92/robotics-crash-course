@@ -36,6 +36,17 @@
 	duration2distance(DURATION_US, RCC_SOUND_INCHES_PER_MICROSECOND)
 
 
+class HC_SR04 {
+private:
+	uint8_t echo_pin = RCC_ECHO_PIN;
+	uint8_t trig_pin = RCC_TRIG_PIN;
+
+public:
+	void begin(void);
+	void begin(uint8_t echo_pin, uint8_t trig_pin);
+	unsigned long pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
+};
+
 class HC_SR04_async {
 private:
 	static HC_SR04_async *instance;
@@ -60,10 +71,6 @@ public:
 	bool isDone(void);
 	void pulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
 };
-
-
-unsigned long ultrasonicPulse(unsigned long timeout_us = RCC_ULTRASONIC_TIMEOUT_US);
-void ultrasonicSetup(void);
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_SENSOR_HC_SR04_H */
