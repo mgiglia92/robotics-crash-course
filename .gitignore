@@ -1,4 +1,4 @@
-/.vscode
-arduino_code/.vscode
-.venv
-__pycache__
+*.vscode/
+*__pycache__/
+.venv/
+build/
