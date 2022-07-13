@@ -7,7 +7,6 @@
  */
 
 #include <Servo.h>
-
 #include <rcc.h>
 
 
@@ -33,11 +32,18 @@ void setup()
 
 void loop()
 {
-  // get the reading
+  // get the reading with the default timeout of 5000 microseconds
+  // (defined as RCC_HC_SR04_TIMEOUT_US) we can also change the timeout
+  // by specifying a timeout when calling the pulse() method
   duration_us = ultrasonic.pulse();
+  // duration_us = ultrasonic.pulse(RCC_HC_SR04_TIMEOUT_US);
+  // duration_us = ultrasonic.pulse(5000);
 
   // move forward until we're 30cm away from something
-  if (duration2centimeters(duration_us) > DESIRED_DISTANCE_CM) {
+  // NOTE: if the returned pulse duration is zero, we know that pulse()
+  // timed out which means an object is sufficiently far away that we
+  // don't need to worry about it
+  if ((duration2centimeters(duration_us) > DESIRED_DISTANCE_CM) || !duration_us) {
     rawMotorCtrl(200, 200);
   } else {
     rawMotorCtrl(0, 0);
