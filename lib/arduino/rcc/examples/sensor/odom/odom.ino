@@ -24,11 +24,19 @@ void turn_90_deg_left(void)
   // if instead we wanted to get the left encoder count we'd call
   // odom.getLeftCount() as opposed to odom.getRightCount()
 
+  unsigned long count_current;
+
+  Serial.print("count start: ");
+  Serial.println(count_start);
+
   // keep on turning the right wheel as long as the difference between
   // the current encoder count and the initial encoder count do not
   // exceed the defined limit
-  while (odom.getRightCount() - count_start <= TICKS_FOR_90_DEGREES)
+  while ((count_current = odom.getRightCount()) - count_start <= TICKS_FOR_90_DEGREES) {
+    Serial.print("current count: ");
+    Serial.println(count_current);
     rawMotorCtrl(0, 192);
+  }
 
   rawMotorCtrl(0, 0);
 }
@@ -36,6 +44,8 @@ void turn_90_deg_left(void)
 void setup()
 {
   odom.begin();  // initialize encoder hardware
+
+  Serial.begin(9600);
 
   turn_90_deg_left();
 }
