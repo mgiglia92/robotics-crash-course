@@ -28,6 +28,8 @@ void setup()
 
   // initialize the HC-SR04
   ultrasonic.begin();
+
+  Serial.begin(9600);
 }
 
 void loop()
@@ -48,4 +50,7 @@ void loop()
   } else {
     rawMotorCtrl(0, 0);
   }
+
+  Serial.print("distance cm: ");
+  Serial.println(duration2centimeters(duration_us));
 }

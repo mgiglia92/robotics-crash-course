@@ -36,6 +36,8 @@ void setup()
   ultrasonic.pulse();
   // ultrasonic.pulse(RCC_HC_SR04_TIMEOUT_US);
   // ultrasonic.pulse(5000);
+
+  Serial.begin(9600);
 }
 
 void loop()
@@ -59,4 +61,7 @@ void loop()
   } else {
     rawMotorCtrl(0, 0);
   }
+
+  Serial.print("distance cm: ");
+  Serial.println(duration2centimeters(duration_us));
 }
