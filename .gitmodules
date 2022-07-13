@@ -1,3 +1,6 @@
 [submodule "lib/arduino/PinChangeInterrupt"]
 	path = lib/arduino/PinChangeInterrupt
 	url = https://github.com/NicoHood/PinChangeInterrupt.git
+[submodule "lib/arduino/Servo"]
+	path = lib/arduino/Servo
+	url = https://github.com/arduino-libraries/Servo.git
