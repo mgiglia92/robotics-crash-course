@@ -16,7 +16,6 @@ MPU6050 imu;
 
 void setup()
 {
-
   Wire.begin();  // initialize the I2C hardware
   imu.begin();   // initialize the MPU6050
 
