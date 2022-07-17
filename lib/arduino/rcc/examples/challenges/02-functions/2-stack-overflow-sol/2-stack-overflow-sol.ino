@@ -4,9 +4,13 @@
  * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
  */
 
+// NOTE: this solution was compiled for the Arduino Uno Rev3 using
+// version 1.8.5 of the official Arduino AVR core and version 1.18.9 of
+// the Arduino IDE
+
 unsigned int fib(unsigned int n)
 {
-  Serial.print("0x");
+  Serial.print("a:");
   Serial.print((uintptr_t) &n);
   Serial.print(": ");
   Serial.println(n);
