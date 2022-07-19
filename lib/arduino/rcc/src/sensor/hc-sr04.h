@@ -55,6 +55,8 @@ private:
 	uint8_t trig_pin = RCC_TRIG_PIN;
 
 	volatile bool          pulse_done = false;
+    volatile bool          pulse_started = false;
+    volatile bool          erroneous_value = false;
 	volatile unsigned long pulse_us;
 	unsigned long          pulse_start_us;
 	unsigned long          pulse_timeout_us = RCC_HC_SR04_TIMEOUT_US;

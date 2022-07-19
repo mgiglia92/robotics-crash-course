@@ -72,18 +72,21 @@ static void HC_SR04_async::pulse_isr(void)
 		return;
 	}
 
-	uint8_t reason = getPinChangeInterruptTrigger(
-		digitalPinToPinChangeInterrupt(instance->echo_pin)
-	);
+	uint8_t state = digitalRead(instance->echo_pin);
 
-	switch (reason) {
-		case RISING:
+	switch (state) {
+        //On Rising edge, pulse has been sent out
+		case HIGH:
 			instance->pulse_us = micros();
+            instance->pulse_started = true;
 			break;
-
-		case FALLING:
+        //On Falling edge, hc_sr04 has received the reflected pulse
+        // If pulse has not been started though, put hc_sr04 in erroneous_value state
+		case LOW:
+            if(!instance->pulse_started){ instance->erroneous_value=true; break;}
 			instance->pulse_us   = micros() - instance->pulse_us;
 			instance->pulse_done = true;
+            instance->pulse_started = false;
 			break;
 	}
 }
@@ -118,7 +121,8 @@ void HC_SR04_async::begin(uint8_t echo_pin, uint8_t trig_pin)
 }
 
 unsigned long HC_SR04_async::getDuration(void)
-{
+{   
+    if(erroneous_value) { erroneous_value = false; return 0; }
 	return (pulse_done) ? pulse_us : 0;
 }
 
