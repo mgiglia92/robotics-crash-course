@@ -119,7 +119,7 @@ void HC_SR04_async::begin(uint8_t echo_pin, uint8_t trig_pin)
 
 unsigned long HC_SR04_async::getDuration(void)
 {
-	return (pulse_done) ? pulse_us : 0;
+	return (pulse_done && (pulse_us < pulse_timeout_us)) ? pulse_us : 0;
 }
 
 bool HC_SR04_async::isDone(void)
@@ -127,13 +127,9 @@ bool HC_SR04_async::isDone(void)
 	noInterrupts();
 
 	if (!pulse_done) {
-		if (micros() - pulse_start_us > pulse_timeout_us) {
+		if (micros() - pulse_start_us >= pulse_timeout_us) {
 			pulse_us   = 0;
 			pulse_done = true;
-
-			disablePinChangeInterrupt(
-				digitalPinToPinChangeInterrupt(echo_pin)
-			);
 		}
 	}
 
