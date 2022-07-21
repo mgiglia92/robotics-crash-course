@@ -10,6 +10,9 @@ from time import sleep
 
 class Game:
     def __init__(self, sys: System, keep_history: int = 0):
+        # Interface variables
+        self.paused  = False
+
         init()
         display.set_caption("2D System Simulator")
         self.width = 1281
@@ -41,9 +44,10 @@ class Game:
             self.screen.set_alpha(100)
             self.keep_history_index = 0
 
+        # Draw coordinate axes and grid markers
         self.draw_coord_system()
 
-        # Get important positions in screen coordinates
+        # Get important positions in screen coordinates from system
         sys_center = self.system.get_pos_vec2()
         sys_vel = self.system.get_vel_vec2()
         sys_angle = self.system.get_theta()
@@ -59,14 +63,15 @@ class Game:
         # For all the other systems that dont have rotation involved, we can draw more simply
         else:
             draw.circle(self.screen, center =sys_center + self.center_offset, radius = 5, color = (255,0,0))
-        # Draw vel vector
+
+        # Draw vel vector of system
         draw.line(self.screen, color = (255,125,0), start_pos=sys_center + self.center_offset, end_pos=sys_center + self.center_offset + sys_vel)
       
-        
+        # blit does the physical drawing to the screen
         self.screen.blit(self.screen, dest=(0,0))
-        display.flip()
-        self.clock.tick(1/self.dt)
-        self.n += 1
+        display.flip() # Makes the entire screen get redrawn
+        self.clock.tick(1/self.dt) # This makes sure that pygame doesn't run any faster than 1/dt times per second  (1/dt)  Hertz (frequency)
+        self.n += 1  # Increment a class counter
 
     def rotate_to_body_to_pygame_frame(self, vec, system):
         angle = system.state[2] # Theta from state vector
@@ -120,7 +125,11 @@ class Game:
                         print("r pressed, reset sim from yaml")
                         self.system.from_yaml()
                         print(self.system.state)
-            self.step()
+                    if e.key == 112:
+                        self.paused = not self.paused # Change value of paused variable
+                    print(e.key)
+
+            if not self.paused: self.step()
 
 # Run the utils to test the spring system
 if __name__ == '__main__':

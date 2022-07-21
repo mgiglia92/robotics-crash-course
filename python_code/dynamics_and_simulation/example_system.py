@@ -17,7 +17,7 @@ class SystemExample(System):
         # Get error
         error = self.des_x - self.state[0]
         # Calculate controller output
-        kp = 10
+        kp = 1
         output = error*kp # This will be an acceleration!
         # Do euler first ordeer integration
         self.state = self.state + self.xdot(self.state, output)*self.dt
