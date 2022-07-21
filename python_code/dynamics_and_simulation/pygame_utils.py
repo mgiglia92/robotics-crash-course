@@ -11,7 +11,7 @@ from time import sleep
 class Game:
     def __init__(self, sys: System, keep_history: int = 0):
         init()
-        display.set_caption("2D Car Kinematics (Differential Thrust Model)")
+        display.set_caption("2D System Simulator")
         self.width = 1281
         self.height = 721 
         self.dt = sys.dt
@@ -94,7 +94,7 @@ class Game:
 
     def draw_coord_system(self):
         a_color =  (0,0,255) # axes color
-        c_color = (125,125,255) # grid color
+        c_color = (0,0,255) # grid color
         # Draw coordinate system axes of the system, because of the way image rendering starts (0,0) top left instead of middle
         # Draw them first so system draws can go over them
         draw.line(self.screen, start_pos=Vector2(self.width/2, 0), end_pos=Vector2(self.width/2, self.height), width=2, color = a_color)
