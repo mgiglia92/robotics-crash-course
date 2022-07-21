@@ -37,85 +37,85 @@ int convert_pwr_to_pwm(int pwr)
 //Motor Control Functions
 
 //Will cut power to all motors
-// void dwell()
-// {
-//   //Cut power to motors
-//   analogWrite(speedPinL,0);
-//   analogWrite(speedPinR,0);
-// }
+void dwell()
+{
+  //Cut power to motors
+  analogWrite(ENA,0);
+  analogWrite(ENB,0);
+}
 
-// //Moves backward
-// void backward(int pwm) 
-// {
-//   // Set direction pins
-//   digitalWrite(RightDirectPin1, LOW);
-//   digitalWrite(RightDirectPin2,HIGH);
-//   digitalWrite(LeftDirectPin1,LOW);
-//   digitalWrite(LeftDirectPin2,HIGH);
-//   //Write to speed pins
-//   analogWrite(speedPinL,pwm);
-//   analogWrite(speedPinR,pwm);
-// }
+//Moves backward
+void backward(int pwm) 
+{
+  // Set direction pins
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4,HIGH);
+  digitalWrite(IN1,LOW);
+  digitalWrite(IN2,HIGH);
+  //Write to speed pins
+  analogWrite(ENA,pwm);
+  analogWrite(ENB,pwm);
+}
 
-// //Moves forward
-// void forward(int pwm)
-// {
-//   // Set direction pins
-//   digitalWrite(RightDirectPin1, HIGH);
-//   digitalWrite(RightDirectPin2,LOW);
-//   digitalWrite(LeftDirectPin1,HIGH);
-//   digitalWrite(LeftDirectPin2,LOW);
+//Moves forward
+void forward(int pwm)
+{
+  // Set direction pins
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4,LOW);
+  digitalWrite(IN1,HIGH);
+  digitalWrite(IN2,LOW);
 
 
-//   //Write motor power to speed pins
-//   analogWrite(speedPinL,pwm);
-//   analogWrite(speedPinR,pwm);
-// }
+  //Write motor power to speed pins
+  analogWrite(ENA,pwm);
+  analogWrite(ENB,pwm);
+}
 
-// //Rotate left using differential drive style
-// void diff_left(int pwm)
-// {
-//   // Set direction pins
-//   digitalWrite(RightDirectPin1, HIGH);
-//   digitalWrite(RightDirectPin2,LOW);
-//   digitalWrite(LeftDirectPin1,LOW);
-//   digitalWrite(LeftDirectPin2,HIGH);
-//   //Write to speed pins
-//   analogWrite(speedPinL,pwm);
-//   analogWrite(speedPinR,pwm);
-// }
+//Rotate left using differential drive style
+void diff_left(int pwm)
+{
+  // Set direction pins
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4,LOW);
+  digitalWrite(IN1,LOW);
+  digitalWrite(IN2,HIGH);
+  //Write to speed pins
+  analogWrite(ENA,pwm);
+  analogWrite(ENB,pwm);
+}
 
-// //Rotate right using differential drive style
-// void diff_right(int pwm)
-// {
-//   // Set direction pins
-//   digitalWrite(RightDirectPin1, LOW);
-//   digitalWrite(RightDirectPin2,HIGH);
-//   digitalWrite(LeftDirectPin1,HIGH);
-//   digitalWrite(LeftDirectPin2,LOW);
-//   // Write to speed pins
-//   analogWrite(speedPinL,pwm);
-//   analogWrite(speedPinR,pwm);
-// }
+//Rotate right using differential drive style
+void diff_right(int pwm)
+{
+  // Set direction pins
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4,HIGH);
+  digitalWrite(IN1,HIGH);
+  digitalWrite(IN2,LOW);
+  // Write to speed pins
+  analogWrite(ENA,pwm);
+  analogWrite(ENB,pwm);
+}
 
-// // General control function, can pass a command integer and power to choose type of control defined below
-// // pwr should always be 0-100
-// void control(int command, int pwr)
-// {
-//   //Convert pwr to pwm to pass to raw motor control functions
-//   int pwm = convert_pwr_to_pwm(pwr);
+// General control function, can pass a command integer and power to choose type of control defined below
+// pwr should always be 0-100
+void control(int command, int pwr)
+{
+  //Convert pwr to pwm to pass to raw motor control functions
+  int pwm = convert_pwr_to_pwm(pwr);
 
-//   //Search for which command
-//   //0 - forward
-//   //1 - backward
-//   //2 - right
-//   //3 - left 
-//   if(command == 0){forward(pwm);}
-//   if(command == 1){backward(pwm);}
-//   if(command == 2){diff_right(pwm);}
-//   if(command == 3){diff_left(pwm);}
-//   if(command == -1){dwell();}
-// }
+  //Search for which command
+  //0 - forward
+  //1 - backward
+  //2 - right
+  //3 - left 
+  if(command == 0){forward(pwm);}
+  if(command == 1){backward(pwm);}
+  if(command == 2){diff_right(pwm);}
+  if(command == 3){diff_left(pwm);}
+  if(command == -1){dwell();}
+}
 
 //Control motors with raw pwm values (-255 -> 255)
 //This function will constrain the values to 0-255 in case it is sent bad numbers
