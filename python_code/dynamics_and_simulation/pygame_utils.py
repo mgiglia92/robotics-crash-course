@@ -3,8 +3,7 @@
 from pygame import KEYDOWN, Vector2, draw, init,time, display, event, QUIT
 import pygame
 import numpy as np
-from system_utils import System2D
-from system_utils import SpringSystem, System, SpringSystem2D, System1DControl, System2DControl, SystemRobot
+from extra_systems import *
 from controls_utils import PControl
 import traceback
 from time import sleep
@@ -30,19 +29,6 @@ class Game:
         self.system = sys
 
     def step(self):
-        #TODO: Make another layer to move computation out of the pygame step function.
-        # Either make a Controller class that holds all this logic, or another layer?
-
-        # Get desired position
-        xd = 100*np.sin(self.dt*self.n)
-        yd = 10*np.cos(self.dt*self.n)
-        posd = Vector2(xd, yd)
-
-        # Get control input
-        # errp = np.array([xd, yd]) - self.system.state[0:2]
-        # vd = errp*20
-        # u = (vd - self.system.state[2:]) * 100
-
         # Project system one time step
         self.system.step()
 
@@ -54,39 +40,28 @@ class Game:
             self.sys_surface.set_alpha(100)
             self.screen.set_alpha(100)
             self.keep_history_index = 0
-        # Draw coordinate system axes of the system, because of the way image rendering starts (0,0) top left instead of middle
-        # Draw them first so system draws can go over them
+
+        self.draw_coord_system()
 
         # Get important positions in screen coordinates
         sys_center = self.system.get_pos_vec2()
         sys_vel = self.system.get_vel_vec2()
         sys_angle = self.system.get_theta()
-        # print(f"rw: {rw_pos}, lw: {lw_pos}")
+        
         # Draw actual position
-        if type(self.system) == SystemRobot:
+        if type(self.system) == SystemRobot: # If system is of type SystemRobot we need to handle this in a special way
             rw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,10), self.system)
             lw_pos = self.rotate_to_body_to_pygame_frame(Vector2(0,-10), self.system)
             local_x = self.rotate_to_body_to_pygame_frame(Vector2(10, 0), self.system)
             draw.circle(self.screen,  center = sys_center + self.center_offset, radius = 2, color = (255,255,255))
             draw.circle(self.screen,  center = rw_pos + sys_center + self.center_offset, radius = 2, color = (0,255,0))
             draw.circle(self.screen,  center = local_x + sys_center + self.center_offset, radius = 2, color = (255,0,0))
-            
+        # For all the other systems that dont have rotation involved, we can draw more simply
         else:
             draw.circle(self.screen, center =sys_center + self.center_offset, radius = 5, color = (255,0,0))
         # Draw vel vector
         draw.line(self.screen, color = (255,125,0), start_pos=sys_center + self.center_offset, end_pos=sys_center + self.center_offset + sys_vel)
-
-        # sur, rect = self.rotate(self.sys_surface, angle=sys_angle, pivot = self.center_offset, offset=Vector2(0,0))
-        # sur = pygame.transform.rotate(self.sys_surface, angle=-1+sys_angle)
-        # rect = sur.get_rect(center=sys_center)
-        # Draw desired position as a line
-        # draw.circle(self.screen, center = self.center_offset + posd, radius = 2, color = (0,255,0))
-        # draw.line(self.screen, start_pos = self.center_offset, end_pos = self.center_offset + posd, color = (0,255,0), width = 2)
-        
-        # self.screen.blit(self.sys_surface, dest=(0,0))
-        # self.screen.blit(sur, dest=rect)        
-        draw.line(self.screen, start_pos=Vector2(self.width/2, 0), end_pos=Vector2(self.width/2, self.height), width=2, color = (0,0,255))
-        draw.line(self.screen, start_pos=Vector2(0, self.height/2), end_pos=Vector2(self.width, self.height/2), width=2, color = (0,0,255))
+      
         
         self.screen.blit(self.screen, dest=(0,0))
         display.flip()
@@ -116,6 +91,23 @@ class Game:
         # Add the offset vector to the center/pivot point to shift the rect.
         rect = rotated_image.get_rect(center=pivot+rotated_offset)
         return rotated_image, rect  # Return the rotated image and shifted rect.
+
+    def draw_coord_system(self):
+        a_color =  (0,0,255) # axes color
+        c_color = (125,125,255) # grid color
+        # Draw coordinate system axes of the system, because of the way image rendering starts (0,0) top left instead of middle
+        # Draw them first so system draws can go over them
+        draw.line(self.screen, start_pos=Vector2(self.width/2, 0), end_pos=Vector2(self.width/2, self.height), width=2, color = a_color)
+        draw.line(self.screen, start_pos=Vector2(0, self.height/2), end_pos=Vector2(self.width, self.height/2), width=2, color = a_color)
+        # Draw vertical lines along x axis at 100 pixel intervals
+        for i in range(1, int(self.width*2/100)):
+            draw.line(self.screen, start_pos=Vector2(self.width/2 - 100*i, self.height/2 - 25), end_pos=Vector2(self.width/2 - 100*i, self.height/2 + 25), width=2, color = c_color)
+            draw.line(self.screen, start_pos=Vector2(self.width/2 + 100*i, self.height/2 - 25), end_pos=Vector2(self.width/2 + 100*i, self.height/2 + 25), width=2, color = c_color)
+        # Draw  horizontabl  lines along y axis at 100  pixel intervals
+        for i in range(1, int(self.height*2/100)):
+            draw.line(self.screen, start_pos=Vector2(self.width/2 - 25, self.height/2 - 100*i), end_pos=Vector2(self.width/2 + 25, self.height/2 - 100*i), width=2, color = c_color)
+            draw.line(self.screen, start_pos=Vector2(self.width/2 - 25, self.height/2 + 100*i), end_pos=Vector2(self.width/2 + 25, self.height/2 + 100*i), width=2, color = c_color)
+            
 
     # Run loop for pygame, checks events, checks exit, runs step() function
     def run(self):

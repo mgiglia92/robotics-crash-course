@@ -1,8 +1,10 @@
 from pygame_utils import Game
 from math_utils import EulerIntegrator, Derivative
-from system_utils import SpringSystem
+from extra_systems import *
+from example_system import SystemExample
 
-sys = SpringSystem(state=[100,0], dt=0.01)
-g = Game(sys=sys, keep_history = 10)
+sys = SystemExample()
+
+g = Game(sys=sys, keep_history = 1)
 
 g.run()
