@@ -10,10 +10,12 @@ from time import sleep
 
 class Game:
     def __init__(self, sys: System, keep_history: int = 0):
+        init()
         # Interface variables
         self.paused  = False
 
-        init()
+        self.font = pygame.font.SysFont('Aerial', 30)
+
         display.set_caption("2D System Simulator")
         self.width = 1281
         self.height = 721 
@@ -67,7 +69,11 @@ class Game:
         # Draw vel vector of system
         draw.line(self.screen, color = (255,125,0), start_pos=sys_center + self.center_offset, end_pos=sys_center + self.center_offset + sys_vel)
       
+        # Draw text
+        text_surface = self.font.render('Convention: +X >, -Y ^', False, (255,255,255))
+
         # blit does the physical drawing to the screen
+        self.screen.blit(text_surface, dest=(0,0))
         self.screen.blit(self.screen, dest=(0,0))
         display.flip() # Makes the entire screen get redrawn
         self.clock.tick(1/self.dt) # This makes sure that pygame doesn't run any faster than 1/dt times per second  (1/dt)  Hertz (frequency)
