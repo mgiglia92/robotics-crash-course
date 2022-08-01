@@ -28,6 +28,14 @@ PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upp
     beta = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
 
+PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled)
+{
+	PID_control(kp, ki, kd, lowerLim, upperLim, sigma, ts);
+
+	this->errorDotEnabled   = errorDotEnabled;
+	this->antiWindupEnabled = antiWindupEnabled;
+}
+
 //PID calculation
 float PID_control::PID(float y_r, float y){
     //Initialize variables to prevent compiler errors

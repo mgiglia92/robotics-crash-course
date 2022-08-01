@@ -38,6 +38,7 @@ public:
 	float deadband_voltage_lower = 0.0;
 
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts);
+	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
 
     float PID(float,float);
     float PD(float, float);
