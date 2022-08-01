@@ -47,6 +47,13 @@ void PID_control::setDeadbands(float lower, float upper)
     deadband_voltage_upper = upper;
 }
 
+void PID_control::setGains(float kp, float ki, float kd)
+{
+    this->kp = kp;
+    this->ki = ki;
+    this->kd = kd;
+}
+
 void PID_control::setpointReset(float y_r, float y)
 {
     // reset the critical controller values to prevent an instant
@@ -160,10 +167,4 @@ void PID_control::update_time_parameters(float t, float s){
     ts = t;
     sigma = s;
     beta = (2.0*sigma - ts) / (2.0*sigma + ts);
-}
-
-void PID_control::update_gains(float p, float i, float d){
-    kp = p;
-    ki = i;
-    kd = d;
 }

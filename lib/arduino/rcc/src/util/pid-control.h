@@ -43,6 +43,7 @@ public:
 
 	float saturate(float unsat);
 	void setDeadbands(float lower, float upper);
+	void setGains(float kp, float ki, float kd);
 	void setpointReset(float y_r, float y);
 
     float PID(float,float);
