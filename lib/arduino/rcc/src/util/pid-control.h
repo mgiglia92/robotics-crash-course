@@ -16,27 +16,29 @@
 
 class PID_control {
 public:
-    float kp; //Proportional gain
-    float ki; //Integral gain
-    float kd; //Derivative gain
-    float lowerLimit; //Output saturates at this limit on lower end
-    float upperLimit; //Output saturates at this limit on upper end
-    float sigma; //dirty derivative bandwidth = 1/sigma
-    float ts; //sample period in seconds
-    float beta; //(2.0*sigma-ts)/(2.0*sigma+ts)
-    bool flag; //derivative on error_dot(true) or y_dot(false)
-    float y_dot; //estimated derivative of y
-    float y_d1; //signal y delayed by one sample
-    float error_dot; //estimated derivative of error
-    float error_d1; //error delayed by one sample
-    float integrator; //integrator value
-    float integrator_unsat; //Unsaturated integrator value
-    float integrator_sat; //Integrator value saturated
-    int anti_windup_activated; //activate anti-windup
-    float deadband_voltage_upper; //Voltage at which motor starts to rotate
-    float deadband_voltage_lower;
+	float kp;
+	float ki;
+	float kd;
+	float lowerLimit;
+	float upperLimit;
+	float sigma;
+	float ts;
+	float beta;
 
-    PID_control(float, float, float, float, float, float, float, bool);
+	bool errorDotEnabled   = false;
+	bool antiWindupEnabled = false;
+
+	float y_dot                  = 0.0;
+	float y_d1                   = 0.0;
+	float error_dot              = 0.0;
+	float error_d1               = 0.0;
+	float integrator             = 0.0;
+	float integrator_unsat       = 0.0;
+	float deadband_voltage_upper = 0.0;
+	float deadband_voltage_lower = 0.0;
+
+	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts);
+
     float PID(float,float);
     float PD(float, float);
     float saturate(float);

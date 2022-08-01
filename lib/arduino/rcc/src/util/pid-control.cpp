@@ -15,34 +15,18 @@
 #include <Arduino.h>
 
 
-PID_control::PID_control(float p, float i, float d, float llim, float ulim, float sigm, float t, bool fl){
+PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts)
+{
+    this->kp         = kp;
+    this->ki         = ki;
+    this->kd         = kd;
+    this->lowerLimit = lowerLimit;
+    this->upperLimit = upperLimit;
+    this->sigma      = sigma;
+    this->ts         = ts;
 
-    kp = p;
-    ki = i;
-    kd = d;
-    lowerLimit = llim;
-    upperLimit = ulim;
-    sigma = sigm;
-    ts = t;
-    flag = fl;
-    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
-
-    //Initialize delayed values to zero
-    y_d1 = 0;
-    error_d1 = 0;
-
-    //Initialize derivative values to zero
-    y_dot = 0;
-    error_dot = 0;
-
-    //Initialize integrator value to zero
-    integrator = 0;
-
-    // Inialize deadband voltages
-    deadband_voltage_upper = 0;
-    deadband_voltage_lower = 0;
+    beta = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
-
 
 //PID calculation
 float PID_control::PID(float y_r, float y){
@@ -55,7 +39,7 @@ float PID_control::PID(float y_r, float y){
     //Integrate errkor using trapazoidal rule
     integrator = integrator + ((ts/2) * (error + error_d1));
 
-    if(anti_windup_activated==1 && ki != 0){
+    if(antiWindupEnabled && ki != 0){
         //Generate unsaturated signal from integrator only
         integrator_unsat = ki*integrator;
 
@@ -64,7 +48,7 @@ float PID_control::PID(float y_r, float y){
     }
 
     //PID control
-    if(flag == true){
+    if(errorDotEnabled) {
         //Differentiate error
         error_dot = beta * error_dot + (((1 - beta)/ts) * (error - error_d1));
 
@@ -108,7 +92,7 @@ float PID_control::PD(float y_r, float y){
     integrator = integrator + ((ts/2) * (error + error_d1));
 
     //PID control
-    if(flag == true){
+    if(errorDotEnabled) {
         //Differentiate error
         error_dot = beta * error_dot + (((1 - beta)/ts) * (error - error_d1));
 
