@@ -46,6 +46,21 @@ PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upp
 	this->antiWindupEnabled = antiWindupEnabled;
 }
 
+PID_control::PID_control(const PID_control_config_t &config)
+{
+	PID_control(
+		config.kp,
+		config.ki,
+		config.kd,
+		config.lowerLim,
+		config.upperLim,
+		config.sigma,
+		config.ts,
+		config.errorDotEnabled,
+		config.antiWindupEnabled
+	);
+}
+
 float PID_control::pd(float y_r, float y)
 {
     float error;

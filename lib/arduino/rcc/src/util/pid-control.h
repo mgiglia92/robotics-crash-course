@@ -14,6 +14,19 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_PID_CONTROL_H
 
 
+typedef struct PID_control_config_s {
+	float kp;
+	float ki;
+	float kd;
+	float lowerLim;
+	float upperLim;
+	float sigma;
+	float ts;
+	bool  errorDotEnabled;
+	bool  antiWindupEnabled;
+} PID_control_config_t;
+
+
 class PID_control {
 private:
 	float deadband_voltage_lower = 0.0;
@@ -41,6 +54,7 @@ public:
 
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts);
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
+	PID_control(const PID_control_config_t &config);
 
 	float pd(float y_r, float y);
 	float pid(float y_r, float y);
