@@ -1,5 +1,17 @@
-#include <PID_beard.h>
-#include <Arduino.h>
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * pid-control.cpp -- PID control
+ *                    based on Introduction to Feedback Control using
+ *                    Design Studies by Randal W Beard, Timothy W.
+ *                    McLain, Cammy Peterson, & Marc Killpack
+ *                    ISBN-13: 978-1073396719
+ *
+ * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
+
+#include "pid-control.h"
+
 
 //Constructor logic
 PIDControl::PIDControl(double p, double i, double d, double llim, double ulim, double sigm, double t, bool fl){
@@ -26,7 +38,7 @@ PIDControl::PIDControl(double p, double i, double d, double llim, double ulim, d
     integrator = 0;
 
     // Inialize deadband voltages
-    deadband_voltage_upper = 0; 
+    deadband_voltage_upper = 0;
     deadband_voltage_lower = 0;
 }
 

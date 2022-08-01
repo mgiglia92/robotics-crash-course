@@ -1,3 +1,18 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * pid-control.h -- PID control
+ *                  based on Introduction to Feedback Control using
+ *                  Design Studies by Randal W Beard, Timothy W. McLain,
+ *                  Cammy Peterson, & Marc Killpack
+ *                  ISBN-13: 978-1073396719
+ *
+ * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
+
+#ifndef CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_PID_CONTROL_H
+#define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_PID_CONTROL_H
+
 
 class PIDControl{
 
@@ -36,3 +51,6 @@ public:
     void update_deadband_values(double, double);
     double deadband_compensation(double);
 };
+
+
+#endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_PID_CONTROL_H */
