@@ -43,12 +43,12 @@ public:
 
 	float saturate(float unsat);
 	void setDeadbands(float lower, float upper);
+	void setpointReset(float y_r, float y);
 
     float PID(float,float);
     float PD(float, float);
     void update_time_parameters(float, float);
     void update_gains(float, float, float);
-    void setpoint_reset(float, float);
     float deadband_compensation(float);
 };
 

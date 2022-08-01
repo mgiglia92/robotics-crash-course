@@ -47,6 +47,15 @@ void PID_control::setDeadbands(float lower, float upper)
     deadband_voltage_upper = upper;
 }
 
+void PID_control::setpointReset(float y_r, float y)
+{
+    // reset the critical controller values to prevent an instant
+    // setpoint change from ruining the controller response
+    integrator = 0.0;
+    error_d1   = y_r - y;
+    error_dot  = 0.0;
+}
+
 //PID calculation
 float PID_control::PID(float y_r, float y){
     //Initialize variables to prevent compiler errors
@@ -157,12 +166,4 @@ void PID_control::update_gains(float p, float i, float d){
     kp = p;
     ki = i;
     kd = d;
-}
-
-void PID_control::setpoint_reset(float y_r, float y){
-    // Reset the critical controller values to prevent instant setpoint change from
-    // ruining the response
-    integrator = 0;
-    error_d1 = y_r - y;
-    error_dot = 0;
 }
