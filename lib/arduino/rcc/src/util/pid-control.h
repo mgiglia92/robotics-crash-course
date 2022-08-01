@@ -16,35 +16,35 @@
 
 class PID_control {
 public:
-    double kp; //Proportional gain
-    double ki; //Integral gain
-    double kd; //Derivative gain
-    double lowerLimit; //Output saturates at this limit on lower end
-    double upperLimit; //Output saturates at this limit on upper end
-    double sigma; //dirty derivative bandwidth = 1/sigma
-    double Ts; //sample period in seconds
-    double beta; //(2.0*sigma-Ts)/(2.0*sigma+Ts)
+    float kp; //Proportional gain
+    float ki; //Integral gain
+    float kd; //Derivative gain
+    float lowerLimit; //Output saturates at this limit on lower end
+    float upperLimit; //Output saturates at this limit on upper end
+    float sigma; //dirty derivative bandwidth = 1/sigma
+    float Ts; //sample period in seconds
+    float beta; //(2.0*sigma-Ts)/(2.0*sigma+Ts)
     bool flag; //derivative on error_dot(true) or y_dot(false)
-    double y_dot; //estimated derivative of y
-    double y_d1; //signal y delayed by one sample
-    double error_dot; //estimated derivative of error
-    double error_d1; //error delayed by one sample
-    double integrator; //integrator value
-    double integrator_unsat; //Unsaturated integrator value
-    double integrator_sat; //Integrator value saturated
+    float y_dot; //estimated derivative of y
+    float y_d1; //signal y delayed by one sample
+    float error_dot; //estimated derivative of error
+    float error_d1; //error delayed by one sample
+    float integrator; //integrator value
+    float integrator_unsat; //Unsaturated integrator value
+    float integrator_sat; //Integrator value saturated
     int anti_windup_activated; //activate anti-windup
-    double deadband_voltage_upper; //Voltage at which motor starts to rotate
-    double deadband_voltage_lower;
+    float deadband_voltage_upper; //Voltage at which motor starts to rotate
+    float deadband_voltage_lower;
 
-    PID_control(double, double, double, double, double, double, double, bool);
-    double PID(double,double);
-    double PD(double, double);
-    double saturate(double);
-    void update_time_parameters(double, double);
-    void update_gains(double, double, double);
-    void setpoint_reset(double, double);
-    void update_deadband_values(double, double);
-    double deadband_compensation(double);
+    PID_control(float, float, float, float, float, float, float, bool);
+    float PID(float,float);
+    float PD(float, float);
+    float saturate(float);
+    void update_time_parameters(float, float);
+    void update_gains(float, float, float);
+    void setpoint_reset(float, float);
+    void update_deadband_values(float, float);
+    float deadband_compensation(float);
 };
 
 

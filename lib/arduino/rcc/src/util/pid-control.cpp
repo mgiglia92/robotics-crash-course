@@ -15,7 +15,7 @@
 #include <Arduino.h>
 
 
-PID_control::PID_control(double p, double i, double d, double llim, double ulim, double sigm, double t, bool fl){
+PID_control::PID_control(float p, float i, float d, float llim, float ulim, float sigm, float t, bool fl){
 
     kp = p;
     ki = i;
@@ -45,12 +45,12 @@ PID_control::PID_control(double p, double i, double d, double llim, double ulim,
 
 
 //PID calculation
-double PID_control::PID(double y_r, double y){
+float PID_control::PID(float y_r, float y){
     //Initialize variables to prevent compiler errors
-    double u_unsat;
+    float u_unsat;
 
     //Compute the current error
-    double error = y_r - y;
+    float error = y_r - y;
 
     //Integrate errkor using trapazoidal rule
     integrator = integrator + ((Ts/2) * (error + error_d1));
@@ -81,7 +81,7 @@ double PID_control::PID(double y_r, double y){
     }
 
     //Return saturated control signal
-    double u_sat = saturate(u_unsat);
+    float u_sat = saturate(u_unsat);
 
 
 
@@ -97,12 +97,12 @@ double PID_control::PID(double y_r, double y){
 }
 
 //PD calculation
-double PID_control::PD(double y_r, double y){
+float PID_control::PD(float y_r, float y){
 //Initialize variables to prevent compiler errors
-    double u_unsat;
+    float u_unsat;
 
     //Compute the current error
-    double error = y_r - y;
+    float error = y_r - y;
 
     //Integrate errkor using trapazoidal rule
     integrator = integrator + ((Ts/2) * (error + error_d1));
@@ -125,7 +125,7 @@ double PID_control::PD(double y_r, double y){
     }
 
     //Return saturated control signal
-    double u_sat = saturate(u_unsat);
+    float u_sat = saturate(u_unsat);
 
     //Update delayed variables
     error_d1 = error;
@@ -134,7 +134,7 @@ double PID_control::PD(double y_r, double y){
 }
 
 //Saturation check (from beard)
-// double PID_control::saturate(double u){
+// float PID_control::saturate(float u){
 //     //Check if absolute value is above limit, clip value if so
 //     if (abs(u) > limit){
 //         u = limit * (abs(u) / u);
@@ -143,12 +143,12 @@ double PID_control::PD(double y_r, double y){
 // }
 
 //Saturation considering two bounds not equal to each other
-double PID_control::saturate(double u){
+float PID_control::saturate(float u){
     return max(min(upperLimit, u), lowerLimit);
 }
 
 // Compensate for motor deadband, by adjusting output related to deadband voltages.
-double PID_control::deadband_compensation(double u){
+float PID_control::deadband_compensation(float u){
     if(u > 0){
         return deadband_voltage_upper + ( (u/upperLimit) * (upperLimit - deadband_voltage_upper) );
     }
@@ -158,19 +158,19 @@ double PID_control::deadband_compensation(double u){
     else{ return u; }
 }
 
-void PID_control::update_time_parameters(double t, double s){
+void PID_control::update_time_parameters(float t, float s){
     Ts = t;
     sigma = s;
     beta = (2.0*sigma - Ts) / (2.0*sigma + Ts);
 }
 
-void PID_control::update_gains(double p, double i, double d){
+void PID_control::update_gains(float p, float i, float d){
     kp = p;
     ki = i;
     kd = d;
 }
 
-void PID_control::setpoint_reset(double y_r, double y){
+void PID_control::setpoint_reset(float y_r, float y){
     // Reset the critical controller values to prevent instant setpoint change from
     // ruining the response
     integrator = 0;
@@ -178,7 +178,7 @@ void PID_control::setpoint_reset(double y_r, double y){
     error_dot = 0;
 }
 
-void PID_control::update_deadband_values(double upper, double lower){
+void PID_control::update_deadband_values(float upper, float lower){
     deadband_voltage_upper = upper;
     deadband_voltage_lower = lower;
 }
