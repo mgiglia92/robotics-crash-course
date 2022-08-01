@@ -42,13 +42,13 @@ public:
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
 
 	float saturate(float unsat);
+	void setDeadbands(float lower, float upper);
 
     float PID(float,float);
     float PD(float, float);
     void update_time_parameters(float, float);
     void update_gains(float, float, float);
     void setpoint_reset(float, float);
-    void update_deadband_values(float, float);
     float deadband_compensation(float);
 };
 

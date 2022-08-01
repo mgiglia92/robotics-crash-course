@@ -41,6 +41,12 @@ float PID_control::saturate(float unsat)
     return max(min(upperLimit, unsat), lowerLimit);
 }
 
+void PID_control::setDeadbands(float lower, float upper)
+{
+    deadband_voltage_lower = lower;
+    deadband_voltage_upper = upper;
+}
+
 //PID calculation
 float PID_control::PID(float y_r, float y){
     //Initialize variables to prevent compiler errors
@@ -159,9 +165,4 @@ void PID_control::setpoint_reset(float y_r, float y){
     integrator = 0;
     error_d1 = y_r - y;
     error_dot = 0;
-}
-
-void PID_control::update_deadband_values(float upper, float lower){
-    deadband_voltage_upper = upper;
-    deadband_voltage_lower = lower;
 }
