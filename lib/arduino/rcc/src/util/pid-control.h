@@ -22,8 +22,8 @@ public:
     float lowerLimit; //Output saturates at this limit on lower end
     float upperLimit; //Output saturates at this limit on upper end
     float sigma; //dirty derivative bandwidth = 1/sigma
-    float Ts; //sample period in seconds
-    float beta; //(2.0*sigma-Ts)/(2.0*sigma+Ts)
+    float ts; //sample period in seconds
+    float beta; //(2.0*sigma-ts)/(2.0*sigma+ts)
     bool flag; //derivative on error_dot(true) or y_dot(false)
     float y_dot; //estimated derivative of y
     float y_d1; //signal y delayed by one sample

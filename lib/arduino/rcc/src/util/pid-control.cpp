@@ -23,9 +23,9 @@ PID_control::PID_control(float p, float i, float d, float llim, float ulim, floa
     lowerLimit = llim;
     upperLimit = ulim;
     sigma = sigm;
-    Ts = t;
+    ts = t;
     flag = fl;
-    beta = (2.0*sigma - Ts) / (2.0*sigma + Ts);
+    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
 
     //Initialize delayed values to zero
     y_d1 = 0;
@@ -53,7 +53,7 @@ float PID_control::PID(float y_r, float y){
     float error = y_r - y;
 
     //Integrate errkor using trapazoidal rule
-    integrator = integrator + ((Ts/2) * (error + error_d1));
+    integrator = integrator + ((ts/2) * (error + error_d1));
 
     if(anti_windup_activated==1 && ki != 0){
         //Generate unsaturated signal from integrator only
@@ -66,7 +66,7 @@ float PID_control::PID(float y_r, float y){
     //PID control
     if(flag == true){
         //Differentiate error
-        error_dot = beta * error_dot + (((1 - beta)/Ts) * (error - error_d1));
+        error_dot = beta * error_dot + (((1 - beta)/ts) * (error - error_d1));
 
         //PID control
         u_unsat = (kp*error) + (ki * integrator) + (kd * error_dot);
@@ -74,7 +74,7 @@ float PID_control::PID(float y_r, float y){
 
     else{
         //differentiate y
-        y_dot = beta * y_dot + (((1 - beta) / Ts) * (y - y_d1));
+        y_dot = beta * y_dot + (((1 - beta) / ts) * (y - y_d1));
 
         //PID control
         u_unsat = (kp*error) + (ki * integrator) - (kd * y_dot);
@@ -105,12 +105,12 @@ float PID_control::PD(float y_r, float y){
     float error = y_r - y;
 
     //Integrate errkor using trapazoidal rule
-    integrator = integrator + ((Ts/2) * (error + error_d1));
+    integrator = integrator + ((ts/2) * (error + error_d1));
 
     //PID control
     if(flag == true){
         //Differentiate error
-        error_dot = beta * error_dot + (((1 - beta)/Ts) * (error - error_d1));
+        error_dot = beta * error_dot + (((1 - beta)/ts) * (error - error_d1));
 
         //PID control
         u_unsat = (kp*error) + (kd * error_dot);
@@ -118,7 +118,7 @@ float PID_control::PD(float y_r, float y){
 
     else{
         //differentiate y
-        y_dot = beta * y_dot + (((1 - beta) / Ts) * (y - y_d1));
+        y_dot = beta * y_dot + (((1 - beta) / ts) * (y - y_d1));
 
         //PID control
         u_unsat = (kp*error) - (kd * y_dot);
@@ -159,9 +159,9 @@ float PID_control::deadband_compensation(float u){
 }
 
 void PID_control::update_time_parameters(float t, float s){
-    Ts = t;
+    ts = t;
     sigma = s;
-    beta = (2.0*sigma - Ts) / (2.0*sigma + Ts);
+    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
 }
 
 void PID_control::update_gains(float p, float i, float d){
