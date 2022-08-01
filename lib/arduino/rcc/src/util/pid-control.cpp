@@ -12,6 +12,7 @@
 
 #include "pid-control.h"
 
+#include <Arduino.h>
 
 //Constructor logic
 PIDControl::PIDControl(double p, double i, double d, double llim, double ulim, double sigm, double t, bool fl){
