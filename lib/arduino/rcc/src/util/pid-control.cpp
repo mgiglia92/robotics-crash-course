@@ -54,6 +54,14 @@ void PID_control::setGains(float kp, float ki, float kd)
     this->kd = kd;
 }
 
+void PID_control::setTimeParameters(float ts, float sigma)
+{
+    this->ts    = ts;
+    this->sigma = sigma;
+
+    beta = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
+}
+
 void PID_control::setpointReset(float y_r, float y)
 {
     // reset the critical controller values to prevent an instant
@@ -161,10 +169,4 @@ float PID_control::deadband_compensation(float u){
         return deadband_voltage_lower + ( (u/lowerLimit) * (lowerLimit - deadband_voltage_lower) );
     }
     else{ return u; }
-}
-
-void PID_control::update_time_parameters(float t, float s){
-    ts = t;
-    sigma = s;
-    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
 }
