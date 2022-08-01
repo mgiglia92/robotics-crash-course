@@ -51,8 +51,6 @@ public:
 
     float PID(float,float);
     float PD(float, float);
-    void update_time_parameters(float, float);
-    void update_gains(float, float, float);
 };
 
 
