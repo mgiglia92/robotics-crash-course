@@ -43,6 +43,7 @@ public:
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts);
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
 
+	float pd(float y_r, float y);
 	float saturate(float unsat);
 	void setDeadbands(float lower, float upper);
 	void setGains(float kp, float ki, float kd);
@@ -50,7 +51,6 @@ public:
 	void setpointReset(float y_r, float y);
 
     float PID(float,float);
-    float PD(float, float);
 };
 
 
