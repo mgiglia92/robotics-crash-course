@@ -14,8 +14,8 @@
 
 #include <Arduino.h>
 
-//Constructor logic
-PIDControl::PIDControl(double p, double i, double d, double llim, double ulim, double sigm, double t, bool fl){
+
+PID_control::PID_control(double p, double i, double d, double llim, double ulim, double sigm, double t, bool fl){
 
     kp = p;
     ki = i;
@@ -45,7 +45,7 @@ PIDControl::PIDControl(double p, double i, double d, double llim, double ulim, d
 
 
 //PID calculation
-double PIDControl::PID(double y_r, double y){
+double PID_control::PID(double y_r, double y){
     //Initialize variables to prevent compiler errors
     double u_unsat;
 
@@ -97,7 +97,7 @@ double PIDControl::PID(double y_r, double y){
 }
 
 //PD calculation
-double PIDControl::PD(double y_r, double y){
+double PID_control::PD(double y_r, double y){
 //Initialize variables to prevent compiler errors
     double u_unsat;
 
@@ -134,7 +134,7 @@ double PIDControl::PD(double y_r, double y){
 }
 
 //Saturation check (from beard)
-// double PIDControl::saturate(double u){
+// double PID_control::saturate(double u){
 //     //Check if absolute value is above limit, clip value if so
 //     if (abs(u) > limit){
 //         u = limit * (abs(u) / u);
@@ -143,12 +143,12 @@ double PIDControl::PD(double y_r, double y){
 // }
 
 //Saturation considering two bounds not equal to each other
-double PIDControl::saturate(double u){
+double PID_control::saturate(double u){
     return max(min(upperLimit, u), lowerLimit);
 }
 
 // Compensate for motor deadband, by adjusting output related to deadband voltages.
-double PIDControl::deadband_compensation(double u){
+double PID_control::deadband_compensation(double u){
     if(u > 0){
         return deadband_voltage_upper + ( (u/upperLimit) * (upperLimit - deadband_voltage_upper) );
     }
@@ -158,19 +158,19 @@ double PIDControl::deadband_compensation(double u){
     else{ return u; }
 }
 
-void PIDControl::update_time_parameters(double t, double s){
+void PID_control::update_time_parameters(double t, double s){
     Ts = t;
     sigma = s;
     beta = (2.0*sigma - Ts) / (2.0*sigma + Ts);
 }
 
-void PIDControl::update_gains(double p, double i, double d){
+void PID_control::update_gains(double p, double i, double d){
     kp = p;
     ki = i;
     kd = d;
 }
 
-void PIDControl::setpoint_reset(double y_r, double y){
+void PID_control::setpoint_reset(double y_r, double y){
     // Reset the critical controller values to prevent instant setpoint change from
     // ruining the response
     integrator = 0;
@@ -178,7 +178,7 @@ void PIDControl::setpoint_reset(double y_r, double y){
     error_dot = 0;
 }
 
-void PIDControl::update_deadband_values(double upper, double lower){
+void PID_control::update_deadband_values(double upper, double lower){
     deadband_voltage_upper = upper;
     deadband_voltage_lower = lower;
 }

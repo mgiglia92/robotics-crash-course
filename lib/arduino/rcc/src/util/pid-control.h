@@ -14,13 +14,8 @@
 #define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_PID_CONTROL_H
 
 
-class PIDControl{
-
+class PID_control {
 public:
-    //Construtors
-    PIDControl(double, double, double, double, double, double, double, bool);
-
-    //class variables
     double kp; //Proportional gain
     double ki; //Integral gain
     double kd; //Derivative gain
@@ -41,7 +36,7 @@ public:
     double deadband_voltage_upper; //Voltage at which motor starts to rotate
     double deadband_voltage_lower;
 
-    //class methods
+    PID_control(double, double, double, double, double, double, double, bool);
     double PID(double,double);
     double PD(double, double);
     double saturate(double);
