@@ -19,7 +19,6 @@ private:
 	float deadband_voltage_lower = 0.0;
 	float deadband_voltage_upper = 0.0;
 	float integrator             = 0.0;
-	float integrator_unsat       = 0.0;
 	float error_dot              = 0.0;
 	float error_d1               = 0.0;
 	float y_dot                  = 0.0;
@@ -44,13 +43,12 @@ public:
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
 
 	float pd(float y_r, float y);
+	float pid(float y_r, float y);
 	float saturate(float unsat);
 	void setDeadbands(float lower, float upper);
 	void setGains(float kp, float ki, float kd);
 	void setTimeParameters(float ts, float sigma);
 	void setpointReset(float y_r, float y);
-
-    float PID(float,float);
 };
 
 

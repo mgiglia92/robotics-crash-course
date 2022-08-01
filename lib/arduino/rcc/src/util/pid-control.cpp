@@ -71,6 +71,37 @@ float PID_control::pd(float y_r, float y)
     return saturate(u_unsat);
 }
 
+float PID_control::pid(float y_r, float y)
+{
+    float error;
+    float u_unsat;
+
+    error = y_r - y;
+
+    // integrate error using the trapazoidal rule
+    integrator = integrator + ((ts / 2.0) * (error + error_d1));
+
+    if(antiWindupEnabled && ki != 0.0){
+	// generate an unsaturated signal from the integrator only and
+	// then saturate the new integrator to the limit
+        integrator = saturate(ki * integrator) / ki;
+    }
+
+    // PID control
+    if (errorDotEnabled) {
+        error_dot = beta * error_dot + (((1.0 - beta) / ts) * (error - error_d1));
+        u_unsat   = (kp * error) + (ki * integrator) + (kd * error_dot);
+    } else {
+        y_dot   = beta * y_dot + (((1.0 - beta) / ts) * (y - y_d1));
+        u_unsat = (kp*error) + (ki * integrator) - (kd * y_dot);
+    }
+
+    error_d1 = error;
+    y_d1     = y;
+
+    return deadband_compensation(saturate(u_unsat));
+}
+
 float PID_control::saturate(float unsat)
 {
     return max(min(upperLimit, unsat), lowerLimit);
@@ -104,56 +135,4 @@ void PID_control::setpointReset(float y_r, float y)
     integrator = 0.0;
     error_d1   = y_r - y;
     error_dot  = 0.0;
-}
-
-//PID calculation
-float PID_control::PID(float y_r, float y){
-    //Initialize variables to prevent compiler errors
-    float u_unsat;
-
-    //Compute the current error
-    float error = y_r - y;
-
-    //Integrate errkor using trapazoidal rule
-    integrator = integrator + ((ts/2) * (error + error_d1));
-
-    if(antiWindupEnabled && ki != 0){
-        //Generate unsaturated signal from integrator only
-        integrator_unsat = ki*integrator;
-
-        //Saturate the integrator to the limit
-        integrator = saturate(integrator_unsat)/ki;
-    }
-
-    //PID control
-    if(errorDotEnabled) {
-        //Differentiate error
-        error_dot = beta * error_dot + (((1 - beta)/ts) * (error - error_d1));
-
-        //PID control
-        u_unsat = (kp*error) + (ki * integrator) + (kd * error_dot);
-    }
-
-    else{
-        //differentiate y
-        y_dot = beta * y_dot + (((1 - beta) / ts) * (y - y_d1));
-
-        //PID control
-        u_unsat = (kp*error) + (ki * integrator) - (kd * y_dot);
-    }
-
-    //Return saturated control signal
-    float u_sat = saturate(u_unsat);
-
-
-
-    //Integrator anti-windup beard
-    // if(ki != 0.0){
-    //     integrator = integrator + ((1.0 / ki) * (u_sat - u_unsat));
-    // }
-
-    //Update delayed variables
-    error_d1 = error;
-    y_d1 = y;
-    return deadband_compensation(u_sat);
 }
