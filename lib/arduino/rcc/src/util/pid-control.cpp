@@ -15,6 +15,16 @@
 #include <Arduino.h>
 
 
+float PID_control::deadband_compensation(float unsat)
+{
+	if (!unsat) return unsat;
+
+	return ((unsat / lowerLimit) * (lowerLimit - deadband_voltage_lower))
+		+ (unsat < 0.0)
+		? deadband_voltage_lower
+		: deadband_voltage_upper;
+}
+
 PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts)
 {
     this->kp         = kp;
@@ -158,15 +168,4 @@ float PID_control::PD(float y_r, float y){
     error_d1 = error;
     y_d1 = y;
     return u_sat;
-}
-
-// Compensate for motor deadband, by adjusting output related to deadband voltages.
-float PID_control::deadband_compensation(float u){
-    if(u > 0){
-        return deadband_voltage_upper + ( (u/upperLimit) * (upperLimit - deadband_voltage_upper) );
-    }
-    if(u < 0){
-        return deadband_voltage_lower + ( (u/lowerLimit) * (lowerLimit - deadband_voltage_lower) );
-    }
-    else{ return u; }
 }

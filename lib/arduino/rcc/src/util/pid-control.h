@@ -25,6 +25,8 @@ private:
 	float y_dot                  = 0.0;
 	float y_d1                   = 0.0;
 
+	float deadband_compensation(float unsat);
+
 public:
 	float kp;
 	float ki;
@@ -51,7 +53,6 @@ public:
     float PD(float, float);
     void update_time_parameters(float, float);
     void update_gains(float, float, float);
-    float deadband_compensation(float);
 };
 
 
