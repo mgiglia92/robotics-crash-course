@@ -40,9 +40,10 @@ public:
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts);
 	PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled);
 
+	float saturate(float unsat);
+
     float PID(float,float);
     float PD(float, float);
-    float saturate(float);
     void update_time_parameters(float, float);
     void update_gains(float, float, float);
     void setpoint_reset(float, float);

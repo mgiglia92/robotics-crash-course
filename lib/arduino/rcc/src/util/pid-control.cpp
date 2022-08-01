@@ -36,6 +36,11 @@ PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upp
 	this->antiWindupEnabled = antiWindupEnabled;
 }
 
+float PID_control::saturate(float unsat)
+{
+    return max(min(upperLimit, unsat), lowerLimit);
+}
+
 //PID calculation
 float PID_control::PID(float y_r, float y){
     //Initialize variables to prevent compiler errors
@@ -123,20 +128,6 @@ float PID_control::PD(float y_r, float y){
     error_d1 = error;
     y_d1 = y;
     return u_sat;
-}
-
-//Saturation check (from beard)
-// float PID_control::saturate(float u){
-//     //Check if absolute value is above limit, clip value if so
-//     if (abs(u) > limit){
-//         u = limit * (abs(u) / u);
-//     }
-//     return u;
-// }
-
-//Saturation considering two bounds not equal to each other
-float PID_control::saturate(float u){
-    return max(min(upperLimit, u), lowerLimit);
 }
 
 // Compensate for motor deadband, by adjusting output related to deadband voltages.
