@@ -26,15 +26,16 @@ float Differentiator::differentiate(float y)
     return y_dot;
 }
 
+void Differentiator::reset(float degrees)
+{
+    y_dot = 0;
+    y_d1  = degrees;
+}
+
 void Differentiator::setTimeParameters(float ts, float sigma)
 {
     this->ts    = ts;
     this->sigma = sigma;
 
     beta = (2.0 * sigma - ts) / (2.0 * sigma + ts);
-}
-
-void Differentiator::reset(float degrees){
-    y_dot = 0;
-    y_d1 = degrees;
 }

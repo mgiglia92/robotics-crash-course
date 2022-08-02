@@ -23,8 +23,8 @@ public:
 	Differentiator(float sigma, float ts);
 
 	float differentiate(float y);
+	void reset(float degrees);
 	void setTimeParameters(float ts, float sigma);
-	void reset(float);
 };
 
 
