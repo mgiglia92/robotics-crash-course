@@ -16,6 +16,7 @@
 #include "sensor/odom.h"
 #include "util/array.h"
 #include "util/pid-control.h"
+#include "util/differentiator.h"
 
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_RCC_H */
