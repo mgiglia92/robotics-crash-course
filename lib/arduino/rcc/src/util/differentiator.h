@@ -1,3 +1,14 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * differentiator.h -- differentiator
+ *
+ * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
+
+#ifndef CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_DIFFERENTIATOR_H
+#define CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_DIFFERENTIATOR_H
+
 
 class differentiator{
 
@@ -20,3 +31,6 @@ private:
     float y_d1; //differentiation variable 1 sample behind
     float y_dot; //derivative of y
 };
+
+
+#endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_UTIL_DIFFERENTIATOR_H */

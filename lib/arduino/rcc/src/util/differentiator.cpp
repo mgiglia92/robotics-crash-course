@@ -1,7 +1,12 @@
-#ifndef DIFFERENTIATOR_H
-#define DIFFERENTIATOR_H
+// SPDX-License-Identifier: GPL-3.0-or-later
+/*
+ * differentiator.cpp -- differentiator
+ *
+ * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
+ * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
+ */
 #include "differentiator.h"
-#endif
+
 
 differentiator::differentiator(float sig, float t_rate){
     sigma = sig;
