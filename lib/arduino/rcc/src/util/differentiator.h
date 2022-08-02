@@ -23,7 +23,7 @@ public:
 	Differentiator(float sigma, float ts);
 
 	float differentiate(float y);
-	void update_time_parameters(float, float);
+	void setTimeParameters(float ts, float sigma);
 	void reset(float);
 };
 

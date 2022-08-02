@@ -26,10 +26,12 @@ float Differentiator::differentiate(float y)
     return y_dot;
 }
 
-void Differentiator::update_time_parameters(float t, float s){
-    ts = t;
-    sigma = s;
-    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
+void Differentiator::setTimeParameters(float ts, float sigma)
+{
+    this->ts    = ts;
+    this->sigma = sigma;
+
+    beta = (2.0 * sigma - ts) / (2.0 * sigma + ts);
 }
 
 void Differentiator::reset(float degrees){
