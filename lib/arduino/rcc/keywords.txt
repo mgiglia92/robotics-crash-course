@@ -64,3 +64,13 @@ Differentiator	KEYWORD1		DATA_TYPE
 differentiate	KEYWORD2
 reset	KEYWORD2
 setTimeParameters	KEYWORD2
+
+# util/pid-control
+PID_control	KEYWORD1		DATA_TYPE
+PID_control_config_t	KEYWORD1		DATA_TYPE
+pd	KEYWORD2
+pid	KEYWORD2
+setDeadbands	KEYWORD2
+setGains	KEYWORD2
+setTimeParameters	KEYWORD2
+setpointReset	KEYWORD2
