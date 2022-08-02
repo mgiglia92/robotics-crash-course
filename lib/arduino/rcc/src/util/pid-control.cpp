@@ -28,6 +28,11 @@ float PID_control::deadband_compensation(float unsat)
 	return unsat;
 }
 
+float PID_control::saturate(float unsat)
+{
+    return max(min(upperLimit, unsat), lowerLimit);
+}
+
 PID_control::PID_control(float kp, float ki, float kd, float lowerLimit, float upperLimit, float sigma, float ts)
 {
 	this->kp         = kp;
@@ -122,11 +127,6 @@ float PID_control::pid(float y_r, float y)
     y_d1     = y;
 
     return deadband_compensation(saturate(u_unsat));
-}
-
-float PID_control::saturate(float unsat)
-{
-    return max(min(upperLimit, unsat), lowerLimit);
 }
 
 void PID_control::setDeadbands(float lower, float upper)

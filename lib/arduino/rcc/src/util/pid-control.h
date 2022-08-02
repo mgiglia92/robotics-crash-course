@@ -47,6 +47,7 @@ private:
 	float y_d1                   = 0.0;
 
 	float deadband_compensation(float unsat);
+	float saturate(float unsat);
 
 public:
 	bool errorDotEnabled   = false;
@@ -58,7 +59,6 @@ public:
 
 	float pd(float y_r, float y);
 	float pid(float y_r, float y);
-	float saturate(float unsat);
 	void setDeadbands(float lower, float upper);
 	void setGains(float kp, float ki, float kd);
 	void setTimeParameters(float ts, float sigma);
