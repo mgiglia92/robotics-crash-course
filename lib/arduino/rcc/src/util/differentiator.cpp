@@ -5,6 +5,7 @@
  * Copyright (C) 2021  Michael Giglia <michael.a.giglia@gmail.com>
  * Copyright (C) 2022  Jacob Koziej <jacobkoziej@gmail.com>
  */
+
 #include "differentiator.h"
 
 
