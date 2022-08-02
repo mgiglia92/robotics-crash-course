@@ -29,6 +29,15 @@ typedef struct PID_control_config_s {
 
 class PID_control {
 private:
+	float kp;
+	float ki;
+	float kd;
+	float lowerLimit;
+	float upperLimit;
+	float sigma;
+	float ts;
+	float beta;
+
 	float deadband_voltage_lower = 0.0;
 	float deadband_voltage_upper = 0.0;
 	float integrator             = 0.0;
@@ -40,15 +49,6 @@ private:
 	float deadband_compensation(float unsat);
 
 public:
-	float kp;
-	float ki;
-	float kd;
-	float lowerLimit;
-	float upperLimit;
-	float sigma;
-	float ts;
-	float beta;
-
 	bool errorDotEnabled   = false;
 	bool antiWindupEnabled = false;
 

@@ -12,14 +12,14 @@
 
 class Differentiator {
 private:
-	float y_dot = 0.0;
-	float y_d1  = 0.0;
-
-public:
 	float sigma;
 	float ts;
 	float beta;
 
+	float y_dot = 0.0;
+	float y_d1  = 0.0;
+
+public:
 	Differentiator(float sigma, float ts);
 
 	float differentiate(float y);
