@@ -12,15 +12,15 @@
 
 class Differentiator {
 private:
-	float y_d1;
-	float y_dot;
+	float y_dot = 0.0;
+	float y_d1  = 0.0;
 
 public:
 	float sigma;
 	float ts;
 	float beta;
 
-	Differentiator(float, float);
+	Differentiator(float sigma, float ts);
 
 	float differentiate(float);
 	void update_time_parameters(float, float);

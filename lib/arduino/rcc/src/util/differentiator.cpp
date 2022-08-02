@@ -8,12 +8,12 @@
 #include "differentiator.h"
 
 
-Differentiator::Differentiator(float sig, float t_rate){
-    sigma = sig;
-    ts = t_rate;
-    beta = (2.0*sigma - ts) / (2.0*sigma + ts);
-    y_dot = 0;
-    y_d1 = 0;
+Differentiator::Differentiator(float sigma, float ts)
+{
+    this->sigma = sigma;
+    this->ts    = ts;
+
+    beta = (2.0 * sigma - ts) / (2.0 * sigma + ts);
 }
 
 float Differentiator::differentiate(float y){
