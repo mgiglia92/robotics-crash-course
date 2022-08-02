@@ -27,41 +27,44 @@
 
 
 
-PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts)
+PID_control::PID_control(float kp, float ki, float kd, float lowerLimit, float upperLimit, float sigma, float ts)
 {
-    this->kp         = kp;
-    this->ki         = ki;
-    this->kd         = kd;
-    this->lowerLimit = lowerLimit;
-    this->upperLimit = upperLimit;
-    this->sigma      = sigma;
-    this->ts         = ts;
-    this->beta       = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
+	this->kp         = kp;
+	this->ki         = ki;
+	this->kd         = kd;
+	this->lowerLimit = lowerLimit;
+	this->upperLimit = upperLimit;
+	this->sigma      = sigma;
+	this->ts         = ts;
+	this->beta       = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
 
-PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled)
+PID_control::PID_control(float kp, float ki, float kd, float lowerLimit, float upperLimit, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled)
 {
-	PID_control(kp, ki, kd, lowerLim, upperLim, sigma, ts);
-
+	this->kp                = kp;
+	this->ki                = ki;
+	this->kd                = kd;
+	this->lowerLimit        = lowerLimit;
+	this->upperLimit        = upperLimit;
+	this->sigma             = sigma;
+	this->ts                = ts;
+	this->beta              = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 	this->errorDotEnabled   = errorDotEnabled;
 	this->antiWindupEnabled = antiWindupEnabled;
-
-    this->beta       = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
 
 PID_control::PID_control(const PID_control_config_t &config)
 {
-	PID_control(
-		config.kp,
-		config.ki,
-		config.kd,
-		config.lowerLim,
-		config.upperLim,
-		config.sigma,
-		config.ts,
-		config.errorDotEnabled,
-		config.antiWindupEnabled
-	);
+	this->kp                = config.kp;
+	this->ki                = config.ki;
+	this->kd                = config.kd;
+	this->lowerLimit        = config.lowerLimit;
+	this->upperLimit        = config.upperLimit;
+	this->sigma             = config.sigma;
+	this->ts                = config.ts;
+	this->beta              = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
+	this->errorDotEnabled   = config.errorDotEnabled;
+	this->antiWindupEnabled = config.antiWindupEnabled;
 }
 
 float PID_control::pd(float y_r, float y)
