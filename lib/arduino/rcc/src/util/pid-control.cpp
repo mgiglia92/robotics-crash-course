@@ -15,15 +15,17 @@
 #include <Arduino.h>
 
 
-float PID_control::deadband_compensation(float unsat)
-{
-	if (!unsat) return unsat;
+// float PID_control::deadband_compensation(float unsat)
+// {
+// 	if (!unsat) return unsat;
 
-	return ((unsat / lowerLimit) * (lowerLimit - deadband_voltage_lower))
-		+ (unsat < 0.0)
-		? deadband_voltage_lower
-		: deadband_voltage_upper;
-}
+// 	return ((unsat / lowerLimit) * (lowerLimit - deadband_voltage_lower))
+// 		+ (unsat < 0.0)
+// 		? deadband_voltage_lower
+// 		: deadband_voltage_upper;
+// }
+
+
 
 PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts)
 {
@@ -34,8 +36,7 @@ PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upp
     this->upperLimit = upperLimit;
     this->sigma      = sigma;
     this->ts         = ts;
-
-    beta = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
+    this->beta       = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
 
 PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upperLim, float sigma, float ts, bool errorDotEnabled, bool antiWindupEnabled)
@@ -44,6 +45,8 @@ PID_control::PID_control(float kp, float ki, float kd, float lowerLim, float upp
 
 	this->errorDotEnabled   = errorDotEnabled;
 	this->antiWindupEnabled = antiWindupEnabled;
+
+    this->beta       = ((2.0 * sigma) - ts) / ((2.0 * sigma) + ts);
 }
 
 PID_control::PID_control(const PID_control_config_t &config)
@@ -106,6 +109,10 @@ float PID_control::pid(float y_r, float y)
     if (errorDotEnabled) {
         error_dot = beta * error_dot + (((1.0 - beta) / ts) * (error - error_d1));
         u_unsat   = (kp * error) + (ki * integrator) + (kd * error_dot);
+        Serial.print((((1.0 - beta) / ts)));
+        Serial.print(" | ");
+        Serial.println(ts);
+        
     } else {
         y_dot   = beta * y_dot + (((1.0 - beta) / ts) * (y - y_d1));
         u_unsat = (kp*error) + (ki * integrator) - (kd * y_dot);
@@ -150,4 +157,15 @@ void PID_control::setpointReset(float y_r, float y)
     integrator = 0.0;
     error_d1   = y_r - y;
     error_dot  = 0.0;
+}
+
+// Compensate for motor deadband, by adjusting output related to deadband voltages.
+float PID_control::deadband_compensation(float u){
+    if(u > 0){
+        return deadband_voltage_upper + ( (u/upperLimit) * (upperLimit - deadband_voltage_upper) );
+    }
+    if(u < 0){
+        return deadband_voltage_lower + ( (u/lowerLimit) * (lowerLimit - deadband_voltage_lower) );
+    }
+    else{ return u; }
 }
