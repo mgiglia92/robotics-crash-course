@@ -16,17 +16,14 @@ Differentiator::Differentiator(float sigma, float ts)
     beta = (2.0 * sigma - ts) / (2.0 * sigma + ts);
 }
 
-float Differentiator::differentiate(float y){
-
+float Differentiator::differentiate(float y)
+{
     // calculate derivative
-    y_dot = (beta * y_dot) + (((1 - beta)/ts) * (y - y_d1));
+    y_dot = (beta * y_dot) + (((1 - beta) / ts) * (y - y_d1));
 
-    //set y_d1 to current val
     y_d1 = y;
 
-    //return derivative value
     return y_dot;
-
 }
 
 void Differentiator::update_time_parameters(float t, float s){
