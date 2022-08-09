@@ -164,3 +164,13 @@ void MPU6050::update(void)
 	raw_wy   = (wire->read() << 8) | wire->read();
 	raw_wz   = (wire->read() << 8) | wire->read();
 }
+
+float MPU6050::readWZReg(void)
+{
+	wire->beginTransmission(i2c_addr);
+	wire->write(0x47);
+	wire->endTransmission(false);
+	wire->requestFrom(i2c_addr, 2);
+	int16_t z = (wire->read()<<8) | wire->read();
+	return (z / GYRO_SENSITIVITY) - wz_bias;
+}

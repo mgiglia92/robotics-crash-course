@@ -1,9 +1,9 @@
 
-class differentiator{
+class Differentiator{
 
 public:
     //Constructors
-    differentiator(float, float);
+    Differentiator(float, float);
 
     //members
     float sigma; //dirty derivative bandwidth = 1/sigma

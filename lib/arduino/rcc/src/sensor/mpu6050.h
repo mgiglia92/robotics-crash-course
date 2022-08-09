@@ -64,6 +64,7 @@ public:
 	float getAngVelZ(void);
 	float getTemp(void);
 	void update(void);
+	float readWZReg(void);
 };
 
 
