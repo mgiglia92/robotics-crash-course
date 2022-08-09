@@ -4,3 +4,6 @@
 [submodule "lib/arduino/Servo"]
 	path = lib/arduino/Servo
 	url = https://github.com/arduino-libraries/Servo.git
+[submodule "lib/arduino/VL53L0X"]
+	path = lib/arduino/VL53L0X
+	url = https://github.com/pololu/vl53l0x-arduino
