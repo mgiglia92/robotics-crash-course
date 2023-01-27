@@ -9,6 +9,9 @@ proper spot. Be generous with the hot glue.
 that the wires are on the motor, this way the encoder wheels sit INSIDE the robot)
 6. Attach the wheel to the motor such that it is on the side without the wires.
 
+Wire:
+Prep 1 of each (Red and Black Solid Core) 6" in length, 0.25" stripped on each end
+
 Sensor Prep (HC_SR04 and MPU6050):
 1. Sand edges of PCBs to remove any extra material left on the pcb from the factory.
 2. Place the HC_SR04 into it's housing.
