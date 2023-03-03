@@ -11,40 +11,53 @@
 #include <Arduino.h>
 
 
-void motorSetup(void)
+Motor::Motor(int in1, int in2, int enable)
 {
-	pinMode(RCC_MOTOR_ENA, OUTPUT);
-	pinMode(RCC_MOTOR_ENB, OUTPUT);
-	pinMode(RCC_MOTOR_IN1, OUTPUT);
-	pinMode(RCC_MOTOR_IN2, OUTPUT);
-	pinMode(RCC_MOTOR_IN3, OUTPUT);
-	pinMode(RCC_MOTOR_IN4, OUTPUT);
+	setup(in1, in2, enable);
 }
 
-void rawMotorCtrl(int left, int right)
+void Motor::setup(int in1_, int in2_, int enable_)
+{
+	in1 = in1_;
+	in2 = in2_;
+	enable = enable_;
+
+	pinMode(in1, OUTPUT);
+	pinMode(in2, OUTPUT);
+	pinMode(enable, OUTPUT);
+}
+
+void Motor::operator()(int speed)
 {
 	/*
 	 * since our motors can rotate either forwards or backwards we
 	 * must set the polarity of our motors according to the sign of
 	 * our input values
 	 */
-
-	if (left >= 0) {
-		digitalWrite(RCC_MOTOR_IN1, HIGH);
-		digitalWrite(RCC_MOTOR_IN2,  LOW);
+	if (speed >= 0) {
+		digitalWrite(in1, HIGH);
+		digitalWrite(in2,  LOW);
 	} else {
-		digitalWrite(RCC_MOTOR_IN1,  LOW);
-		digitalWrite(RCC_MOTOR_IN2, HIGH);
+		digitalWrite(in1,  LOW);
+		digitalWrite(in2, HIGH);
 	}
 
-	if (right >= 0) {
-		digitalWrite(RCC_MOTOR_IN3, HIGH);
-		digitalWrite(RCC_MOTOR_IN4,  LOW);
-	} else {
-		digitalWrite(RCC_MOTOR_IN3,  LOW);
-		digitalWrite(RCC_MOTOR_IN4, HIGH);
-	}
+	analogWrite(enable, constrain(abs(speed),  0, 255));
+}
 
-	analogWrite(RCC_MOTOR_ENA, constrain(abs(left),  0, 255));
-	analogWrite(RCC_MOTOR_ENB, constrain(abs(right), 0, 255));
+
+/* motors for `rawMotorCtrl()`'s use */
+Motor left_motor;
+Motor right_motor;
+
+void motorSetup(void)
+{
+	left_motor.setup(RCC_MOTOR_IN1, RCC_MOTOR_IN2, RCC_MOTOR_ENA);
+	right_motor.setup(RCC_MOTOR_IN3, RCC_MOTOR_IN4, RCC_MOTOR_ENB);
+}
+
+void rawMotorCtrl(int left, int right)
+{
+	left_motor(left);
+	right_motor(right);
 }

@@ -21,6 +21,19 @@
 #define pwr2pwm(PWR) map(constrain(PWR, 0, 100), 0, 100, 0, 255)
 
 
+class Motor {
+private:
+	int in1, in2, enable;
+
+public:
+	Motor() = default;
+	Motor(int in1, int in2, int enable);
+
+	void setup(int in1, int in2, int enable);
+	void operator()(int speed);
+};
+
+
 void motorSetup(void);
 
 /*
