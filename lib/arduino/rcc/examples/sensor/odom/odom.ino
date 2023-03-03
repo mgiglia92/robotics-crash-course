@@ -12,7 +12,7 @@
 #define TICKS_FOR_90_DEGREES 12
 
 
-Odom odom;
+Default_Odom odom;
 
 
 void turn_90_deg_left(void)
@@ -43,8 +43,6 @@ void turn_90_deg_left(void)
 
 void setup()
 {
-  odom.begin();  // initialize encoder hardware
-
   Serial.begin(9600);
 
   turn_90_deg_left();
