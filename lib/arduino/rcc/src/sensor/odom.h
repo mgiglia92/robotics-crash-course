@@ -31,4 +31,25 @@ public:
 };
 
 
+#define RCC_LEFT_ENCODER_PIN_2 1
+#define RCC_RIGHT_ENCODER_PIN_2 4
+
+
+class Directional_Odom {
+private:
+	static Directional_Odom *instance;
+
+	volatile unsigned long left_cnt;
+	volatile unsigned long right_cnt;
+
+	static void left_encoder_isr(void);
+	static void right_encoder_isr(void);
+
+public:
+	void begin(void);
+	unsigned long getLeftCount(void);
+	unsigned long getRightCount(void);
+};
+
+
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_SENSOR_ODOM_H */

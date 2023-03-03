@@ -20,9 +20,9 @@ void setup()
 void loop()
 {
   Serial.println("moving forwards for 1s");
-  rawMotorCtrl(200, 200);
+  rawMotorCtrl(200, 0);
   delay(1000);
   Serial.println("moving backwards for 1s");
-  rawMotorCtrl(-200, -200);
+  rawMotorCtrl(-200, 0);
   delay(1000);
 }
