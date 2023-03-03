@@ -15,7 +15,7 @@
 
 
 template<int int_pin>
-static volatile unsigned long Odom<int_pin>::count = 0;
+static volatile long Odom<int_pin>::count = 0;
 
 template<int int_pin>
 Odom<int_pin>::Odom()
@@ -41,7 +41,7 @@ void Odom<int_pin>::encoder_isr(void)
 }
 
 template<int int_pin>
-unsigned long Odom<int_pin>::getCount(void)
+long Odom<int_pin>::getCount(void)
 {
 	return count;
 }

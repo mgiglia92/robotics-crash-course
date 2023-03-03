@@ -33,7 +33,7 @@ void turn_90_deg_left(void)
   // keep on turning the right wheel as long as the difference between
   // the current encoder count and the initial encoder count do not
   // exceed the defined limit
-  while ((count_current = odom.getCount()) - count_start <= TICKS_FOR_90_DEGREES) {
+  while (abs((count_current = odom.getCount()) - count_start) <= TICKS_FOR_90_DEGREES) {
     Serial.print("current count: ");
     Serial.println(count_current);
     rawMotorCtrl(0, 192);

@@ -23,13 +23,13 @@ private:
 	static void encoder_isr(void);
 
 protected:
-	static volatile unsigned long count;
+	static volatile long count;
 
 	void attach(void (*isr)(void));
 
 public:
 	Odom();
-	unsigned long getCount(void);
+	long getCount(void);
 };
 
 template<int int_pin, int dir_pin>
