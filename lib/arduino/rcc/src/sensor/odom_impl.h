@@ -19,7 +19,7 @@ static volatile long Odom<int_pin>::count = 0;
 
 template<int int_pin>
 Odom<int_pin>::Odom()
-{
+: sign(1) {
 	pinMode(int_pin,  INPUT);
 	attach(encoder_isr);
 }
@@ -43,7 +43,26 @@ void Odom<int_pin>::encoder_isr(void)
 template<int int_pin>
 long Odom<int_pin>::getCount(void)
 {
-	return count;
+	return sign*count;
+}
+
+template<int int_pin>
+void Odom<int_pin>::setSign(int sign_)
+{
+	if (sign_ >= 0) sign = 1;
+	else sign = -1;
+}
+
+template<int int_pin>
+void Odom<int_pin>::setZero()
+{
+	count = 0;
+}
+
+template<int int_pin>
+void Odom<int_pin>::setZero(long zero)
+{
+	count -= zero;
 }
 
 template<int int_pin, int dir_pin>

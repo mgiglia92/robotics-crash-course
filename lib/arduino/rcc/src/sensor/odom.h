@@ -24,12 +24,17 @@ private:
 
 protected:
 	static volatile long count;
+	int sign;
 
 	void attach(void (*isr)(void));
 
 public:
 	Odom();
+
 	long getCount(void);
+	void setSign(int sign);
+	void setZero();
+	void setZero(long zero);
 };
 
 template<int int_pin, int dir_pin>
