@@ -14,108 +14,53 @@
 #include <Arduino.h>
 
 
-template<int left_int_pin,
-         int right_int_pin>
-static volatile unsigned long Odom<left_int_pin, right_int_pin>::left_cnt = 0;
+template<int int_pin>
+static volatile unsigned long Odom<int_pin>::count = 0;
 
-template<int left_int_pin,
-         int right_int_pin>
-static volatile unsigned long Odom<left_int_pin, right_int_pin>::right_cnt = 0;
-
-template<int left_int_pin,
-         int right_int_pin>
-Odom<left_int_pin, right_int_pin>::Odom()
+template<int int_pin>
+Odom<int_pin>::Odom()
 {
-	pinMode(left_int_pin,  INPUT);
-	pinMode(right_int_pin, INPUT);
-	attach(left_encoder_isr, right_encoder_isr);
+	pinMode(int_pin,  INPUT);
+	attach(encoder_isr);
 }
 
-template<int left_int_pin,
-         int right_int_pin>
-void Odom<left_int_pin, right_int_pin>::attach(void (*left_isr)(void),
-                                               void (*right_isr)(void))
+template<int int_pin>
+void Odom<int_pin>::attach(void (*isr)(void))
 {
 	attachInterrupt(
-		digitalPinToInterrupt(left_int_pin),
-		left_isr,
-		CHANGE
-	);
-	attachInterrupt(
-		digitalPinToInterrupt(right_int_pin),
-		right_isr,
+		digitalPinToInterrupt(int_pin),
+		isr,
 		CHANGE
 	);
 }
 
-template<int left_int_pin,
-         int right_int_pin>
-void Odom<left_int_pin, right_int_pin>::left_encoder_isr(void)
+template<int int_pin>
+void Odom<int_pin>::encoder_isr(void)
 {
-	++left_cnt;
+	++count;
 }
 
-template<int left_int_pin,
-         int right_int_pin>
-void Odom<left_int_pin, right_int_pin>::right_encoder_isr(void)
+template<int int_pin>
+unsigned long Odom<int_pin>::getCount(void)
 {
-	++right_cnt;
+	return count;
 }
 
-template<int left_int_pin,
-         int right_int_pin>
-unsigned long Odom<left_int_pin, right_int_pin>::getLeftCount(void)
+template<int int_pin, int dir_pin>
+Dir_Odom<int_pin, dir_pin>::Dir_Odom()
 {
-	return left_cnt;
+	pinMode(dir_pin, INPUT);
+	attach(encoder_isr);
 }
 
-template<int left_int_pin,
-         int right_int_pin>
-unsigned long Odom<left_int_pin, right_int_pin>::getRightCount(void)
+template<int int_pin, int dir_pin>
+void Dir_Odom<int_pin, dir_pin>::encoder_isr()
 {
-	return right_cnt;
+	const bool pin_1 = digitalRead(int_pin);
+	const bool pin_2 = digitalRead(dir_pin);
+
+	if (pin_1 ^ pin_2) --count;
+	else ++count;
 }
-
-
-template<int left_int_pin,
-         int right_int_pin,
-         int left_dir_pin,
-         int right_dir_pin>
-Directional_Odom<left_int_pin, right_int_pin, left_dir_pin, right_dir_pin>
-::Directional_Odom()
-{
-	pinMode(left_dir_pin, INPUT);
-	pinMode(right_dir_pin, INPUT);
-	attach(left_encoder_isr, right_encoder_isr);
-}
-
-template<int left_int_pin,
-         int right_int_pin,
-         int left_dir_pin,
-         int right_dir_pin>
-void Directional_Odom<left_int_pin, right_int_pin, left_dir_pin, right_dir_pin>
-::left_encoder_isr(void)
-{
-	const bool pin_1 = digitalRead(left_int_pin);
-	const bool pin_2 = digitalRead(left_dir_pin);
-
-	if (pin_1 ^ pin_2) --left_cnt;
-	else ++left_cnt;
-}
-
-template<int left_int_pin,
-         int right_int_pin,
-         int left_dir_pin,
-         int right_dir_pin>
-void Directional_Odom<left_int_pin, right_int_pin, left_dir_pin, right_dir_pin>
-::right_encoder_isr(void)
-{
-	const bool pin_1 = digitalRead(right_int_pin);
-	const bool pin_2 = digitalRead(right_dir_pin);
-
-	if (pin_1 ^ pin_2) --right_cnt;
-	else ++right_cnt;
-}
-
 
 #endif /* CU_SUMMER_STEM_ROBOTICS_CRASH_COURSE_SENSOR_ODOM_IMPL_H */
