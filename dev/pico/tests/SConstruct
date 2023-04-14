@@ -1,5 +1,0 @@
-import os
-
-
-env = Environment()
-env['PICO_SDK_PATH'] = os.environt['PICO_SDK_PATH']
