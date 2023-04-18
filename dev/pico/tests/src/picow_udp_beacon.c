@@ -19,7 +19,7 @@
 
 #define UDP_PORT 9999
 #define BEACON_MSG_LEN_MAX 500
-#define BEACON_TARGET "192.168.1.26"
+#define BEACON_TARGET "192.168.1.101"
 #define BEACON_INTERVAL_MS 100
 
 bool led_state = true;
@@ -38,10 +38,16 @@ void udp_receive_callback( void* arg,              // User argument - udp_recv `
 {
 
     // Process datagram here (non-blocking code)
-    servo_position = p->tot_len;
-
-    printf("%i chars from: %s, %s\n", p->len, ipaddr_ntoa(addr), p->payload);
-
+    uint8_t* tmpPtr;
+    tmpPtr = (uint8_t*)p->payload;
+    uint8_t data[p->tot_len];
+    printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
+    for(int i = 0; i < p->len; i++)
+    {   
+        data[i] = *(tmpPtr++);
+        printf("%c", data[i]);
+    }
+    servo_position = atoi(data);
     // Must free receive pbuf before return
     pbuf_free(p);
 }
@@ -49,21 +55,22 @@ void udp_receive_callback( void* arg,              // User argument - udp_recv `
 void run_udp_beacon() {
     //Create a udp protocol control block
     struct udp_pcb* pcb = udp_new();
+    struct udp_pcb* pcb2 = udp_new();
 
     //Setup two ip addresses
     ip_addr_t addr, addr2;
     ipaddr_aton(BEACON_TARGET, &addr); //This is the ip address ofo my computer ( to send msg to from pico)
-    ipaddr_aton("192.168.1.33", &addr2); //This one is the ip address of the pico itself
+    ipaddr_aton("192.168.1.42", &addr2); //This one is the ip address of the pico itself
 
-    udp_bind(pcb, &addr2, 9900); //Bind the pico ipaddr to port 9990
-    udp_recv(pcb, udp_receive_callback, NULL); //Setup recv callback fcn
+    udp_bind(pcb2, &addr2, 9900); //Bind the pico ipaddr to port 9990
+    udp_recv(pcb2, udp_receive_callback, NULL); //Setup recv callback fcn
 
     int counter = 0;
     while (true) {
         struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
         char *req = (char *)p->payload;
         memset(req, 0, BEACON_MSG_LEN_MAX+1);
-        snprintf(req, BEACON_MSG_LEN_MAX, "%d%s\r\n", counter, "I'm trying to make this message very long and see how fast I can send it AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        snprintf(req, BEACON_MSG_LEN_MAX, "%d %s\r\n", counter, "I'm trying to make this message very long and see how fast I can send it AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         err_t er = udp_sendto(pcb, p, &addr, UDP_PORT);
         pbuf_free(p);
         if (er != ERR_OK) {
@@ -88,7 +95,7 @@ void run_udp_beacon() {
             sleep_ms(BEACON_INTERVAL_MS);
     #endif
         led_state = !led_state;
-        ServoPosition(&s1, servo_position * 10);
+        ServoPosition(&s1, servo_position);
         cyw43_arch_gpio_put(0,led_state);
         }
 }

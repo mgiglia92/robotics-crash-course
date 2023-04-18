@@ -24,8 +24,8 @@ target_include_directories(picow_udp_beacon_background PRIVATE
 
 
 target_link_libraries(picow_udp_beacon_background
-        # pico_cyw43_arch_lwip_threadsafe_background
-        pico_cyw43_arch_lwip_poll        
+        pico_cyw43_arch_lwip_threadsafe_background
+        # pico_cyw43_arch_lwip_poll        
         pico_stdlib
         )
 
