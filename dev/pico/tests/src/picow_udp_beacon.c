@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 #include <include_test.h>
+
 // #include "comms/serialize.h"
 
 #include <string.h>
@@ -14,12 +15,14 @@
 
 #include "lwip/pbuf.h"
 #include "lwip/udp.h"
+#include "lwip/dns.h"
+#include "lwip/ip_addr.h"
 
 #include "Servo.h"
 
 #define UDP_PORT 9999
 #define BEACON_MSG_LEN_MAX 500
-#define BEACON_TARGET "192.168.1.101"
+#define BEACON_TARGET "192.168.1.35"
 #define BEACON_INTERVAL_MS 100
 
 bool led_state = true;
@@ -27,7 +30,16 @@ int servo_position = 0;
 //Servo Init
 Servo s1;
 
+ip_addr_t hostnameAddr;
+ip_addr_t addr, addr2;
+
 bool try_connect();
+
+void gotHostName(const char *name, struct ip_addr *ipaddr, void *arg)
+{
+    char * tmp;
+    printf("GOT HOST NAME ADDR: %s %s", name, ipaddr);
+}
 
 //UDP Callback Fcn
 void udp_receive_callback( void* arg,              // User argument - udp_recv `arg` parameter
@@ -58,13 +70,15 @@ void run_udp_beacon() {
     struct udp_pcb* pcb2 = udp_new();
 
     //Setup two ip addresses
-    ip_addr_t addr, addr2;
     ipaddr_aton(BEACON_TARGET, &addr); //This is the ip address ofo my computer ( to send msg to from pico)
-    ipaddr_aton("192.168.1.42", &addr2); //This one is the ip address of the pico itself
+    ipaddr_aton("192.168.1.36", &addr2); //This one is the ip address of the pico itself
+    // ipaddr_aton(CYW43_HOST_NAME, &addr2); //This one is the ip address of the pico itself
 
     udp_bind(pcb2, &addr2, 9900); //Bind the pico ipaddr to port 9990
     udp_recv(pcb2, udp_receive_callback, NULL); //Setup recv callback fcn
 
+    dns_gethostbyname(CYW43_HOST_NAME, &hostnameAddr, gotHostName, NULL);
+    
     int counter = 0;
     while (true) {
         struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
@@ -76,7 +90,7 @@ void run_udp_beacon() {
         if (er != ERR_OK) {
             printf("Failed to send UDP packet! error=%d", er);
         } else {
-            printf("Sent packet %d\n", counter);
+            printf("Sent packet %d\n", counter); 
             counter++;
         }
 
@@ -138,7 +152,12 @@ bool try_connect()
         return false;
     } else {
         printf("Connected.\n");
-
+        char * address;
+        addr2 = netif_list->ip_addr;
+        address = ipaddr_ntoa(&addr2);
+        printf("This PICOS IP address is: %s\n", address);
+        // IP4_ADDR(&addr2, 192, 168, 1, 169);
+        // netif_add();
         return true;
     }
 }

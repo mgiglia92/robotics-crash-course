@@ -6,6 +6,7 @@ target_compile_definitions(picow_udp_beacon_background PRIVATE
         WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
         # PICO_CYW43_ARCH_POLL
         PICO_CYW43_ARCH_BACKGROUND
+        CYW43_HOST_NAME=\"${CYW43_HOST_NAME}\"
         )
 target_include_directories(picow_udp_beacon_background PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
