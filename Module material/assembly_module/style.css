@@ -1,0 +1,53 @@
+@font-face {
+font-family: "Quicksand";
+src: url("Quicksand/static/Quicksand-SemiBold.ttf");
+}
+
+*{
+    font-family: "Quicksand";
+}
+
+h1 {
+    color: black;
+    text-align: center;
+    font-size: 48px;
+}
+
+.welcome {
+    font-size: 15px;
+    padding: 20px;
+}
+
+.image_container {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+figcaption{
+    text-align: center;
+}
+#hardware{
+    width: 50%;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left-column {
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.right-column {
+    width: 60%;
+    padding: 20px;
+    box-sizing: border-box;
+}
