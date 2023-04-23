@@ -11,73 +11,63 @@
 #include <stdlib.h>
 
 #include "pico/stdlib.h"
-#include "pico/cyw43_arch.h"
+// #include "pico/cyw43_arch.h"
 
-#include "lwip/pbuf.h"
-#include "lwip/udp.h"
-#include "lwip/dns.h"
-#include "lwip/ip_addr.h"
-
+// #include "lwip/pbuf.h"
+// #include "lwip/udp.h"
+// #include "lwip/dns.h"
+// #include "lwip/ip_addr.h"
+#include "wireless_comms.h"
 #include "Servo.h"
 
-#define UDP_PORT 9999
+#define PORT_SEND 9999
+#define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define BEACON_TARGET "192.168.1.35"
+#define IP_SEND "192.168.1.35"
+#define IP_RECV "192.168.1.33"
 #define BEACON_INTERVAL_MS 100
 
 bool led_state = true;
-int servo_position = 0;
 //Servo Init
 Servo s1;
 
-ip_addr_t hostnameAddr;
-ip_addr_t addr, addr2;
 
-bool try_connect();
 
-void gotHostName(const char *name, struct ip_addr *ipaddr, void *arg)
-{
-    char * tmp;
-    printf("GOT HOST NAME ADDR: %s %s", name, ipaddr);
-}
 
 //UDP Callback Fcn
-void udp_receive_callback( void* arg,              // User argument - udp_recv `arg` parameter
-                           struct udp_pcb* upcb,   // Receiving Protocol Control Block
-                           struct pbuf* p,         // Pointer to Datagram
-                           const ip_addr_t* addr,  // Address of sender
-                           u16_t port )            // Sender port 
-{
+// void udp_receive_callback( void* arg,              // User argument - udp_recv `arg` parameter
+//                            struct udp_pcb* upcb,   // Receiving Protocol Control Block
+//                            struct pbuf* p,         // Pointer to Datagram
+//                            const ip_addr_t* addr,  // Address of sender
+//                            u16_t port )            // Sender port 
+// {
 
-    // Process datagram here (non-blocking code)
-    uint8_t* tmpPtr;
-    tmpPtr = (uint8_t*)p->payload;
-    uint8_t data[p->tot_len];
-    printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
-    for(int i = 0; i < p->len; i++)
-    {   
-        data[i] = *(tmpPtr++);
-        printf("%c", data[i]);
-    }
-    servo_position = atoi(data);
-    // Must free receive pbuf before return
-    pbuf_free(p);
-}
+//     // Process datagram here (non-blocking code)
+//     uint8_t* tmpPtr;
+//     tmpPtr = (uint8_t*)p->payload;
+//     uint8_t data[p->tot_len];
+//     printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
+//     for(int i = 0; i < p->len; i++)
+//     {   
+//         data[i] = *(tmpPtr++);
+//         printf("%c", data[i]);
+//     }
+//     servo_position = atoi(data);
+//     // Must free receive pbuf before return
+//     pbuf_free(p);
+// }
 
-void run_udp_beacon() {
-    //Create a udp protocol control block
-    struct udp_pcb* pcb = udp_new();
-    struct udp_pcb* pcb2 = udp_new();
+void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_addr) {
 
     //Setup two ip addresses
-    ipaddr_aton(BEACON_TARGET, &addr); //This is the ip address ofo my computer ( to send msg to from pico)
-    ipaddr_aton("192.168.1.36", &addr2); //This one is the ip address of the pico itself
+    ipaddr_aton(IP_SEND, &infra->ip_send); 
+    ipaddr_aton(IP_RECV, &infra->ip_recv);
     // ipaddr_aton(CYW43_HOST_NAME, &addr2); //This one is the ip address of the pico itself
 
-    udp_bind(pcb2, &addr2, 9900); //Bind the pico ipaddr to port 9990
-    udp_recv(pcb2, udp_receive_callback, NULL); //Setup recv callback fcn
+    udp_bind(infra->pcb_recv, &infra->ip_recv, 9900); //Bind the pico ipaddr to port 9990
+    udp_recv(infra->pcb_recv, udp_receive_callback, data); //Setup recv callback fcn
 
-    dns_gethostbyname(CYW43_HOST_NAME, &hostnameAddr, gotHostName, NULL);
+    dns_gethostbyname(CYW43_HOST_NAME, &hostname_addr, gotHostName, NULL);
     
     int counter = 0;
     while (true) {
@@ -85,7 +75,7 @@ void run_udp_beacon() {
         char *req = (char *)p->payload;
         memset(req, 0, BEACON_MSG_LEN_MAX+1);
         snprintf(req, BEACON_MSG_LEN_MAX, "%d %s\r\n", counter, "I'm trying to make this message very long and see how fast I can send it AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        err_t er = udp_sendto(pcb, p, &addr, UDP_PORT);
+        err_t er = udp_sendto(infra->pcb_send, p, &infra->ip_send, PORT_SEND);
         pbuf_free(p);
         if (er != ERR_OK) {
             printf("Failed to send UDP packet! error=%d", er);
@@ -109,7 +99,7 @@ void run_udp_beacon() {
             sleep_ms(BEACON_INTERVAL_MS);
     #endif
         led_state = !led_state;
-        ServoPosition(&s1, servo_position);
+        ServoPosition(&s1, data->servo_position);
         cyw43_arch_gpio_put(0,led_state);
         }
 }
@@ -131,36 +121,31 @@ int main() {
     cyw43_arch_enable_sta_mode();
     
 
+    struct udp_pcb* pcb = udp_new();
+    struct udp_pcb* pcb2 = udp_new();
+    ip_addr_t hostname_addr;
+    ip_addr_t ip_send, ip_recv;
+    uint16_t port_recv = 9900;
+    uint16_t port_send = 9999;
+    lwip_infra_t infra;
+    infra.pcb_recv = pcb;
+    infra.pcb_send = pcb2;
+    infra.ip_recv = ip_recv;
+    infra.ip_send = ip_send;
+    infra.port_recv = port_recv;
+    infra.port_send = port_send;
+    comms_data_t data;
+    data.servo_position = 95;
+
+    //Start connection
     printf("Connecting to Wi-Fi...\n");
-    //if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 10000)) {
-    while(!try_connect()){}
-    run_udp_beacon();
+    while(!try_connect(infra.ip_recv)){} //Keep trying till wifi connects
+    run_udp_beacon(&infra, &data, hostname_addr); //RUn blocking udp beacon
     cyw43_arch_deinit();
     return 0;
 }
 
 
-
-bool try_connect()
-{
-    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 10000)) {
-        printf("failed to connect.\n");
-        printf(WIFI_SSID);
-        printf("\n");
-        printf(WIFI_PASSWORD);
-
-        return false;
-    } else {
-        printf("Connected.\n");
-        char * address;
-        addr2 = netif_list->ip_addr;
-        address = ipaddr_ntoa(&addr2);
-        printf("This PICOS IP address is: %s\n", address);
-        // IP4_ADDR(&addr2, 192, 168, 1, 169);
-        // netif_add();
-        return true;
-    }
-}
 
 
 
