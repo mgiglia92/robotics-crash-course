@@ -4,3 +4,9 @@
 [submodule "lib/arduino/Servo"]
 	path = lib/arduino/Servo
 	url = https://github.com/arduino-libraries/Servo.git
+[submodule "dev/pico/tests/lib/cpp-base64"]
+	path = dev/pico/tests/lib/cpp-base64
+	url = https://github.com/ReneNyffenegger/cpp-base64.git
+[submodule "dev/pico/tests/lib/hash-library"]
+	path = dev/pico/tests/lib/hash-library
+	url = https://github.com/stbrumme/hash-library.git
