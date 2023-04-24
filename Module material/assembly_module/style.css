@@ -2,6 +2,12 @@
 font-family: "Quicksand";
 src: url("Quicksand/static/Quicksand-SemiBold.ttf");
 }
+@media screen and (max-width: 700px) {
+    .container {
+      flex-direction: column;
+    }
+  }
+
 
 *{
     font-family: "Quicksand";
@@ -23,6 +29,10 @@ h1 {
     justify-content: center;
 }
 
+.center{
+    text-align: center;
+}
+
 img {
     display: block;
     margin: auto;
@@ -31,6 +41,7 @@ img {
 figcaption{
     text-align: center;
 }
+
 #hardware{
     width: 50%;
 }
@@ -41,13 +52,30 @@ figcaption{
 }
 
 .left-column {
-    width: 40%;
+    flex-basis: 30%;
     padding: 20px;
     box-sizing: border-box;
 }
 
-.right-column {
-    width: 60%;
+.right-column {   
+    flex-basis: 70%;
     padding: 20px;
     box-sizing: border-box;
 }
+.half-column {   
+    flex-basis: 35%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.view{
+    max-width: 100%;
+}
+
+.mpu6050{
+    padding-top: 40px;
+    max-width: 50%;
+}
+
+
