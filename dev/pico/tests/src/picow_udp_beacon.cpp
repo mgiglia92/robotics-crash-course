@@ -8,8 +8,6 @@
 #include "pico/stdlib.h"    
 #include "wireless_comms.h"
 #include "Servo.h"
-#include "comms/serialize.h"
-#include "cpp-base64/base64.h"
 // #include "hash-library/sha1.h"
 #include <cmath>
 #include <cstddef>
@@ -64,14 +62,13 @@ void send_udp_packet(lwip_infra_t* infra, comms_data_t* data)
     struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
     char *req = (char *)p->payload;
     memset(req, 0, BEACON_MSG_LEN_MAX+1);
-    snprintf(req, BEACON_MSG_LEN_MAX, "%d %s\r\n", counter, ack.c_str());
+    snprintf(req, BEACON_MSG_LEN_MAX, "%s\r\n", ack.c_str());
     err_t er = udp_sendto(infra->pcb_send, p, &infra->ip_send, PORT_SEND);
     pbuf_free(p);
     if (er != ERR_OK) {
         printf("Failed to send UDP packet! error=%d", er);
     } else {
-        printf("Sent packet %d\n", counter); 
-        counter++;
+        printf("Sent packet %s\n", ack.c_str()); 
     }
 }
 
@@ -110,7 +107,6 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
         cyw43_arch_gpio_put(0,led_state);
         }
 }
-
 int main() {
     stdio_init_all();
 

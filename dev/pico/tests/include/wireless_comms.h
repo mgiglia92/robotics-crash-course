@@ -4,6 +4,8 @@
 #include "lwip/udp.h"
 #include "lwip/dns.h"
 #include "lwip/ip_addr.h"
+#include "comms/serialize.h"
+#include "cpp-base64/base64.h"
 
 #define PORT_SEND 9999
 #define PORT_RECV 9900
@@ -96,3 +98,6 @@ void init_udp(lwip_infra_t* lwip_infra, comms_data_t* data)
     udp_bind(lwip_infra->pcb_recv, &lwip_infra->ip_recv, lwip_infra->port_recv); //Bind the pico ipaddr to port 9990
     udp_recv(lwip_infra->pcb_recv, udp_receive_callback, data); //Setup recv callback fcn
 }
+
+
+
