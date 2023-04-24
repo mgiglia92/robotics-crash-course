@@ -64,7 +64,7 @@ figcaption{
 }
 .half-column {   
     flex-basis: 35%;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
@@ -78,4 +78,22 @@ figcaption{
     max-width: 50%;
 }
 
+#casterwheel{
+    max-width: 75%;
+}
 
+hr{
+    border-top: 2px solid black;
+}
+
+#left-ex{
+    width:60%;
+}
+
+#motorframe-ex{
+    width:70%;
+}
+
+#both-motor{
+    width:80%;
+}

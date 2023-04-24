@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -14,9 +11,6 @@
     
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         <div>
             <h1>Mechanical Assembly 2023</h1>
         </div>
@@ -39,6 +33,7 @@
                 <figcaption>Left to right: Phillips driver, fastener, <em>part</em>, washer, lock washer, nut, hex key</figcaption>
             </div>
         </div>
+        <hr>
         <h2 class="center">1. MPU6050</h2>
         <div class="container">
             <div class="left-column">
@@ -55,7 +50,7 @@
                 <figure>
                     <img id="mpu6050" class="view" src="images/withfasteners-mpu6050.png" alt="MPU6050 attachment">
                 </figure>
-                <figcaption><em>Note: pins point up and fasteners point down</em></figcaption>
+                <figcaption>Note: pins point up and fasteners point down</figcaption>
             </div>
             <div class="right-column">
                 <figure>
@@ -64,6 +59,7 @@
                 <figcaption>Exploded view</figcaption>
             </div>
         </div>
+        <hr>
         <h2 class="center">2. Caster Wheel</h2>
         <div class="container">
             <div class="left-column">
@@ -91,7 +87,7 @@
                     </ul>
                 </div>
                 <figure>
-                    <img id="casterwheel" class="view" src="images/withfasteners-ballassembled.png" alt="Caster wheel attachment">
+                    <img id="casterwheel" src="images/withfasteners-ballassembled.png" alt="Caster wheel attachment">
                 </figure>
             </div>
             <div class="half-column">
@@ -107,16 +103,82 @@
                 <figcaption>Exploded view of cover attachment</figcaption>
             </div>
         </div>
+        <hr>
+        <h2 class="center">3. Attach Motor Mounts</h2>
         <div class="container">
             <div class="left-column">
-                <h3>Left Column</h3>
-                <p>This is some text in the left column.</p>
-              </div>
-              <div class="right-column">
-                <h3>Right Column</h3>
-                <p>This is some text in the right column.</p>
-              </div>
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>2x Motor (with wheel attached)</li>
+                    <li>2x 3D printed motor mounts</li>
+                    <li>4x M3x30mm Fastener</li>
+                    <li>4x M3 Hex Nut</li>
+                    <li>4x M3 Lock Washer</li>
+                    <li>4x M3 Washer</li>
+                </ul>
+                <figure>
+                    <img class="view" src="images/withfasteners-leftmotor-assembled.png" alt="Left motor with mount attached">
+                </figure>
+                <figcaption>Left Motor with Mount Attached</figcaption>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img id="left-ex" class="view" src="images/withfasteners-leftmotorexpl.png" alt="exploded view of left motor mount attachment">
+                </figure>
+                <figcaption>Exploded view of <em>left</em> motor mount attachment</figcaption>
+                <figure>
+                    <img class="view" src="images/withfasteners-bothmotorsangled.png" alt="both motors with their mounts attached">
+                </figure>
+                <figcaption>Keep track of direction between left and right motor mounts</figcaption>
+            </div>
         </div>
-        <!-- <script src="" async defer></script> -->
+        <hr>
+        <h2 class="center">4. Attach Motors to Frame</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>2x Motor (with mount attached)</li>
+                    <li>4x M3x12mm Fastener</li>
+                    <li>4x M3 Hex Nut</li>
+                    <li>4x M3 Lock Washer</li>
+                    <li>4x M3 Washer</li>
+                </ul>
+                <figure>
+                    <img class="view" src="images/withfasteners-wheelsattached.png" alt="another view of both wheels attached">
+                </figure>
+                <figcaption>Once attached, pass wires up through holes</figcaption>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-bothmotortoframeex.png" alt="exploded view of left motor attachment to frame">
+                </figure>
+                <figcaption>Exploded view</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">5. Optical Interrupt Sensors</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>2x Optical interrupt sensor</li>
+                    <li>2x M3x12mm Fastener</li>
+                    <li>2x M3 Hex Nut</li>
+                    <li>2x M3 Lock Washer</li>
+                    <li>2x M3 Washer</li>
+                </ul>
+                <figure>
+                    <img class="view" src="images/withfasteners-optattached.png" alt="optical interrupt sensors attached">
+                </figure>
+                <figcaption>Make sure pins point towards caster wheel</figcaption>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-opticalintexp.png" alt="exploded view of optical interrupt attachment">
+                </figure>
+                <figcaption>Exploded view</figcaption>
+            </div>
+        </div>
     </body>
 </html>
