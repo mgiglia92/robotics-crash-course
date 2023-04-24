@@ -12,8 +12,6 @@
 #define IP_RECV "192.168.1.33"
 #define BEACON_INTERVAL_MS 100
 
-const ip_addr_t laptop_addr, pico_addr, hostname_addr;
- 
 //Struct of data allowed tto be edited by incoming udp/serial messages
 typedef struct comms_data_s
 {
@@ -83,7 +81,7 @@ void udp_receive_callback( void* arg,              // User argument - udp_recv `
         data[i] = *(tmpPtr++);
         printf("%c", data[i]);
     }
-    int x = atoi(data);
+    int x = atoi((char *)data);
     //Manipulate data at pointer
     comms_data_t* dataPtr;
     dataPtr = (comms_data_t*)arg;

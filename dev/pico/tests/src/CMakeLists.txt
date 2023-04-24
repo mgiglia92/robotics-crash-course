@@ -1,5 +1,5 @@
 add_executable(picow_udp_beacon_background
-        picow_udp_beacon.c
+        picow_udp_beacon.cpp
         )
 # add_executable(test_main test_main.c)
 
@@ -25,11 +25,12 @@ target_include_directories(picow_udp_beacon_background PRIVATE
         ../lib
         )
 
-
 target_link_libraries(picow_udp_beacon_background
         pico_cyw43_arch_lwip_threadsafe_background
         # pico_cyw43_arch_lwip_poll        
         pico_stdlib
+        cpp-base64
+        # hash-library-sha1
         )
 
 pico_add_extra_outputs(picow_udp_beacon_background)

@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 #include <include_test.h>
-
-// #include "comms/serialize.h"
-
-#include <string.h>
 #include <stdlib.h>
-
-#include "pico/stdlib.h"
-// #include "pico/cyw43_arch.h"
-
-// #include "lwip/pbuf.h"
-// #include "lwip/udp.h"
-// #include "lwip/dns.h"
-// #include "lwip/ip_addr.h"
+#include "pico/stdlib.h"    
 #include "wireless_comms.h"
 #include "Servo.h"
+#include "comms/serialize.h"
+#include "cpp-base64/base64.h"
+// #include "hash-library/sha1.h"
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <iostream>
+#include <sstream>
+#include <tuple>
+#include <vector>
 
 #define PORT_SEND 9999
 #define PORT_RECV 9900
@@ -27,35 +27,54 @@
 #define IP_RECV "192.168.1.33"
 #define BEACON_INTERVAL_MS 100
 
+// SHA1 sha1;
+using namespace std;
+
 bool led_state = true;
 //Servo Init
 Servo s1;
 
 
+int counter = 0;
+
+void send_udp_packet(lwip_infra_t* infra, comms_data_t* data)
+{
+
+    // decode it (TODO: actually do this right)
+    int32_t packet_id;
+    float field_1, field_2, field_3;
+    field_1 = 133;
+    field_2 = 233;
+    field_3=444;
+
+    // send an acknowledgement back
+    string ack = base64_encode(
+        serialize<int32_t, float, float, float>(
+            make_tuple(
+                377l,
+                field_2,
+                field_1 + field_2,
+                exp(1.0f)
+            )
+        )
+    );
+    printf("SERIALIZE LIB: %s\n", ack.c_str());
 
 
-//UDP Callback Fcn
-// void udp_receive_callback( void* arg,              // User argument - udp_recv `arg` parameter
-//                            struct udp_pcb* upcb,   // Receiving Protocol Control Block
-//                            struct pbuf* p,         // Pointer to Datagram
-//                            const ip_addr_t* addr,  // Address of sender
-//                            u16_t port )            // Sender port 
-// {
+    struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
+    char *req = (char *)p->payload;
+    memset(req, 0, BEACON_MSG_LEN_MAX+1);
+    snprintf(req, BEACON_MSG_LEN_MAX, "%d %s\r\n", counter, ack.c_str());
+    err_t er = udp_sendto(infra->pcb_send, p, &infra->ip_send, PORT_SEND);
+    pbuf_free(p);
+    if (er != ERR_OK) {
+        printf("Failed to send UDP packet! error=%d", er);
+    } else {
+        printf("Sent packet %d\n", counter); 
+        counter++;
+    }
+}
 
-//     // Process datagram here (non-blocking code)
-//     uint8_t* tmpPtr;
-//     tmpPtr = (uint8_t*)p->payload;
-//     uint8_t data[p->tot_len];
-//     printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
-//     for(int i = 0; i < p->len; i++)
-//     {   
-//         data[i] = *(tmpPtr++);
-//         printf("%c", data[i]);
-//     }
-//     servo_position = atoi(data);
-//     // Must free receive pbuf before return
-//     pbuf_free(p);
-// }
 
 void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_addr) {
 
@@ -64,26 +83,14 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
     ipaddr_aton(IP_RECV, &infra->ip_recv);
     // ipaddr_aton(CYW43_HOST_NAME, &addr2); //This one is the ip address of the pico itself
 
-    udp_bind(infra->pcb_recv, &infra->ip_recv, 9900); //Bind the pico ipaddr to port 9990
-    udp_recv(infra->pcb_recv, udp_receive_callback, data); //Setup recv callback fcn
+    //Sometimes still can't ping pico using host name
+    // dns_gethostbyname(CYW43_HOST_NAME, &hostname_addr, gotHostName, NULL);
 
-    dns_gethostbyname(CYW43_HOST_NAME, &hostname_addr, gotHostName, NULL);
+    init_udp(infra, data);
     
-    int counter = 0;
     while (true) {
-        struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
-        char *req = (char *)p->payload;
-        memset(req, 0, BEACON_MSG_LEN_MAX+1);
-        snprintf(req, BEACON_MSG_LEN_MAX, "%d %s\r\n", counter, "I'm trying to make this message very long and see how fast I can send it AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        err_t er = udp_sendto(infra->pcb_send, p, &infra->ip_send, PORT_SEND);
-        pbuf_free(p);
-        if (er != ERR_OK) {
-            printf("Failed to send UDP packet! error=%d", er);
-        } else {
-            printf("Sent packet %d\n", counter); 
-            counter++;
-        }
 
+        send_udp_packet(infra, data);
         // Note in practice for this simple UDP transmitter,
         // the end result for both background and poll is the same
 
@@ -125,8 +132,8 @@ int main() {
     struct udp_pcb* pcb2 = udp_new();
     ip_addr_t hostname_addr;
     ip_addr_t ip_send, ip_recv;
-    uint16_t port_recv = 9900;
-    uint16_t port_send = 9999;
+    u16_t port_recv = 9900;
+    u16_t port_send = 9999;
     lwip_infra_t infra;
     infra.pcb_recv = pcb;
     infra.pcb_send = pcb2;
