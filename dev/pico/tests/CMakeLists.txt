@@ -6,7 +6,10 @@ include(pico_sdk_import.cmake)
 pico_sdk_init()
 
 project(picow_udp_beacon_background)
+
+
 add_subdirectory(./src)
 add_subdirectory(lib)
 # include_directories(./lib)
 # include_directories(./include)
+

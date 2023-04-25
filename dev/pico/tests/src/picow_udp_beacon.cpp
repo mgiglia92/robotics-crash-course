@@ -8,6 +8,7 @@
 #include "pico/stdlib.h"    
 #include "wireless_comms.h"
 #include "Servo.h"
+#include "hardware/adc.h"
 // #include "hash-library/sha1.h"
 #include <cmath>
 #include <cstddef>
@@ -24,6 +25,8 @@
 #define IP_SEND "192.168.1.35"
 #define IP_RECV "192.168.1.33"
 #define BEACON_INTERVAL_MS 100
+
+#define ADC0 26
 
 // SHA1 sha1;
 using namespace std;
@@ -105,11 +108,16 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
         led_state = !led_state;
         ServoPosition(&s1, data->servo_position);
         cyw43_arch_gpio_put(0,led_state);
+        printf("ADC READING: %u", adc_get_selected_input());
+
         }
 }
+
+
 int main() {
     stdio_init_all();
 
+    sleep_ms(1000);
 
     ServoInit(&s1, 20, false);
     ServoOn(&s1);
@@ -143,6 +151,15 @@ int main() {
     //Start connection
     printf("Connecting to Wi-Fi...\n");
     while(!try_connect(infra.ip_recv)){} //Keep trying till wifi connects
+
+    //ADC stuff
+    printf("Tring to read adc...");
+    adc_init();
+    adc_gpio_init(26);
+    adc_select_input(0);
+    uint16_t x = adc_read();
+    printf("ADC READING: %i", x);
+
     run_udp_beacon(&infra, &data, hostname_addr); //RUn blocking udp beacon
     cyw43_arch_deinit();
     return 0;
