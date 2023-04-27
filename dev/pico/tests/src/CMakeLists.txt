@@ -61,6 +61,8 @@ macro(make_exec exec_name exec_dir)
                             ${PICO_SDK_PATH}/lib/cyw43-driver/src
                             ${PICO_SDK_PATH}/src/rp2_common/pico_cyw43_driver/include
                             ${PICO_SDK_PATH}/lib/lwip/src/include
+                            ${PICO_SDK_PATH}/src/rp2_common/pico_multicore/include
+                            ${PICO_SDK_PATH}/src/common/pico_util/include
                             ../include
                             ../lib
     )
@@ -72,6 +74,7 @@ macro(make_exec exec_name exec_dir)
                             cpp-base64
                             hardware_adc
                             hardware_pwm
+                            pico_multicore
                             
                             # hash-library-sha1
     )
