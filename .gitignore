@@ -2,3 +2,4 @@
 *__pycache__/
 .venv/
 build/
+.rcc_venv
