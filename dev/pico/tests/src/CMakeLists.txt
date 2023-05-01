@@ -87,4 +87,5 @@ macro(make_exec exec_name exec_dir)
 endmacro()
 
 make_exec(picow_udp_beacon_background picow_udp_beacon.cpp)
-make_exec(adc_test adc_test.cpp)
+# make_exec(adc_test adc_test.cpp)
+make_exec(wireless wireless_interface_test.cpp)

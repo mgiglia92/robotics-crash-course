@@ -9,6 +9,7 @@
 #include "wireless_comms.h"
 #include "Servo.h"
 #include "hardware/adc.h"
+#include "pico/util/queue.h"
 // #include "hash-library/sha1.h"
 #include <cmath>
 #include <cstddef>
@@ -19,22 +20,18 @@
 #include <tuple>
 #include <vector>
 
-#define PORT_SEND 9999
-#define PORT_RECV 9900
-#define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.35"
-#define IP_RECV "192.168.1.33"
-#define BEACON_INTERVAL_MS 100
-
 #define ADC0 26
 
 // SHA1 sha1;
 using namespace std;
 
 bool led_state = true;
+
 //Servo Init
 Servo s1;
 
+queue_t queue;
+typedef void* HANDLE;
 
 int counter = 0;
 
@@ -76,7 +73,7 @@ void send_udp_packet(lwip_infra_t* infra, comms_data_t* data)
 }
 
 
-void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_addr) {
+void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_addr, queue_t* dataQueue) {
 
     //Setup two ip addresses
     ipaddr_aton(IP_SEND, &infra->ip_send); 
@@ -86,7 +83,7 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
     //Sometimes still can't ping pico using host name
     // dns_gethostbyname(CYW43_HOST_NAME, &hostname_addr, gotHostName, NULL);
 
-    init_udp(infra, data);
+    init_udp(infra, data, dataQueue);
     
     while (true) {
 
@@ -116,6 +113,7 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
 
 int main() {
     stdio_init_all();
+    queue_init(&queue, sizeof(int16_t), 100);
 
     sleep_ms(1000);
 
@@ -160,7 +158,7 @@ int main() {
     uint16_t x = adc_read();
     printf("ADC READING: %i", x);
 
-    run_udp_beacon(&infra, &data, hostname_addr); //RUn blocking udp beacon
+    run_udp_beacon(&infra, &data, hostname_addr, &queue); //RUn blocking udp beacon
     cyw43_arch_deinit();
     return 0;
 }
