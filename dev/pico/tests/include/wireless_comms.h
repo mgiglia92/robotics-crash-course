@@ -12,8 +12,8 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.38"
-#define IP_RECV "192.168.1.37"
+#define IP_SEND "192.168.1.101"
+#define IP_RECV "192.168.1.123"
 #define BEACON_INTERVAL_MS 100
 
 //Struct of data allowed tto be edited by incoming udp/serial messages
@@ -94,9 +94,9 @@ void udp_receive_callback( void* arg,              // User argument - udp_recv `
     dataPtr->servo_position = x;
     
     
-    int16_t y=16;
-    queue_try_add((queue_t*)arg, &y);
-    printf("DEBUG: Added to queue");
+    // int16_t y=16;
+    // queue_try_add((queue_t*)arg, &y);
+    // printf("DEBUG: Added to queue");
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -106,7 +106,7 @@ void udp_receive_callback( void* arg,              // User argument - udp_recv `
 void init_udp(lwip_infra_t* lwip_infra, comms_data_t* data, queue_t* queue)
 {
     udp_bind(lwip_infra->pcb_recv, &lwip_infra->ip_recv, lwip_infra->port_recv); //Bind the pico ipaddr to port 9990
-    udp_recv(lwip_infra->pcb_recv, udp_receive_callback, queue); //Setup recv callback fcn
+    udp_recv(lwip_infra->pcb_recv, udp_receive_callback, data); //Setup recv callback fcn
 }
 
 

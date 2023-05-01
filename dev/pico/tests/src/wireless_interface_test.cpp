@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
+#include "hardware/adc.h"
 
 using namespace std;
 
@@ -33,8 +34,26 @@ bool init_cyw43(WirelessMsgInterface* infra)
 
 }
 
+bool timer_callback(struct repeating_timer *t)
+{
+    WirelessMsgInterface* interface;
+    interface = (WirelessMsgInterface*)(t->user_data);
+    Packet p;
+    interface->send_msg(p);
+    printf("IN TIMER\n");
+    cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
+    return true;
+}
+
 int main()
 {
+    uint delay_length;
+    struct repeating_timer send_timer;
+    adc_init();
+    adc_gpio_init(28);
+    adc_gpio_init(29);
+    adc_set_temp_sensor_enabled(true);
+    
     stdio_init_all();    
     if (cyw43_arch_init()) {
         printf("failed to initialise\n");
@@ -43,25 +62,22 @@ int main()
 
     cyw43_arch_gpio_put(0,1);
     cyw43_arch_enable_sta_mode();
-    lwip_infra_t lwip_infra;
-
-    lwip_infra.pcb_recv = udp_new();
-    lwip_infra.pcb_send = udp_new();
-    ipaddr_aton(IP_SEND, &lwip_infra.ip_recv); 
-    ipaddr_aton(IP_RECV, &lwip_infra.ip_send);
-    lwip_infra.port_recv = PORT_RECV;
-    lwip_infra.port_send = PORT_SEND;
-    WirelessMsgInterface interface(lwip_infra);
-    string ip = ipaddr_ntoa(&interface.lwip_infra.ip_send);
+    WirelessMsgInterface interface(IP_SEND, IP_RECV, PORT_SEND, PORT_RECV);
+    interface.setup_wireless_interface();
 
     init_cyw43(&interface);
-    printf("DEBUG: ip is:  %s \n", ip);
+    add_repeating_timer_ms(500, timer_callback, &interface, &send_timer);
     while(true)
     {
-        Packet p;
-        interface.send_msg(p);
-        sleep_ms(1000);
-        cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
+        // Packet p;
+        // interface.send_msg(p);
+        adc_select_input(2);
+        delay_length = adc_read();
+        sleep_ms(delay_length);
+        uint8_t data = 255;
+        queue_remove_blocking(&interface.recv_queue, &data);
+        // cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
+        printf("Data Received: %c\n", data);
     }
 
     cyw43_arch_deinit();

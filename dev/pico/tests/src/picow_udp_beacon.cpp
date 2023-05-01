@@ -105,7 +105,6 @@ void run_udp_beacon(lwip_infra_t* infra, comms_data_t* data, ip_addr_t hostname_
         led_state = !led_state;
         ServoPosition(&s1, data->servo_position);
         cyw43_arch_gpio_put(0,led_state);
-        printf("ADC READING: %u", adc_get_selected_input());
 
         }
 }
@@ -117,7 +116,7 @@ int main() {
 
     sleep_ms(1000);
 
-    ServoInit(&s1, 20, false);
+    ServoInit(&s1, 18, false);
     ServoOn(&s1);
 
 

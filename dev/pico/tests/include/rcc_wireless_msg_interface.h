@@ -21,8 +21,8 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.38"
-#define IP_RECV "192.168.1.37"
+#define IP_SEND "192.168.1.101"
+#define IP_RECV "192.168.1.123"
 #define BEACON_INTERVAL_MS 100
 
 using namespace std;
@@ -41,7 +41,7 @@ typedef struct lwip_infra_s
 class WirelessMsgInterface
 {
     public:
-        WirelessMsgInterface(lwip_infra_t);
+        WirelessMsgInterface(string, string, uint32_t, uint32_t);
         void setup_wireless_interface();
         bool send_msg(Packet);
         static void recv_msg(void*,              // User argument - udp_recv `arg` parameter
@@ -52,15 +52,23 @@ class WirelessMsgInterface
         void* get_packet_from_queue(Packet);
         void* send_packet_to_queue(Packet);
         bool init_cyw43();
-        lwip_infra_s lwip_infra;
+        lwip_infra_t lwip_infra;
         queue_t recv_queue;
         queue_t send_queue;
 
 };
 
-WirelessMsgInterface::WirelessMsgInterface(lwip_infra_t infra)
+WirelessMsgInterface::WirelessMsgInterface(string ip_send, string ip_recv, uint32_t port_send, uint32_t port_recv)
 {
-    lwip_infra=infra;
+    this->lwip_infra.pcb_recv = udp_new();
+    this->lwip_infra.pcb_send = udp_new();
+    this->lwip_infra.port_send = 9999;
+    this->lwip_infra.port_recv = 9900;
+    ipaddr_aton(ip_recv.c_str(), &(this->lwip_infra.ip_recv)); 
+    ipaddr_aton(ip_send.c_str(), &(this->lwip_infra.ip_send));
+    printf("DEBUG: ip_send %s | %s\n", IP_SEND, ipaddr_ntoa(&this->lwip_infra.ip_send));
+    printf("DEBUG: ip_recv %s | %s\n", IP_RECV, ipaddr_ntoa(&this->lwip_infra.ip_recv));
+
 }
 
 
@@ -86,6 +94,8 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
         printf("%c", data[i]);
     }
 
+    queue_add_blocking(&obj->recv_queue, data);
+
     // Must free receive pbuf before return
     pbuf_free(p);
 }
@@ -95,8 +105,10 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
 void WirelessMsgInterface::setup_wireless_interface()
 {
     //Initialize udp receive and callback
-    udp_bind(lwip_infra.pcb_recv, &lwip_infra.ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
+    const ip_addr_t ip_recv = lwip_infra.ip_recv;
+    udp_bind(lwip_infra.pcb_recv, &ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
     udp_recv(lwip_infra.pcb_recv, this->recv_msg, this); //Setup recv callback fcn
+    queue_init(&recv_queue, sizeof(uint8_t*), 100);
 }
 
 bool WirelessMsgInterface::send_msg(Packet pack)

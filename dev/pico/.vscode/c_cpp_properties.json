@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "picow",
+            "includePath": [
+                "${PICO_SDK_PATH}",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_cyw43_arch/include",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_lwip/include",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_rand/include",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_async_context/include",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_multicore/include",
+                "${PICO_SDK_PATH}/src/common/pico_util/include",
+                "${PICO_SDK_PATH}/src/rp2_common/hardware_pwm/include",
+                "${PICO_SDK_PATH}/lib/cyw43-driver/src",
+                "${PICO_SDK_PATH}/src/rp2_common/pico_cyw43_driver/include",
+                "${PICO_SDK_PATH}/lib/lwip/src/include",
+                "${PICO_SDK_PATH}/src/rp2_common/hardware_adc/include",
+                "${workspaceFolder}/tests/src",
+                "${workspaceFolder}/tests/lib",
+                "${PICO_SDK_PATH}/src/common/pico_stdlib/include",
+                "${workspaceFolder}/tests/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/boards/include/boards",
+                "/home/michaelgiglia/pico/pico-sdk/src/host/hardware_gpio/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2_common/pico_stdio/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/common/pico_time/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2_common/hardware_timer/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2040/hardware_structs/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2_common/hardware_base/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2040/hardware_regs/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2_common/hardware_uart/include",
+                "/home/michaelgiglia/pico/pico-sdk/src/rp2_common/pico_unique_id/include"
+            ],
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc"
+        }
+    ],
+    "version": 4
+}
