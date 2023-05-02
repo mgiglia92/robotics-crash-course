@@ -3,7 +3,8 @@ add_library(cpp-base64
 )
 
 # note that we're little-endian
-# add_definitions(-D__BYTE_ORDER=99 -D__LITTLE_ENDIAN=99)
-# add_library(hash-library-sha1
-# 	hash-library/sha1.cpp
-# )
+add_definitions(-D__BYTE_ORDER=99 -D__LITTLE_ENDIAN=99)
+add_library(hash-library-sha1
+	hash-library/sha1.cpp
+)
+target_include_directories(hash-library-sha1 PUBLIC ../include)

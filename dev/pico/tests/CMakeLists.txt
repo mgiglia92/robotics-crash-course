@@ -3,12 +3,12 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 include(pico_sdk_import.cmake)
 #include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
-pico_sdk_init()
 
 project(picow_udp_beacon_background)
+pico_sdk_init()
 
-
-add_subdirectory(./src)
+include_directories(lib/)
+add_subdirectory(src)
 add_subdirectory(lib)
 # include_directories(./lib)
 # include_directories(./include)

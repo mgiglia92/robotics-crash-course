@@ -33,6 +33,7 @@ bool init_cyw43()
 
 bool timer_callback(struct repeating_timer *t)
 {
+    //get wireless interface pointer from user data 
     WirelessMsgInterface* interface;
     interface = (WirelessMsgInterface*)(t->user_data);
     Packet p;
