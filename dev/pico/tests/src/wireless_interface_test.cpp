@@ -79,10 +79,10 @@ int main()
         adc_select_input(2);
         delay_length = adc_read();
         sleep_ms(delay_length);
-        uint8_t data = 255;
-        queue_remove_blocking(&interface.recv_queue, &data);
+        Packet inpack;
+        queue_remove_blocking(&interface.recv_queue, &inpack);
         // cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
-        printf("Recv Queue: %c\n", data);
+        printf("Recv Queue: %c\n", inpack.data().c_str());
     }
 
     cyw43_arch_deinit();

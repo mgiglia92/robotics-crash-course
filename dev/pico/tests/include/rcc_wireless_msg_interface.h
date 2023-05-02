@@ -89,16 +89,21 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
     // Process datagram here (non-blocking code)
     uint8_t* tmpPtr;
     tmpPtr = (uint8_t*)(p->payload);
+    stringstream indata;
     uint8_t data[p->tot_len]; //char array to place udp packet charaters into
     //break the above rule right away
     printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
     for(int i = 0; i < p->len; i++)
     {   
         data[i] = *(tmpPtr++);
+        indata << data[i];
         printf("%c", data[i]);
     }
 
-    queue_add_blocking(&obj->recv_queue, data);
+    Packet pack;
+    printf("string stream data: %s", indata.str().c_str());
+    printf("RECV CALLBACK packet data: %s", pack.data().c_str());
+    queue_add_blocking(&obj->recv_queue, &pack);
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -112,7 +117,7 @@ void WirelessMsgInterface::setup_wireless_interface()
     // const ip_addr_t ip_recv = lwip_infra.ip_recv;
     udp_bind(lwip_infra.pcb_recv, &lwip_infra.ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
     udp_recv(lwip_infra.pcb_recv, this->recv_msg, this); //Setup recv callback fcn
-    queue_init(&recv_queue, sizeof(uint8_t*), 100);
+    queue_init(&recv_queue, sizeof(Packet*), 100);
 }
 
 bool WirelessMsgInterface::send_msg(Packet pack)
@@ -135,16 +140,12 @@ bool WirelessMsgInterface::send_msg(Packet pack)
             )
         )
     );
-    printf("START PACKAGEIFY: %s\n", ack.c_str());
     Packet packet(88, ack.c_str());
-    printf("END PACKAGEIFY: %i, %s\n", packet.id(), packet.data().c_str());
-
-    printf("SERIALIZE LIB: %s\n", ack.c_str()); //instead print the package string
 
     struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
     char *req = (char *)p->payload;
     memset(req, 0, BEACON_MSG_LEN_MAX+1);
-    snprintf(req, BEACON_MSG_LEN_MAX, "%s\r\n", ack.c_str()); //instead get the package stsring
+    snprintf(req, BEACON_MSG_LEN_MAX, "%s\r\n", packet.data().c_str()); //instead get the package stsring
     err_t er = udp_sendto(lwip_infra.pcb_send, p, &lwip_infra.ip_send, PORT_SEND); //Send the string over udp
     pbuf_free(p);
     if (er != ERR_OK) {
