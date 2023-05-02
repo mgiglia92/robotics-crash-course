@@ -21,7 +21,7 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.38"
+#define IP_SEND "192.168.1.101"
 #define IP_RECV "192.168.1.37"
 #define BEACON_INTERVAL_MS 100
 
@@ -117,7 +117,6 @@ void WirelessMsgInterface::setup_wireless_interface()
 
 bool WirelessMsgInterface::send_msg(Packet pack)
 {
-
     //place holder variables for data
     int32_t packet_id;
     float field_1, field_2, field_3;
@@ -136,11 +135,9 @@ bool WirelessMsgInterface::send_msg(Packet pack)
             )
         )
     );
-    //packageify the ack??
-    Packet packet;
-    stringstream ss;
-    ss << ack;
-    ss >> packet;
+    printf("START PACKAGEIFY: %s\n", ack.c_str());
+    Packet packet(88, ack.c_str());
+    printf("END PACKAGEIFY: %i, %s\n", packet.id(), packet.data().c_str());
 
     printf("SERIALIZE LIB: %s\n", ack.c_str()); //instead print the package string
 

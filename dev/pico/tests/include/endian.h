@@ -116,10 +116,6 @@
 #	define __LITTLE_ENDIAN LITTLE_ENDIAN
 #	define __PDP_ENDIAN    PDP_ENDIAN
 
-#else
-
-#	error platform not supported
-
 #endif
 
 #endif
