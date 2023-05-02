@@ -67,6 +67,12 @@ macro(make_exec exec_name exec_dir)
                             ../lib
     )
 
+    pico_add_extra_outputs(${exec_name})
+
+    pico_enable_stdio_usb(${exec_name} 1)
+    pico_enable_stdio_uart(${exec_name} 0)
+
+
     target_link_libraries(${exec_name}
                             pico_cyw43_arch_lwip_threadsafe_background
                             # pico_cyw43_arch_lwip_poll        
@@ -75,14 +81,12 @@ macro(make_exec exec_name exec_dir)
                             hardware_adc
                             hardware_pwm
                             pico_multicore
-                            
+                            comms
                             # hash-library-sha1
     )
 
-    pico_add_extra_outputs(${exec_name})
 
-    pico_enable_stdio_usb(${exec_name} 1)
-    pico_enable_stdio_uart(${exec_name} 0)
+    add_subdirectory(rcc_comms)
 
 endmacro()
 

@@ -4,7 +4,7 @@
 #include "lwip/dns.h"
 #include "lwip/ip_addr.h"
 #include "rcc_comms/serialize.h"
-#include "rcc_comms/packet.h"
+#include "rcc_comms/messages.h"
 #include "cpp-base64/base64.h"
 #include "pico/util/queue.h"
 #include <stdlib.h>
@@ -21,8 +21,8 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.101"
-#define IP_RECV "192.168.1.123"
+#define IP_SEND "192.168.1.38"
+#define IP_RECV "192.168.1.37"
 #define BEACON_INTERVAL_MS 100
 
 using namespace std;
@@ -69,6 +69,9 @@ WirelessMsgInterface::WirelessMsgInterface(string ip_send, string ip_recv, uint3
     printf("DEBUG: ip_send %s | %s\n", IP_SEND, ipaddr_ntoa(&this->lwip_infra.ip_send));
     printf("DEBUG: ip_recv %s | %s\n", IP_RECV, ipaddr_ntoa(&this->lwip_infra.ip_recv));
 
+    //Get the ip address we've been given
+    ip_addr_t ipnetif = netif_list->ip_addr;
+    lwip_infra.ip_recv = ipnetif;
 }
 
 
@@ -105,8 +108,8 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
 void WirelessMsgInterface::setup_wireless_interface()
 {
     //Initialize udp receive and callback
-    const ip_addr_t ip_recv = lwip_infra.ip_recv;
-    udp_bind(lwip_infra.pcb_recv, &ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
+    // const ip_addr_t ip_recv = lwip_infra.ip_recv;
+    udp_bind(lwip_infra.pcb_recv, &lwip_infra.ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
     udp_recv(lwip_infra.pcb_recv, this->recv_msg, this); //Setup recv callback fcn
     queue_init(&recv_queue, sizeof(uint8_t*), 100);
 }
