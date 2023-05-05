@@ -2,7 +2,7 @@
 font-family: "Quicksand";
 src: url("Quicksand/static/Quicksand-SemiBold.ttf");
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
     .container {
       flex-direction: column;
     }
@@ -11,6 +11,11 @@ src: url("Quicksand/static/Quicksand-SemiBold.ttf");
 
 *{
     font-family: "Quicksand";
+}
+
+body{
+    color:#011638;
+    /* background-color:#BFD7EA; */
 }
 
 h1 {
@@ -96,4 +101,8 @@ hr{
 
 #both-motor{
     width:80%;
+}
+
+#bothwheels{
+    width:70%;
 }
