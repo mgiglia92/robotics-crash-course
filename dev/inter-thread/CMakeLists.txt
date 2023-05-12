@@ -8,4 +8,11 @@ set(CMAKE_CXX_STANDARD 17)
 # pull in external libraries
 add_subdirectory(../../lib lib)
 
-add_subdirectory(src)
+# set up for the program
+add_executable(inter-thread
+	inter-thread.c++
+)
+
+target_link_libraries(inter-thread
+	serial-packets
+)
