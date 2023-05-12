@@ -10,3 +10,6 @@
 [submodule "lib/external/cpp-base64"]
 	path = lib/external/cpp-base64
 	url = https://github.com/ReneNyffenegger/cpp-base64.git
+[submodule "lib/external/argumentum"]
+	path = lib/external/argumentum
+	url = https://github.com/mmahnic/argumentum.git
