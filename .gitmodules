@@ -4,3 +4,9 @@
 [submodule "lib/arduino/Servo"]
 	path = lib/arduino/Servo
 	url = https://github.com/arduino-libraries/Servo.git
+[submodule "lib/external/hash-library"]
+	path = lib/external/hash-library
+	url = https://github.com/catvw/hash-library.git
+[submodule "lib/external/cpp-base64"]
+	path = lib/external/cpp-base64
+	url = https://github.com/ReneNyffenegger/cpp-base64.git
