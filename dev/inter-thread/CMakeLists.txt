@@ -11,6 +11,7 @@ add_subdirectory(../../lib lib)
 # set up for the program
 add_executable(inter-thread
 	inter-thread.c++
+	random-words.c++
 )
 
 target_link_libraries(inter-thread
