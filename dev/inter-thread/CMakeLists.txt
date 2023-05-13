@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 project(inter-thread C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+find_package(Threads REQUIRED)
 
 # pull in external libraries
 add_subdirectory(../../lib lib)
@@ -16,4 +17,5 @@ add_executable(inter-thread
 
 target_link_libraries(inter-thread
 	serial-packets
+	${CMAKE_THREAD_LIBS_INIT}
 )
