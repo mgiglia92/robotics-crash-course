@@ -48,6 +48,7 @@ void send_loop() {
 	while (true) {
 		inter_thread_message m(random_words(5));
 		cout << "sending: " << m.s << '\n';
+		pipe.clear();
 		pipe << m.pack();
 		this_thread::sleep_for(1s);
 	}
@@ -58,17 +59,29 @@ void recv_loop() {
 		Packet p;
 		pipe >> p;
 		inter_thread_message m(p);
-		cout << "received: " << m.s << '\n';
+
+		if (!pipe) {
+			cout << "read failed, retrying...\n";
+			this_thread::sleep_for(.5s);
+		} else {
+			cout << "received: " << m.s << '\n';
+		}
 	}
 }
 
 int main() {
+	stringstream test;
+	Packet p;
+	test >> p;
+
 	cout << "starting threads...\n";
 
+	/*** CHANGE THESE LINES                               ***/
 	thread tx(send_loop);
 	thread rx(recv_loop);
 	tx.join();
 	rx.join();
+	/***                    IF YOU'RE RUNNING ON THE PICO ***/
 
 	return 0;
 }
