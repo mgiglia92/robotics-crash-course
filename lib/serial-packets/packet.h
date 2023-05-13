@@ -26,6 +26,14 @@ public:
 	std::string checksum() const;
 	bool checksum(const std::string&) const;
 
+	/*
+	 * str(), read_from() -- identical to the stream operators below, but
+	 * work with strings. read_from() will return false if the operation
+	 * fails (i.e., the string does not contain a valid packet).
+	 */
+	std::string str() const;
+	bool read_from(const std::string&);
+
 	inline int32_t id() const { return id_; }
 	inline const std::string& data() const { return data_; }
 

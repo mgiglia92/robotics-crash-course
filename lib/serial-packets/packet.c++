@@ -25,6 +25,14 @@ bool Packet::checksum(const std::string& sum) const {
 	return sum == checksum();
 }
 
+std::string Packet::str() const {
+	return (std::ostringstream() << *this).str();
+}
+
+bool Packet::read_from(const std::string& in) {
+	return (std::istringstream(in) >> *this).operator bool();
+}
+
 std::ostream& operator << (std::ostream& out, const Packet& p) {
 	return out
 		<< start_tx
@@ -43,6 +51,10 @@ std::istream& operator >> (std::istream& in, Packet& p) {
 			// expanded for debugging
 			auto c = in.get();
 			if (c == start_tx) break;
+
+			// for consistency with other stream behavior, we'll
+			// let the caller deal with it.
+			if (!in) return in;
 		}
 
 		// read in the packet, section by section
@@ -50,9 +62,9 @@ std::istream& operator >> (std::istream& in, Packet& p) {
 		std::string b64_data;
 		std::string checksum;
 
-		getline(in, b64_id, start_data);
-		getline(in, b64_data, end_data);
-		getline(in, checksum, end_tx);
+		std::getline(in, b64_id, start_data);
+		std::getline(in, b64_data, end_data);
+		std::getline(in, checksum, end_tx);
 
 		// either verify the checksum or keep listening
 		int32_t id;
