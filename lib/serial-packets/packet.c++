@@ -26,11 +26,15 @@ bool Packet::checksum(const std::string& sum) const {
 }
 
 std::string Packet::str() const {
-	return (std::ostringstream() << *this).str();
+	std::ostringstream out;
+	out << *this;
+	return out.str();
 }
 
-bool Packet::read_from(const std::string& in) {
-	return (std::istringstream(in) >> *this).operator bool();
+bool Packet::read_from(const std::string& in_str) {
+	std::istringstream in(in_str);
+	in >> *this;
+	return in.fail();
 }
 
 std::ostream& operator << (std::ostream& out, const Packet& p) {
