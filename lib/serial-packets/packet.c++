@@ -26,7 +26,9 @@ bool Packet::checksum(const std::string& sum) const {
 }
 
 std::string Packet::str() const {
-	return (std::ostringstream() << *this).str();
+	std::ostringstream out;
+	out << *this;
+	return out.str();
 }
 
 bool Packet::read_from(const std::string& in) {
