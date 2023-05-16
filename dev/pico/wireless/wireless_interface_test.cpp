@@ -79,10 +79,18 @@ int main()
         adc_select_input(2);
         delay_length = adc_read();
         sleep_ms(delay_length);
-        Packet inpack;
-        queue_remove_blocking(&interface.recv_queue, &inpack);
         // cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
-        printf("Recv Queue: %c\n", inpack.data().c_str());
+        // printf("Recv Queue: %s\n", interface.msg_stream.str().c_str());
+        // Packet p;
+        // interface.msg_stream >> p;
+        // printf("Packet ID: %s\n", p.str());
+        if (interface.msg_stream.rdbuf()->in_avail())
+        {
+            cout << interface.msg_stream.str() << endl;
+            istringstream tmp;
+            interface.msg_stream.str("");
+            interface.msg_stream.clear();
+        }
     }
 
     cyw43_arch_deinit();

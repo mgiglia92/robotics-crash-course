@@ -22,7 +22,7 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.101"
+#define IP_SEND "192.168.1.2"
 #define IP_RECV "192.168.1.37"
 #define BEACON_INTERVAL_MS 100
 
@@ -57,6 +57,7 @@ class WirelessMsgInterface
         lwip_infra_t lwip_infra;
         queue_t recv_queue;
         queue_t send_queue;
+        stringstream msg_stream;
 
 };
 
@@ -70,7 +71,7 @@ WirelessMsgInterface::WirelessMsgInterface(string ip_send, string ip_recv, uint3
     ipaddr_aton(ip_send.c_str(), &(this->lwip_infra.ip_send));
     printf("DEBUG: ip_send %s | %s\n", IP_SEND, ipaddr_ntoa(&this->lwip_infra.ip_send));
     printf("DEBUG: ip_recv %s | %s\n", IP_RECV, ipaddr_ntoa(&this->lwip_infra.ip_recv));
-
+    
     //Get the ip address we've been given
     ip_addr_t ipnetif = netif_list->ip_addr;
     lwip_infra.ip_recv = ipnetif;
@@ -92,19 +93,20 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
     tmpPtr = (uint8_t*)(p->payload);
     stringstream indata;
     uint8_t data[p->tot_len]; //char array to place udp packet charaters into
+    
+
     //break the above rule right away
     printf("%i chars from: %s | ", p->len, ipaddr_ntoa(addr));
     for(int i = 0; i < p->len; i++)
     {   
         data[i] = *(tmpPtr++);
         indata << data[i];
+
+        obj->msg_stream << data[i];
         printf("%c", data[i]);
     }
 
-    Packet pack;
-    printf("string stream data: %s", indata.str().c_str());
-    printf("RECV CALLBACK packet data: %s", pack.data().c_str());
-    queue_add_blocking(&obj->recv_queue, &pack);
+    // queue_add_blocking(&obj->recv_queue, &pack);
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -156,7 +158,6 @@ bool WirelessMsgInterface::send_msg(Packet pack)
     }
     return true;
 }
-
 
 void WirelessMsgInterface::packet_receiver() {
 	bool switch_modes = false;
