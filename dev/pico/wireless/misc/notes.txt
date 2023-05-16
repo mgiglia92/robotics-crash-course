@@ -1,0 +1,4 @@
+Make sure to run cmake like the following
+FOr some reason threadsafe background does not work with malloc, need to debug
+This error went away, must have been fixed with a directory included or something.
+cmake clean -DWIFI_SSID="Mg" -DWIFI_PASSWORD="abc12333" -DPICO_BOARD=pico_w ..
