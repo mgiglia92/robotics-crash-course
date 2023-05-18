@@ -1,3 +1,4 @@
+#define DEBUG
 #include <rcc_wireless_msg_interface.h>
 #include <stdlib.h>
 #include "pico/stdlib.h"
@@ -38,7 +39,6 @@ bool timer_callback(struct repeating_timer *t)
     interface = (WirelessMsgInterface*)(t->user_data);
     Packet p;
     interface->send_msg(p);
-    printf("IN TIMER\n");
     cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
     return true;
 }
@@ -53,7 +53,7 @@ int main()
     adc_set_temp_sensor_enabled(true);
     
     stdio_init_all();    
-    sleep_ms(500);
+    sleep_ms(5000);
     if (cyw43_arch_init()) {
         printf("failed to initialise\n");
         return 1;
@@ -74,23 +74,23 @@ int main()
 
     while(true)
     {
-        // Packet p;
-        // interface.send_msg(p);
         adc_select_input(2);
         delay_length = adc_read();
         sleep_ms(delay_length);
-        // cyw43_arch_gpio_put(0, !cyw43_arch_gpio_get(0));
-        // printf("Recv Queue: %s\n", interface.msg_stream.str().c_str());
-        // Packet p;
-        // interface.msg_stream >> p;
-        // printf("Packet ID: %s\n", p.str());
-        if (interface.msg_stream.rdbuf()->in_avail())
-        {
-            cout << interface.msg_stream.str() << endl;
-            istringstream tmp;
-            interface.msg_stream.str("");
-            interface.msg_stream.clear();
+        Packet p;
+        interface.msg_stream >> p;
+        inter_thread_message m(p);
+        // if (interface.msg_stream.rdbuf()->in_avail())
+        // {
+        if(!interface.msg_stream)
+        {    
+            printf("Pack failed!\n");  
         }
+        else{
+            cout << "received: " << m.s << '\n';
+            interface.packet_receiver(p);
+        }  
+        // }
     }
 
     cyw43_arch_deinit();

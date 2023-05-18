@@ -20,6 +20,7 @@ struct Test_Inbound {
 };
 
 struct Test_Outbound {
+	static constexpr const int32_t id = 377;
 	Packet pack();
 
 	float field_1;
