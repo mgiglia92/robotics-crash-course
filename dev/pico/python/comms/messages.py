@@ -1,5 +1,5 @@
-from pico_bridge.comms.packet import *
-from pico_bridge.comms.serialize import *
+from comms.packet import *
+from comms.serialize import *
 
 class Test_Outbound:
 	def __init__(self, field_1, field_2):
@@ -16,6 +16,7 @@ class Test_Outbound:
 		return f'Test_Outbound<{self.field_1}, {self.field_2}>'
 
 class Test_Inbound:
+	
 	def __init__(self, p):
 		[
 			self.field_1, self.field_2, self.field_3
@@ -23,9 +24,12 @@ class Test_Inbound:
 			(Float, Float, Float),
 			p.data()
 		)
-
+	@staticmethod
+	def id():
+		return 377
 	def __repr__(self):
 		return f'Test_Inbound<{self.field_1}, {self.field_2}, {self.field_3}>'
+	
 class SwitchToConsole:
 	def __init__(self):
 		self.id_ = 0
@@ -89,6 +93,39 @@ class MoveFeedback:
 class Stop:
 	def __init__(self):
 		self.id_ = 666
-
+		
 	def pack(self):
 		return Packet(self.id_, b' ')
+
+class Twist:
+	def __init__(self, msg):
+		self.id_ = 88
+		self.packet_spec = (Float, Float)
+
+		if type(msg) is Packet:
+			self.from_pack(msg)
+			return None
+		if type(msg) is tuple:
+			[self.linear, self.angular] = [msg[0], msg[1]]
+		else:
+			[self.linear, self.angular] = [msg.linear,msg.angular]
+		self.fields = [self.linear, self.angular]
+
+	def pack(self):
+		return Packet(self.id_,serialize(self.packet_spec, self.fields))
+	
+	@staticmethod
+	def id():
+		return 88
+	
+	def from_pack(self,p):
+		[
+			self.linear, self.angular
+		], _ = deserialize(
+			(Float, Float),
+			p.data()
+		)
+		self.fields = [self.linear,self.angular]
+		
+	def __repr__(self):
+		return f'Twist<{self.linear}, {self.angular}>'
