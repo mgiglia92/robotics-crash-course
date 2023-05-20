@@ -1,4 +1,4 @@
-from pico_bridge.comms.serialize import *
+from comms.serialize import *
 import base64
 import hashlib
 
@@ -42,7 +42,7 @@ class Packet:
 	def from_bytes(cls, b):
 		if b[0] == start_tx:
 			b = b[1:]
-
+		b = b[:b.find(end_tx)]
 		b64_id, remainder = b.split(start_data, 1)
 		b64_data, cksum = remainder.split(end_data, 1)
 		if cksum[-1:] == end_tx:
@@ -58,6 +58,20 @@ class Packet:
 
 	def write_to(self, ser):
 		ser.write(self.to_bytes())
+	
+	# Write to socket
+	def wireless_write_to(self, wireless):
+		wireless.sockout.sendto(self.to_bytes(), (wireless.interface.picoip, wireless.interface.porttopico))
+		pass
+
+	@classmethod
+	def read_from_raw(cls, data):
+		if type(data) == str:
+			return cls.from_bytes(bytes(data, encoding='utf-8'))
+		if type(data) == bytes:
+			return cls.from_bytes(data)
+		return cls.from_bytes(data)
+
 
 	# will block until a verified packet gets through!
 	@classmethod
