@@ -50,6 +50,16 @@ struct Simple_Move {
 	int32_t trans_id;
 };
 
+struct Twist {
+	static constexpr const int32_t id = 88;
+	Twist();
+	Twist(const Packet&);
+	Packet pack();
+
+	float linear;
+	float angular;
+};
+
 struct Stop {
 	static constexpr const int32_t id = 666;
 };

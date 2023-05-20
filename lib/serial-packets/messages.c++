@@ -12,7 +12,7 @@ Test_Inbound::Test_Inbound(const Packet& p) {
 
 Packet Test_Outbound::pack() {
 	return Packet(
-		377,
+		Test_Outbound::id,
 		serialize<
 			float, float, float
 		>(std::make_tuple(
@@ -53,3 +53,22 @@ Packet Move_Feedback::pack() {
 		))
 	);
 }
+
+Twist::Twist(){
+
+}
+
+Twist::Twist(const Packet& p){
+	std::tie(linear, angular) = deserialize<float, float>(p.data());
+}
+
+Packet Twist::pack(){
+		return Packet(
+		Twist::id,
+		serialize<
+			float, float
+		>(std::make_tuple(
+			linear,angular
+		))
+	);
+	}
