@@ -4,6 +4,7 @@
 #include "lwip/dns.h"
 #include "lwip/ip_addr.h"
 #include "serial-packets/packet.h"
+#include "serial-packets/packet.c++"
 #include "serial-packets/serialize.h"
 #include "serial-packets/messages.h"
 #include "cpp-base64/base64.h"
@@ -22,8 +23,8 @@
 #define PORT_SEND 9999
 #define PORT_RECV 9900
 #define BEACON_MSG_LEN_MAX 500
-#define IP_SEND "192.168.1.2"
-#define IP_RECV "192.168.1.37"
+#define IP_SEND "192.168.1.35" //Computers IP
+#define IP_RECV "192.168.1.37" //Picos IP
 #define BEACON_INTERVAL_MS 100
 
 using namespace std;
@@ -116,7 +117,7 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
     char* tmpPtr;
     tmpPtr = reinterpret_cast<char*>((uint8_t*)(p->payload));
     char data[p->tot_len]; //char array to place udp packet charaters into
-    printf("[CALLBACK, IP:%s]: %s", ipaddr_ntoa(addr), data);
+    printf("[CALLBACK]:");
     stringstream tmp;
     for(int i = 0; i < p->len; i++)
     {   
@@ -124,15 +125,16 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
         tmp << data[i];
         printf("%c", data[i]);
     }
+    printf("\n");
     Test_Outbound out;
     out.field_1 = 1.1;
     out.field_2 = 2.2;
     out.field_3 = 3.3;
-    inter_thread_message m(out.pack());
-    // inter_thread_message m(tmp.str());
+    // inter_thread_message m(out.pack());
+    inter_thread_message m(tmp.str());
     interface->msg_stream.str("");
     interface->msg_stream.clear();
-    interface->msg_stream << m.pack();
+    interface->msg_stream << m.s;
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -158,37 +160,41 @@ bool WirelessMsgInterface::send_msg(Packet pack)
     field_2 = 233;
     field_3=444;
 
-    Test_Outbound out;
-    out.field_1 = 1.1;
-    out.field_2 = 2.2;
-    out.field_3 = 3.3;
+    Twist out;
+    out.linear = 1.3;
+    out.angular = 0.5;
 
     // stringify the data
     std::string ack = base64_encode(
-        serialize<int32_t, float, float, float>(
+        serialize<float, float, float>(
             make_tuple(
-                377l,
                 field_2,
-                field_1 + field_2,
-                exp(1.0f)
+                field_2,
+                field_3
             )
         )
     );
-    // Packet packet(88, ack.c_str());
+    // Packet packet(Test_Outbound::id, ack.c_str());
     Packet packet;
     packet = out.pack();
 
     struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
     char *req = (char *)p->payload;
     memset(req, 0, BEACON_MSG_LEN_MAX+1);
-    snprintf(req, BEACON_MSG_LEN_MAX, "%s\r\n", packet.data().c_str()); //instead get the package stsring
+    // string s("TESTING");
+    // snprintf(req, BEACON_MSG_LEN_MAX, "%x%s%x\r\n", start_tx, s.c_str(), end_tx); 
+    stringstream s;
+    s << packet;
+    snprintf(req, BEACON_MSG_LEN_MAX, "%s", s.str().c_str()); //instead get the package stsring
+
     err_t er = udp_sendto(lwip_infra.pcb_send, p, &lwip_infra.ip_send, PORT_SEND); //Send the string over udp
     pbuf_free(p);
 
     if (er != ERR_OK) {
         printf("Failed to send UDP packet! error=%d", er);
     } else {
-        // printf("Sent packet %s\n", ack.c_str()); 
+        // printf("Sent packet %s\n", packet.data().c_str()); 
+        cout << "Sent packet: " << packet << '\n';
     }
     return true;
 }
@@ -199,7 +205,14 @@ void WirelessMsgInterface::packet_receiver(Packet p) {
         break;
     case Test_Outbound::id: {
         #ifdef DEBUG
-            printf("[DEBUG]: TEST OUTBOUND!\n");
+            printf("[DEBUG]: TEST OUTBOUND RECEIVED!\n");
+        #endif
+        break;
+    }
+    case Twist::id:
+    {
+        #ifdef DEBUG
+            printf("[DEBUG]: Twist Message Received!");
         #endif
         break;
     }

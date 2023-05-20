@@ -87,7 +87,6 @@ int main()
             printf("Pack failed!\n");  
         }
         else{
-            cout << "received: " << m.s << '\n';
             interface.packet_receiver(p);
         }  
         // }
