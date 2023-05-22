@@ -55,6 +55,7 @@ struct Twist {
 	Twist();
 	Twist(const Packet&);
 	Packet pack();
+	std::string repr();
 
 	float linear;
 	float angular;
