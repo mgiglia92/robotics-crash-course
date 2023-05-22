@@ -16,23 +16,24 @@ class JoyInterface():
         self.angularAxis = 'LEFT-X'
         self.linear = 0
         self.angular= 0
-        # self.timer = threading.Timer(0.05, self.append_to_queue)
-        # self.timer.start()
+        self.timer = threading.Timer(0.25, self.append_to_queue)
+        self.timer.start()
         
     def linear_handler(self, position):
         self.linear=position
-        self.append_to_queue()
+        # self.append_to_queue()
 
     def angular_handler(self, position):
         self.angular=position
-        self.append_to_queue()
+        # self.append_to_queue()
 
     def append_to_queue(self):
         msg = Twist((self.linear, self.angular))
         pout = msg.pack()
         self.w.send(pout)
         print(f"Added: {msg} to queue, raw {self.linear} | {self.angular}")
-        # self.timer.run()
+        self.timer = threading.Timer(.25, self.append_to_queue)
+        self.timer.start()
 
 # w = WirelessController(WirelessInterface)
 j = JoyInterface()

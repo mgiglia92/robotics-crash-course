@@ -7,8 +7,6 @@
 #include "serial-packets/packet.c++"
 #include "serial-packets/serialize.h"
 #include "serial-packets/messages.h"
-#include "cpp-base64/base64.h"
-#include "pico/util/queue.h"
 #include <stdlib.h>
 #include <cmath>
 #include <cstddef>
@@ -19,7 +17,7 @@
 #include <tuple>
 #include <vector>
 #include <stdio.h>
-#include <mutex>
+#include "pico/mutex.h"
 #include <condition_variable>
 
 #define PORT_SEND 9999
@@ -82,10 +80,9 @@ class WirelessMsgInterface
         bool init_cyw43();
         void packet_receiver(Packet);
         lwip_infra_t lwip_infra;
-        queue_t recv_queue;
-        queue_t send_queue;
         stringstream msg_stream;
         string msg;
+        mutex_t mtx;
 };
 
 WirelessMsgInterface::WirelessMsgInterface(string ip_send, string ip_recv, uint32_t port_send, uint32_t port_recv)
@@ -102,6 +99,7 @@ WirelessMsgInterface::WirelessMsgInterface(string ip_send, string ip_recv, uint3
     //Get the ip address we've been given
     ip_addr_t ipnetif = netif_list->ip_addr;
     lwip_infra.ip_recv = ipnetif;
+    mutex_init(&mtx);
 }
 
 
@@ -122,18 +120,23 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
     stringstream tmp;
     // auto lock = std::unique_lock{mtx};
     // interface->readingStarted.wait(lock);
-    for(int i = 0; i < p->len; i++)
-    {   
-        data[i] = *(tmpPtr++);
-        tmp << data[i];
+    uint32_t ownerout;
+    if(mutex_try_enter(&interface->mtx, &ownerout))
+    {
+        interface->msg_stream.str("");
+        interface->msg_stream.clear();
+        for(int i = 0; i < p->len; i++)
+            {   
+                data[i] = *(tmpPtr++);
+                tmp << data[i];
+                interface->msg_stream << data[i];
+            }
+            // inter_thread_message m(out.pack());
+            // inter_thread_message m(tmp.str());
+            // interface->msg_stream << m.s;
+            printf("Received msg!\n");
+            mutex_exit(&interface->mtx);
     }
-    // inter_thread_message m(out.pack());
-    inter_thread_message m(tmp.str());
-    interface->msg_stream.str("");
-    interface->msg_stream.clear();
-    interface->msg_stream << m.s;
-    printf("Received msg!\n");
-    // interface->writeStarted.notify_one();
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -147,7 +150,6 @@ void WirelessMsgInterface::setup_wireless_interface()
     // const ip_addr_t ip_recv = lwip_infra.ip_recv;
     udp_bind(lwip_infra.pcb_recv, &lwip_infra.ip_recv, lwip_infra.port_recv); //Bind the pico ipaddr to port 9990
     udp_recv(lwip_infra.pcb_recv, this->recv_msg, this); //Setup recv callback fcn
-    queue_init(&recv_queue, sizeof(Packet*), 100);
 }
 
 bool WirelessMsgInterface::send_msg(Packet pack)

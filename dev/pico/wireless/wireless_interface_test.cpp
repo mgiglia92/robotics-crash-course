@@ -32,17 +32,17 @@ void WirelessMsgInterface::packet_receiver(Packet p) {
             printf("[DEBUG]: %s", twist.repr().c_str());
             printf("Twist rep: %f, %f\n", twist.linear, twist.angular);
         #endif
-        // float lpwr = twist.linear - twist.angular;
-        // float rpwr = twist.linear + twist.angular;
-        // lpwr = min(max(-1., lpwr), 1.);
-        // rpwr = min(max(-1., rpwr), 1.);
-        // if(lpwr < 0){gpio_put(IN1,false); gpio_put(IN2, true);}
-        // else{gpio_put(IN1,true); gpio_put(IN2, false);}
-        // if(rpwr < 0){gpio_put(IN3,false); gpio_put(IN4, true);}
-        // else{gpio_put(IN3,true); gpio_put(IN4, false);}
+        float lpwr = -1*(twist.linear - twist.angular);
+        float rpwr = -1*(twist.linear + twist.angular);
+        lpwr = min(max(-1.f, lpwr), 1.f);
+        rpwr = min(max(-1.f, rpwr), 1.f);
+        if(lpwr < 0){gpio_put(IN1,false); gpio_put(IN2, true);}
+        else{gpio_put(IN1,true); gpio_put(IN2, false);}
+        if(rpwr < 0){gpio_put(IN3,false); gpio_put(IN4, true);}
+        else{gpio_put(IN3,true); gpio_put(IN4, false);}
 
-        // pwm_set_duty(ENA, int(abs(lpwr)*100));
-        // pwm_set_duty(ENB, int(abs(rpwr)*100));
+        pwm_set_duty(ENA, int(abs(lpwr)*100));
+        pwm_set_duty(ENB, int(abs(rpwr)*100));
         break;
     }
     case Position::id: {
@@ -172,10 +172,8 @@ int main()
     printf("This PICO's IP address is: %s\n", address);
 
     while(true)
-    {
-        // std::unique_lock<std::mutex> lock{interface.mtx};
-        // interface.readStarted.notify_one();
-        // interface.writeStarted.wait(lock);
+    {   
+        mutex_enter_blocking(&interface.mtx);
         Packet p;
         interface.msg_stream >> p;
         inter_thread_message m(p);
@@ -186,6 +184,8 @@ int main()
         else{
             interface.packet_receiver(p);
         }
+        mutex_exit(&interface.mtx);
+        sleep_ms(100);
 
     }
 
