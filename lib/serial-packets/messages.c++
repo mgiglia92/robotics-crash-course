@@ -1,6 +1,6 @@
 #include "messages.h"
-
 #include "serialize.h"
+#include <sstream>
 
 Test_Inbound::Test_Inbound(const Packet& p) {
 	std::tie(
@@ -72,3 +72,10 @@ Packet Twist::pack(){
 		))
 	);
 	}
+
+std::string Twist::repr()
+{
+	std::stringstream ss;
+	ss << "Twist<linear: " << linear << " angular: " << angular << ">\n";
+	return ss.str();
+}
