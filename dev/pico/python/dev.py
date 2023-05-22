@@ -4,16 +4,61 @@ from comms.packet import *
 from comms.controller import *
 import socket
 import time
-# ip_address = socket.gethostbyname("PICOHOME")
-# print(f"pico ip_address: {ip_address}")
-# p = Packet.from_bytes(b'AAAA=92cb9d68f8ec81f3c51db3af82af257d8d99a110')
+from input.Gamepad import Gamepad
+import threading
+import struct
 
-print("DEBUG")
-w = WirelessController(WirelessInterface)
-# c = CommsController('/dev/ttyACM0')
+class JoyInterface():
+    def __init__(self):
+        self.w = WirelessController(WirelessInterface)
+        self.type = Gamepad.PS4
+        self.linearAxis = 'LEFT-Y'
+        self.angularAxis = 'LEFT-X'
+        self.linear = 0
+        self.angular= 0
+        # self.timer = threading.Timer(0.05, self.append_to_queue)
+        # self.timer.start()
+        
+    def linear_handler(self, position):
+        self.linear=position
+        self.append_to_queue()
+
+    def angular_handler(self, position):
+        self.angular=position
+        self.append_to_queue()
+
+    def append_to_queue(self):
+        msg = Twist((self.linear, self.angular))
+        pout = msg.pack()
+        self.w.send(pout)
+        print(f"Added: {msg} to queue, raw {self.linear} | {self.angular}")
+        # self.timer.run()
+
+# w = WirelessController(WirelessInterface)
+j = JoyInterface()
+
+gamepadType = Gamepad.PS4
+# Wait for a connection
+if not Gamepad.available():
+    print('Please connect your gamepad...')
+    while not Gamepad.available():
+        time.sleep(1.0)
+gamepad = gamepadType()
+print('Gamepad connected')
+
+linearAxis = 'LEFT-Y'
+angularAxis = 'LEFT-X'
+
+gamepad.startBackgroundUpdates()
+
+gamepad.addAxisMovedHandler(linearAxis ,j.linear_handler)
+gamepad.addAxisMovedHandler(angularAxis, j.angular_handler)
 
 try:
     while True:
-        time.sleep(1)
-except Exception as e:
-    print(e)
+        time.sleep(0.1)
+        while j.w.has_packet():
+            pin = j.w.get_packet()
+            packet_receive(pin)
+finally:
+    gamepad.disconnect()

@@ -124,7 +124,6 @@ class WirelessController(CommsController):
 	def handle_inbound(self):
 		while True:
 			try:
-				print("Trying to get data from pico")
 				data, addr = self.sockin.recvfrom(512)
 				assert addr[0] == self.interface.picoip, 'Incoming data not from pico'
 				p = Packet.read_from_raw(data)

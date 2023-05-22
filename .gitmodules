@@ -13,3 +13,6 @@
 [submodule "lib/external/argumentum"]
 	path = lib/external/argumentum
 	url = https://github.com/mmahnic/argumentum.git
+[submodule "dev/pico/python/input/Gamepad"]
+	path = dev/pico/python/input/Gamepad
+	url = https://github.com/piborg/Gamepad
