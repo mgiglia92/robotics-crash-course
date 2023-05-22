@@ -19,6 +19,8 @@
 #include <tuple>
 #include <vector>
 #include <stdio.h>
+#include <mutex>
+#include <condition_variable>
 
 #define PORT_SEND 9999
 #define PORT_RECV 9900
@@ -117,24 +119,21 @@ void WirelessMsgInterface::recv_msg( void* arg,              // User argument - 
     char* tmpPtr;
     tmpPtr = reinterpret_cast<char*>((uint8_t*)(p->payload));
     char data[p->tot_len]; //char array to place udp packet charaters into
-    printf("[CALLBACK]:");
     stringstream tmp;
+    // auto lock = std::unique_lock{mtx};
+    // interface->readingStarted.wait(lock);
     for(int i = 0; i < p->len; i++)
     {   
         data[i] = *(tmpPtr++);
         tmp << data[i];
-        printf("%c", data[i]);
     }
-    printf("\n");
-    Test_Outbound out;
-    out.field_1 = 1.1;
-    out.field_2 = 2.2;
-    out.field_3 = 3.3;
     // inter_thread_message m(out.pack());
     inter_thread_message m(tmp.str());
     interface->msg_stream.str("");
     interface->msg_stream.clear();
     interface->msg_stream << m.s;
+    printf("Received msg!\n");
+    // interface->writeStarted.notify_one();
 
     // Must free receive pbuf before return
     pbuf_free(p);
@@ -153,30 +152,30 @@ void WirelessMsgInterface::setup_wireless_interface()
 
 bool WirelessMsgInterface::send_msg(Packet pack)
 {
-    //place holder variables for data
-    int32_t packet_id;
-    float field_1, field_2, field_3;
-    field_1 = 133;
-    field_2 = 233;
-    field_3=444;
+    // //place holder variables for data
+    // int32_t packet_id;
+    // float field_1, field_2, field_3;
+    // field_1 = 133;
+    // field_2 = 233;
+    // field_3=444;
 
-    Twist out;
-    out.linear = 1.3;
-    out.angular = 0.5;
+    // Twist out;
+    // out.linear = 1.3;
+    // out.angular = 0.5;
 
-    // stringify the data
-    std::string ack = base64_encode(
-        serialize<float, float, float>(
-            make_tuple(
-                field_2,
-                field_2,
-                field_3
-            )
-        )
-    );
-    // Packet packet(Test_Outbound::id, ack.c_str());
+    // // stringify the data
+    // std::string ack = base64_encode(
+    //     serialize<float, float, float>(
+    //         make_tuple(
+    //             field_2,
+    //             field_2,
+    //             field_3
+    //         )
+    //     )
+    // );
+    // // Packet packet(Test_Outbound::id, ack.c_str());
     Packet packet;
-    packet = out.pack();
+    packet = pack;
 
     struct pbuf *p = pbuf_alloc(PBUF_TRANSPORT, BEACON_MSG_LEN_MAX+1, PBUF_RAM);
     char *req = (char *)p->payload;
@@ -197,59 +196,4 @@ bool WirelessMsgInterface::send_msg(Packet pack)
         cout << "Sent packet: " << packet << '\n';
     }
     return true;
-}
-
-void WirelessMsgInterface::packet_receiver(Packet p) {
-    switch (p.id()) {
-    case 0:
-        break;
-    case Test_Outbound::id: {
-        #ifdef DEBUG
-            printf("[DEBUG]: TEST OUTBOUND RECEIVED!\n");
-        #endif
-        break;
-    }
-    case Twist::id:
-    {
-        #ifdef DEBUG
-            printf("[DEBUG]: Twist Message Received!");
-        #endif
-        break;
-    }
-    case Position::id: {
-        break;
-    }
-
-    case Simple_Move::id: {
-        Simple_Move move(p);
-
-        Test_Outbound tout {
-            move.distance,
-            move.curvature,
-            move.velocity
-        };
-        cout << tout.pack();
-        break;
-    }
-
-    case Stop::id: {
-    }
-
-    default:
-        // nothing (yet, at least)
-        #ifdef DEBUG
-        printf("[DEBUG]: Invalid Packet | id: %u | data: %s\n", p.id(), p.data().c_str());
-        #endif
-        break;
-    }
-
-    // // just so something comes back
-    // Test_Outbound tout {
-    //     exp(-1.0f),
-    //     1,
-    //     exp(1.0f)
-    // };
-    // Packet newp;
-    // newp = tout.pack();
-    // send_msg(newp);
 }
