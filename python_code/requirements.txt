@@ -1,3 +1,0 @@
-matplotlib
-pygame==2.1.2
-pyyaml

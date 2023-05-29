@@ -1,1 +1,0 @@
-Update assembly procedure to reflect new pin outs for the motor controller, and now with the optical interrupt addition.
