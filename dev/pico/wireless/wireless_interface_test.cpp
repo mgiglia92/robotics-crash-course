@@ -151,7 +151,7 @@ int main()
     adc_set_temp_sensor_enabled(true);
     
     stdio_init_all();    
-    sleep_ms(5000);
+    sleep_ms(1000);
     if (cyw43_arch_init()) {
         printf("failed to initialise\n");
         return 1;
