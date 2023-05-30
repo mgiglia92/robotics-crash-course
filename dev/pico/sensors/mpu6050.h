@@ -18,8 +18,8 @@
 
 
 class MPU6050 {
-private:
-	int      i2c_addr = RCC_MPU6050_I2C_ADDR;
+public:
+	uint8_t     i2c_addr = RCC_MPU6050_I2C_ADDR;
 	i2c_inst_t* i2c_inst;
 	// TwoWire *wire     = &Wire;
 
@@ -54,7 +54,7 @@ public:
 	 * fine since we're not currently using the z-axis acceleration
 	 * data for any feedback controls.
 	 */
-	// void calibrate(void);
+	void calibrate(void);
 
 	float getAccel(char axis);
 	float getAccelX(void);

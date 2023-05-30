@@ -104,10 +104,10 @@ int main() {
     printf("Hello, MPU6050! Reading raw data from registers...\n");
 
     int16_t acceleration[3], gyro[3], temp;
-
+    imu.calibrate();
     while (1) {
         imu.update_pico();
-        printf("Accel: %d, %d, %d\n", imu.getAccelX(), imu.getAccelY(), imu.getAccelZ());
+        printf("Accel: %f, %f, %f\n", imu.getAccelX(), imu.getAccelY(), imu.getAccelZ());
         // mpu6050_read_raw(acceleration, gyro, &temp);
 
         // // These are the raw numbers from the chip, so will need tweaking to be really useful.

@@ -84,36 +84,36 @@ void MPU6050::begin(i2c_inst_t* i2c_inst)
 // 	begin();
 // }
 
-// void MPU6050::calibrate(void)
-// {
-// 	float ax_sum = 0;
-// 	float ay_sum = 0;
-// 	float az_sum = 0;
-// 	float wx_sum = 0;
-// 	float wy_sum = 0;
-// 	float wz_sum = 0;
+void MPU6050::calibrate(void)
+{
+	float ax_sum = 0;
+	float ay_sum = 0;
+	float az_sum = 0;
+	float wx_sum = 0;
+	float wy_sum = 0;
+	float wz_sum = 0;
 
-// 	for (int i = 0; i < 100; i++) {
-// 		update();
+	for (int i = 0; i < 100; i++) {
+		update_pico();
 
-// 		ax_sum += raw_ax / ACCEL_SENSITIVITY;
-// 		ay_sum += raw_ay / ACCEL_SENSITIVITY;
-// 		az_sum += raw_az / ACCEL_SENSITIVITY;
-// 		wx_sum += raw_wx / GYRO_SENSITIVITY;
-// 		wy_sum += raw_wy / GYRO_SENSITIVITY;
-// 		wz_sum += raw_wz / GYRO_SENSITIVITY;
-// 	}
+		ax_sum += raw_ax / ACCEL_SENSITIVITY;
+		ay_sum += raw_ay / ACCEL_SENSITIVITY;
+		az_sum += raw_az / ACCEL_SENSITIVITY;
+		wx_sum += raw_wx / GYRO_SENSITIVITY;
+		wy_sum += raw_wy / GYRO_SENSITIVITY;
+		wz_sum += raw_wz / GYRO_SENSITIVITY;
+	}
 
-// 	// NOTE: ax_bias will be incorrect since we're removing the
-// 	// gravity components and assuming calibration on a level
-// 	// surface
-// 	ax_bias = ax_sum / 100;
-// 	ay_bias = ay_sum / 100;
-// 	az_bias = az_sum / 100;
-// 	wx_bias = wx_sum / 100;
-// 	wy_bias = wy_sum / 100;
-// 	wz_bias = wz_sum / 100;
-// }
+	// NOTE: ax_bias will be incorrect since we're removing the
+	// gravity components and assuming calibration on a level
+	// surface
+	ax_bias = ax_sum / 100;
+	ay_bias = ay_sum / 100;
+	az_bias = az_sum / 100;
+	wx_bias = wx_sum / 100;
+	wy_bias = wy_sum / 100;
+	wz_bias = wz_sum / 100;
+}
 
 float MPU6050::getAccel(char axis)
 {
@@ -195,11 +195,11 @@ void MPU6050::update_pico(void)
 	uint8_t val = 0x3B;
 	i2c_write_blocking(i2c_inst, i2c_addr, &val, 1, true);
 	i2c_read_blocking(i2c_inst, i2c_addr, buffer, 14, false);
-	raw_ax = buffer[0] << 8 | buffer[1];
-	raw_ay = buffer[2] << 8 | buffer[3];
-	raw_ax = buffer[4] << 8 | buffer[5];
-	raw_temp = buffer[6] << 8 | buffer[7];
-	raw_wx = buffer[8] << 8 | buffer[9];
-	raw_wy = buffer[10] << 8 | buffer[11];
-	raw_wz = buffer[12] << 8 | buffer[13];
+	this->raw_ax = 		(uint16_t)(buffer[0] << 8) 	+ 	(uint16_t)buffer[1];
+	this->raw_ay = 		(uint16_t)(buffer[2] << 8) 	+	(uint16_t)buffer[3];
+	this->raw_az = 		(uint16_t)(buffer[4] << 8) 	+	(uint16_t)buffer[5];
+	this->raw_temp = 	(uint16_t)(buffer[6] << 8) 	+	(uint16_t)buffer[7];
+	this->raw_wx = 		(uint16_t)(buffer[8] << 8) 	+	(uint16_t)buffer[9];
+	this->raw_wy = 		(uint16_t)(buffer[10] << 8) +	(uint16_t)buffer[11];
+	this->raw_wz = 		(uint16_t)(buffer[12] << 8) +	(uint16_t)buffer[13];
 }
