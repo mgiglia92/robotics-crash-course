@@ -52,5 +52,6 @@ endmacro()
 
 # make_exec(picow_udp_beacon_background picow_udp_beacon.cpp)
 # make_exec(adc_test src/misc/adc_test.cpp)
-make_exec(wireless wireless/wireless_interface_test.cpp)
-make_exec(mpu6050_test sensors/mpu_6050_test.cpp)
+make_exec(wireless tests/wireless_interface_test.cpp)
+make_exec(mpu6050_test tests/mpu_6050_test.cpp)
+make_exec(lidar_test tests/lidar_test.cpp)

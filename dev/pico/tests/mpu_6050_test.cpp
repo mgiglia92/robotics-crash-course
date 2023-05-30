@@ -11,7 +11,7 @@
 #include "pico/binary_info.h"
 #include "hardware/i2c.h"
 #include "pico/cyw43_arch.h"
-#include "mpu6050.h"
+#include "sensors/mpu6050.h"
 using namespace std;
 /* Example code to talk to a MPU6050 MEMS accelerometer and gyroscope
 
