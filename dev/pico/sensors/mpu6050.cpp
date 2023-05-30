@@ -195,11 +195,11 @@ void MPU6050::update_pico(void)
 	uint8_t val = 0x3B;
 	i2c_write_blocking(i2c_inst, i2c_addr, &val, 1, true);
 	i2c_read_blocking(i2c_inst, i2c_addr, buffer, 14, false);
-	this->raw_ax = 		(uint16_t)(buffer[0] << 8) 	+ 	(uint16_t)buffer[1];
-	this->raw_ay = 		(uint16_t)(buffer[2] << 8) 	+	(uint16_t)buffer[3];
-	this->raw_az = 		(uint16_t)(buffer[4] << 8) 	+	(uint16_t)buffer[5];
-	this->raw_temp = 	(uint16_t)(buffer[6] << 8) 	+	(uint16_t)buffer[7];
-	this->raw_wx = 		(uint16_t)(buffer[8] << 8) 	+	(uint16_t)buffer[9];
-	this->raw_wy = 		(uint16_t)(buffer[10] << 8) +	(uint16_t)buffer[11];
-	this->raw_wz = 		(uint16_t)(buffer[12] << 8) +	(uint16_t)buffer[13];
+	this->raw_ax = 		(((uint16_t)buffer[0] ) << 8) 	+ 	(uint16_t)buffer[1] ;
+	this->raw_ay = 		(((uint16_t)buffer[2] ) << 8) 	+	(uint16_t)buffer[3] ;
+	this->raw_az = 		(((uint16_t)buffer[4] ) << 8) 	+	(uint16_t)buffer[5] ;
+	this->raw_temp = 	(((uint16_t)buffer[6] ) << 8) 	+	(uint16_t)buffer[7] ;
+	this->raw_wx = 		(((uint16_t)buffer[8] ) << 8) 	+	(uint16_t)buffer[9] ;
+	this->raw_wy = 		(((uint16_t)buffer[10]) << 8) 	+	(uint16_t)buffer[11];
+	this->raw_wz = 		(((uint16_t)buffer[12]) << 8) 	+	(uint16_t)buffer[13];
 }
