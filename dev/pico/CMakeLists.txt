@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 include(pico_sdk_import.cmake)
-project(picow_udp_beacon_background C CXX ASM)
+project(rcc_pico_dev C CXX ASM)
 pico_sdk_init()
 # include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
 
