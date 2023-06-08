@@ -50,7 +50,7 @@
  * (Hint: your array of arrays will most likely be of type int *array[])
  *
  *
- * For that one kid that wants to know why this works, firstly, you're
+ * For that one person that wants to know why this works, firstly, you're
  * probably a really cool nerd, but secondly, this comes down to how
  * statically-allocated arrays are laid out in memory.  Let's take the
  * following 2D array into consideration:
