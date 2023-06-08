@@ -19,6 +19,10 @@ macro(make_exec exec_name exec_dir)
     pico_enable_stdio_usb(${exec_name} 1)
     pico_enable_stdio_uart(${exec_name} 0)
     
+    # For debugging with openocd
+    # pico_enable_stdio_usb(${exec_name} 0)
+    # pico_enable_stdio_uart(${exec_name} 1)
+
     # Allow hash-library-sha1 to find endian.h which is in include directory
     target_include_directories(hash-library-sha1 PUBLIC wireless/include)
     target_compile_definitions(${exec_name} PUBLIC
@@ -55,3 +59,4 @@ endmacro()
 make_exec(wireless tests/wireless_interface_test.cpp)
 make_exec(mpu6050_test tests/mpu_6050_test.cpp)
 make_exec(lidar_test tests/lidar_test.cpp)
+make_exec(multi_i2c_test tests/multi_i2c_test.cpp)
