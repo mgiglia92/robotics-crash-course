@@ -10,6 +10,7 @@ pico_sdk_init()
 
 add_subdirectory(../../lib lib)
 add_subdirectory(sensors)
+add_subdirectory(include)
 
 macro(make_exec exec_name exec_dir)
     add_executable(${exec_name} ${exec_dir})
@@ -24,7 +25,7 @@ macro(make_exec exec_name exec_dir)
     # pico_enable_stdio_uart(${exec_name} 1)
 
     # Allow hash-library-sha1 to find endian.h which is in include directory
-    target_include_directories(hash-library-sha1 PUBLIC wireless/include)
+    target_include_directories(hash-library-sha1 PUBLIC include)
     target_compile_definitions(${exec_name} PUBLIC
                             WIFI_SSID=\"${WIFI_SSID}\"
                             WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
@@ -36,6 +37,7 @@ macro(make_exec exec_name exec_dir)
                             ${CMAKE_CURRENT_LIST_DIR}
                             ${PICO_SDK_PATH}
                             wireless/include
+                            include
                             
     )
 

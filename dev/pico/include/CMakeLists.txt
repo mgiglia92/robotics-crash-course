@@ -1,0 +1,2 @@
+add_library(rcc_include rcc_stdlib.h)
+set_target_properties(rcc_include PROPERTIES LINKER_LANGUAGE CXX)

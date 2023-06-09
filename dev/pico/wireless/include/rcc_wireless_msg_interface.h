@@ -1,24 +1,24 @@
 #include "pico/cyw43_arch.h"
-#include "lwip/pbuf.h"
-#include "lwip/udp.h"
-#include "lwip/dns.h"
-#include "lwip/ip_addr.h"
+// #include "lwip/pbuf.h"
+// #include "lwip/udp.h"
+// #include "lwip/dns.h"
+// #include "lwip/ip_addr.h"
 #include "serial-packets/packet.h"
 #include "serial-packets/packet.c++"
 #include "serial-packets/serialize.h"
 #include "serial-packets/messages.h"
-#include <stdlib.h>
-#include <cmath>
-#include <cstddef>
-#include <cstdint>
-#include <cstdio>
-#include <iostream>
-#include <sstream>
-#include <tuple>
-#include <vector>
+// #include <stdlib.h>
+// #include <cmath>
+// #include <cstddef>
+// #include <cstdint>
+// #include <cstdio>
+// #include <iostream>
+// #include <sstream>
+// #include <tuple>
+// #include <vector>
 #include <stdio.h>
 #include "pico/mutex.h"
-#include <condition_variable>
+// #include <condition_variable>
 
 #define PORT_SEND 9999
 #define PORT_RECV 9900

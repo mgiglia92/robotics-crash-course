@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <iostream>
-#include <string.h>
-#include "pico/stdlib.h"
-// #include "pico/binary_info.h"
-#include "hardware/i2c.h"
-// #include "pico/cyw43_arch.h"
-#include "sensors/mpu6050.h"
-#include "sensors/VL53L0X.h"
+#include "rcc_stdlib.h"
 using namespace std;
 
 void rcc_init_i2c_bus(void)
