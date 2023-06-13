@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 
 //Pico SDK
@@ -16,3 +17,4 @@
 #include "pwm_helper.h"
 #include "sensors/mpu6050.h"
 #include "sensors/VL53L0X.h"
+#include "sensors/hc-sr04.h"
