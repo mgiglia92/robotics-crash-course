@@ -16,6 +16,3 @@
 [submodule "dev/pico/python/input/Gamepad"]
 	path = dev/pico/python/input/Gamepad
 	url = https://github.com/piborg/Gamepad
-[submodule "lib/external/pico-servo"]
-	path = lib/external/pico-servo
-	url = https://github.com/irishpatrick/pico-servo.git
