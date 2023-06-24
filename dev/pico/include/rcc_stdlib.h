@@ -19,4 +19,3 @@
 #include "sensors/VL53L0X.h"
 #include "sensors/hc-sr04.h"
 #include "sensors/odom.h"
-#include "actuators/pico_servo.h"
