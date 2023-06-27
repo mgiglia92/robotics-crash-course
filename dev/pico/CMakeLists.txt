@@ -12,6 +12,7 @@ add_subdirectory(include)
 add_subdirectory(../../lib lib)
 add_subdirectory(sensors)
 add_subdirectory(actuators)
+add_subdirectory(util)
 
 macro(make_exec exec_name exec_dir)
     add_executable(${exec_name} ${exec_dir})
@@ -51,6 +52,7 @@ macro(make_exec exec_name exec_dir)
                             serial-packets
                             hardware_i2c
                             sensors
+                            util
     )
 
 
@@ -68,3 +70,4 @@ make_exec(odom_test tests/odom_test.cpp)
 make_exec(servo_pot_test tests/servo_pot_test.cpp)
 make_exec(motor_test tests/motor_test.cpp)
 make_exec(frequency_test tests/frequency_test.cpp)
+make_exec(control_test tests/control_test.cpp)
