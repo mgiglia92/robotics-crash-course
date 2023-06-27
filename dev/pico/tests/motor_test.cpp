@@ -24,7 +24,7 @@ int main(void)
     {   
         int32_t pot_val = (adc_read()*2) - 4097;
         sleep_ms(10);
-        cout << "r chan: " << pot_val <<
+        cout << "r chan: " << pot_val << " power: " << 100*pot_val/4097 <<
             "\n";
         MotorPower(&motors, 100*pot_val/4097, 100*pot_val/4097);
         cyw43_arch_gpio_put(0, !(cyw43_arch_gpio_get(0)));
