@@ -14,9 +14,9 @@
 #include <cstdint>
 
 
-#define RCC_LEFT_ENCODER_PIN_INT  2
+#define RCC_LEFT_ENCODER_PIN_INT  12
 #define RCC_LEFT_ENCODER_PIN_DIR  1
-#define RCC_RIGHT_ENCODER_PIN_INT 3
+#define RCC_RIGHT_ENCODER_PIN_INT 13
 #define RCC_RIGHT_ENCODER_PIN_DIR 4
 
 
@@ -56,12 +56,12 @@ public:
 	Dir_Odom();
 };
 
-using Left_Odom = Odom<RCC_LEFT_ENCODER_PIN_INT>;
-using Right_Odom = Odom<RCC_RIGHT_ENCODER_PIN_INT>;
-using Left_Dir_Odom = Dir_Odom<RCC_LEFT_ENCODER_PIN_INT,
-                               RCC_LEFT_ENCODER_PIN_DIR>;
-using Right_Dir_Odom = Dir_Odom<RCC_RIGHT_ENCODER_PIN_INT,
-                                RCC_RIGHT_ENCODER_PIN_DIR>;
+// using Left_Odom = Odom<RCC_LEFT_ENCODER_PIN_INT>;
+// using Right_Odom = Odom<RCC_RIGHT_ENCODER_PIN_INT>;
+// using Left_Dir_Odom = Dir_Odom<RCC_LEFT_ENCODER_PIN_INT,
+//                                RCC_LEFT_ENCODER_PIN_DIR>;
+// using Right_Dir_Odom = Dir_Odom<RCC_RIGHT_ENCODER_PIN_INT,
+//                                 RCC_RIGHT_ENCODER_PIN_DIR>;
 
 
 #include "odom_impl.h"
