@@ -3,6 +3,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 
+set(PICO_BOARD pico_w) # Force pico_w so onboard led and wireless sdk stuff is built
 include(pico_sdk_import.cmake)
 project(rcc_pico_dev C CXX ASM)
 pico_sdk_init()
@@ -41,7 +42,7 @@ macro(make_exec exec_name exec_dir)
                             # CYW43_HOST_NAME="NAME_I_WANT MY PICO TO HAVE ON NETWORK"
 
                         # Pico Sdk
-                            PICO_MAX_SHARED_IRQ_HANDLERS=5 #IMPORTANT!! It seems default shared irq is 2, we need more.
+                            PICO_MAX_SHARED_IRQ_HANDLERS=6 #IMPORTANT!! It seems default shared irq is 2, we need more.
                             
                         # Related to wireless capabilities
                             # PICO_CYW43_ARCH_BACKGROUND
@@ -56,7 +57,7 @@ macro(make_exec exec_name exec_dir)
     )
 
     target_link_libraries(${exec_name}
-                            # pico_cyw43_arch_lwip_threadsafe_background
+                            # pico_cyw43_arch_lwip_threadsafe_background # For wireless
                             pico_cyw43_arch_none
                             pico_stdlib
                             hardware_adc
