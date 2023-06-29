@@ -68,7 +68,7 @@ int main()
         angvelz = imu.getAngVelZ();
 
         cyw43_arch_gpio_put(0, !(cyw43_arch_gpio_get(0)));
-        gpio_put(21, true);
+        gpio_put(21, !(gpio_get(21)));
         //Print everything
         cout << "mpu: " << accelx << " " << accely << " " << angvelz << 
         "Odom: " << left.getCount() << " " << right.getCount() << '\n';
