@@ -13,6 +13,8 @@
 #include "pico/cyw43_arch.h" //Imported to blink LED
 #include "hardware/adc.h"
 #include "hardware/i2c.h"
+#include "hardware/gpio.h"
+#include "hardware/irq.h"
 
 //Rcc made
 #include "pwm_helper.h"

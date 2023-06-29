@@ -13,7 +13,6 @@
 
 #include <hardware/gpio.h>
 #include <hardware/irq.h>
-#include <pico/stdlib.h>
 
 
 template<int int_pin>
