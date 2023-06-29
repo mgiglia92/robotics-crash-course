@@ -33,6 +33,7 @@ macro(make_exec exec_name exec_dir)
                             WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
                             PICO_CYW43_ARCH_BACKGROUND
                             CYW43_HOST_NAME=\"${CYW43_HOST_NAME}\"
+                            PICO_MAX_SHARED_IRQ_HANDLERS=5
     )
 
     target_include_directories(${exec_name} PUBLIC
@@ -71,3 +72,4 @@ make_exec(servo_pot_test tests/servo_pot_test.cpp)
 make_exec(motor_test tests/motor_test.cpp)
 make_exec(frequency_test tests/frequency_test.cpp)
 make_exec(control_test tests/control_test.cpp)
+make_exec(all_sensor_test tests/all_sensor_test.cpp)
