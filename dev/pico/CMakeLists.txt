@@ -7,7 +7,6 @@ set(PICO_BOARD pico_w) # Force pico_w so onboard led and wireless sdk stuff is b
 include(pico_sdk_import.cmake)
 project(rcc_pico_dev C CXX ASM)
 pico_sdk_init()
-# include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
 
 add_subdirectory(include)
 add_subdirectory(../../lib lib)
@@ -86,3 +85,4 @@ make_exec(motor_test tests/motor_test.cpp)
 make_exec(frequency_test tests/frequency_test.cpp)
 make_exec(control_test tests/control_test.cpp)
 make_exec(all_sensor_test tests/all_sensor_test.cpp)
+make_exec(vel_control_test tests/vel_control_test.cpp)

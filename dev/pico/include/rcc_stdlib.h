@@ -17,6 +17,7 @@
 #include "hardware/irq.h"
 
 //Rcc made
+#include "rcc_pins.h"
 #include "pwm_helper.h"
 #include "sensors/mpu6050.h"
 #include "sensors/VL53L0X.h"
