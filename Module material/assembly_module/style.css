@@ -2,6 +2,10 @@
 font-family: "Quicksand";
 src: url("Quicksand/static/Quicksand-SemiBold.ttf");
 }
+@font-face {
+    font-family: "cour";
+    src: url("cour.ttf");
+    }
 @media screen and (max-width: 600px) {
     .container {
       flex-direction: column;
@@ -11,6 +15,10 @@ src: url("Quicksand/static/Quicksand-SemiBold.ttf");
 
 *{
     font-family: "Quicksand";
+}
+
+.code{
+    font-family: "cour";
 }
 
 body{

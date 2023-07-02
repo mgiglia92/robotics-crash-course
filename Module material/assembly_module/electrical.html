@@ -64,7 +64,316 @@
             </div>
         </div>
         <hr>
+        <h2 class="center">2. Attach Battery Holder</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>1x 3D Printed Battery Holder</li>
+                    <li>2x M3x16mm Fastener</li>
+                    <li>2x M3 Hex Nut</li>
+                    <li>2x M3 Lock Washer</li>
+                    <li>2x M3 Washer</li>
+                    <li>1x 9V Battery</li>
+                </ul>
+                <figure>
+                    <img class="view" src="images/withfasteners-batteryattach.png" alt="ground wire from raft to motor controller">
+                </figure>
+                <figcaption>Move power and ground wires to in between the holder and the raft board</figcaption>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-batteryattachment.png" alt="exploded view of battery attachment">
+                </figure>
+                <figcaption>Use same procedure as other mechanical assembly steps</figcaption>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-batterypluggedin.png" alt="battery plugged in">
+                </figure>
+                <figcaption>Snap battery into holder, then plug it in, <br> flip switches to see the "pico-on" led <br> and the "motor-power-on" led</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">3. Plug in Servo Motor (if no sticker by Q1) </h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>3x Male to Female Jumper wires</li>
+                </ul>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Unplug battery from board</li>
+                    <li>Check for a sticker next to Q1</li>
+                    <ul>
+                        <li>If you see a sticker, skip to Step 4</li>
+                        <li>If no sticker, attach jumper wires into servo motor wires</li>
+                    </ul>
+                    <li>Connect brown wire (ground) into GND (ground)</li>
+                    <li>Connect red wire (+5V) into +5V </li>
+                    <li>Connect orange wire (pwm) into GPIO Pin 18</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-alternateservowiring-colored.jpeg" alt="wiring if level shifters not working">
+                </figure>
+                <figcaption>Servo wiring if there's no sticker by Q1</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">4. Plug in Servo Motor (if sticker by Q1) </h2>
+        <div class="container">
+            <div class="left-column">
+                <!-- <h3>Materials</h3>
+                <ul class="bom">
+                    <li>3x Male to Female Jumper wires</li>
+                </ul> -->
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Unplug battery from board</li>
+                    <li>Check for a sticker next to Q1</li>
+                    <ul>
+                        <li>If you see a sticker, keep following these steps</li>
+                        <li>If no sticker, go back to Step 3</li>
+                    </ul>
+                    <li>Activate level shifter with shunt on pin 18</li>
+                    <li>Connect brown wire (ground) into GND (ground)</li>
+                    <li>Connect red wire (+5V) into +5V </li>
+                    <li>Connect orange wire (pwm) into PWM *18</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-shiftedservopwmcolored.png" alt="wiring if level shifters working">
+                </figure>
+                <figcaption>Servo wiring if there is a sticker by Q1</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">5. Pico Time! (Testing Servo Motor) </h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>1x PicoW</li>
+                    <li>micro usb cable</li>
+                </ul>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Plug in PicoW to raft board (usb port towards back of the robot)</li>
+                    <li>Plug in battery to raft</li>
+                    <li>Turn on board (just pico-on is good, motors are not plugged in yet)</li>
+                    <li><a href="uploadpico.html" target="_blank">Go here</a> for a reminder on how to upload code to your pico</li>
+                    <li>Run <span class="code">servo_forward.cpp</span>, this will make the servo face forwards</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-picoin.png" alt="robot with pico in">
+                </figure>
+                <figcaption>Robot so far;)</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">6. Attaching Lidar to Servo </h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Materials</h3>
+                <ul class="bom">
+                    <li>1x Sensor Bracket (with horn installed)</li>
+                    <li>1x small fastener from servo bag</li>
+                    <li>1x Lidar Sensor</li>
+                    <li>2x M3x16mm Fastener</li>
+                    <li>2x M3 Hex Nut</li>
+                    <li>2x M3 Lock Washer</li>
+                    <li>2x M3 Washer</li>
+                </ul>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>While servo is facing forwards, attach sensor bracket</li>
+                    <li>Fasten Lidar to bracket</li>
+                </ol>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-sensorbracketmounttoservo.png" alt="exploded view of lidar bracket mount">
+                </figure>
+                <figcaption>Attach sensor bracket facing forwards</figcaption>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-lidarattachment.png" alt="exploded view of lidar mount">
+                </figure>
+                <figcaption>Pins are up</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">7. Testing Potentiometer with Servo</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Attach shunt to activate potentiometer extra on GPIO pin 28</li>
+                    <li>Run <span class="code">servo_pot_test.cpp</span></li>
+                    <li>Twist your potentiometer to see full range of servo's motion</li>
+                </ol>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-shunton28.png" alt="adding shunt to pin 28">
+                </figure>
+                <figcaption>Make sure shunt is on pin 28</figcaption>
+            </div>
+            <div class="half-column">
+                <figure>
+                    <img class="view" src="images/servospinning.gif" alt="gif of servo motion">
+                </figure>
+                <figcaption>Should see something like this</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">8. Plug in Lidar</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Disconnect battery and usb to pico while plugging in wires!</h3>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Attach shunts to activate I2C bus extra, need BOTH pins 14 and 15</li>
+                    <li>Plug Vin to 3V3</li>
+                    <li>Plug GND to GND</li>
+                    <li>Plug SCL to *15 SCL</li>
+                    <li>Plug SDA to *14 SDA</li>
+                    <ul>
+                        <li>colors do not matter here, just keep track of your wiring</li>
+                        <li>the other two pins on the lidar are unconnected</li>
+                    </ul>
+                    <li>Run <span class="code">lidar_test.cpp</span></li>
+                    <li>Hold your hand in front of the sensor to see if its working</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-lidarwiringcolored.png" alt="wiring for lidar sensor">
+                </figure>
+                <figcaption>Make sure shunts are on pin 14 and 15</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">9. Plug in IMU</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Disconnect battery and usb to pico while plugging in wires!</h3>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Attach shunts to activate I2C bus extra, need BOTH pins 14 and 15</li>
+                    <li>Plug VCC to 3V3</li>
+                    <li>Plug GND to GND</li>
+                    <li>Plug SCL to *15 SCL</li>
+                    <li>Plug SDA to *14 SDA</li>
+                    <ul>
+                        <li>colors do not matter here, just keep track of your wiring</li>
+                        <li>the other four pins on the imu are unconnected</li>
+                    </ul>
+                    <li>Run <span class="code">mpu_6050_test.cpp</span></li>
+                    <li>gently shake/spin robot to test x-axis acceleration, y-axis acceleration, and z-axis rotation</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-imuwiringcolored.png" alt="wiring for imu sensor">
+                </figure>
+                <figcaption>Make sure shunts are on pin 14 and 15</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">10. Plug in Motors and Test Polarity</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Disconnect battery and usb to pico while plugging in wires!</h3>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>Make sure battery is unplugged and both leds are off</li>
+                    <li>Screw in red and black wires from motors into motor controller</li>
+                    <ul>
+                        <li>Either polarity works, you can reverse it if needed</li>
+                    </ul>
+                    <li>Plug in all 6 control wires:</li>
+                    <ul>
+                        <li>ENA to GPIO 7</li>
+                        <li>IN1 to GPIO 8</li>
+                        <li>IN2 to GPIO 9</li>
+                        <li>IN3 to GPIO 10</li>
+                        <li>IN4 to GPIO 11</li>
+                        <li>ENB to GPIO 12</li>
+                    </ul>
+                    <li>Run <span class="code">motor_polarity_test.cpp</span></li>
+                    <li>If either wheel is spinning backwards, need to reverse the polarity:</li>
+                    <ul>
+                        <li>Unplug power</li>
+                        <li>Switch the red and black wires on the motor that spun backwards</li>
+                    </ul>
+                    <li>Run <span class="code">motor_polarity_test.cpp</span> again, now both wheels should spin forwards</li>
+                    <li>Can also run <span class="code">motor_test.cpp</span> to see how the potentiometer can affect the motor speed, just make sure the shunt is on pin 28</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-motorcontrolcolored.png" alt="wiring for motorcontroller">
+                </figure>
+                <figcaption>Want to ensure when we say "go forward" the robot does:)</figcaption>
+            </div>
+        </div>
+        <hr>
+        <h2 class="center">11. Plug in Encoders</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Disconnect battery and usb to pico while plugging in wires!</h3>
+                <h3>Steps:</h3>
+                <ol class="bom">
+                    <li>This one is tricky because the screenprint is underneath the sensor, and the left encoder's wires have to flip</li>
+                    <li>For the Left Encoder:</li>
+                    <ul>
+                        <li>OUT (shown in purple) to GPIO 21</li>
+                        <li>VCC to 3V3</li>
+                        <li>GND to GND</li>
+                    </ul>
+                    <li>For the Right Encoder:</li>
+                    <ul>
+                        <li>OUT (shown in yellow) to GPIO 13</li>
+                        <li>VCC to 3V3</li>
+                        <li>GND to GND</li>
+                    </ul>
+                    <li>Run <span class="code">odom_test.cpp</span></li>
+                    <li>Spin the wheels and you should see the count increase and the led on the sensor blink</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="images/withfasteners-encoderwiringcolored.png" alt="wiring for encoders">
+                </figure>
+                <figcaption>Keep track of which wire is which!</figcaption>
+            </div>
+        </div>
 
+        <hr>
+        <h2 class="center">Congrats! You're Fully Assembled and Ready to Play!</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>There are some other tests we've written if you want to run them as well:</h3>
+                <ul class="bom">
+                    <li><span class="code">multi_i2c_test.cpp</span> tests the I2C bus is working with both sensors</li>
+                    <li><span class="code">all_sensor_test.cpp</span> has the servo and the wheel speed controlled by the potentiometer, and prints values from all sensors</li>
+                </ul>
+                </div>
+                <div class="right-column">
+                    <figure>
+                        <img class="view" src="images/withfasteners-alldone.png" alt="robot fully Assembled">
+                    </figure>
+                    <figcaption>behold your robot now! look how far you've come!</figcaption>
+                </div> 
+        </div>
 
 
 
