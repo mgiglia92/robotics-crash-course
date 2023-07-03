@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "Quicksand";
+    src: url("Quicksand/static/Quicksand-SemiBold.ttf");
+    }
+    @font-face {
+        font-family: "cour";
+        src: url("cour.ttf");
+        }
+    @media screen and (max-width: 600px) {
+        .container {
+          flex-direction: column;
+        }
+      }
+    
+    
+    *{
+        font-family: "Quicksand";
+    }
+    
+    .code{
+        font-family: "cour";
+    }
+    
+    body{
+        color:#011638;
+        /* background-color:#BFD7EA; */
+    }
+    
+    h1 {
+        color: black;
+        text-align: center;
+        font-size: 48px;
+    }
+    
+    .welcome {
+        font-size: 15px;
+        padding: 20px;
+    }
+    
+    .image_container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .center{
+        text-align: center;
+    }
+    
+    img {
+        display: block;
+        margin: auto;
+    }
+    
+    figcaption{
+        text-align: center;
+    }
+    
+    #hardware{
+        width: 50%;
+    }
+    
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .left-column {
+        flex-basis: 30%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    .right-column {   
+        flex-basis: 70%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .half-column {   
+        flex-basis: 35%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    
+    
+    .view{
+        max-width: 100%;
+    }
+    
+    .mpu6050{
+        padding-top: 40px;
+        max-width: 50%;
+    }
+    
+    #casterwheel{
+        max-width: 75%;
+    }
+    
+    hr{
+        border-top: 2px solid black;
+    }
+    
+    #left-ex{
+        width:60%;
+    }
+    
+    #motorframe-ex{
+        width:70%;
+    }
+    
+    #both-motor{
+        width:80%;
+    }
+    
+    #bothwheels{
+        width:70%;
+    }
+
+    #leds{
+        width:55%;
+    }
+
+    #extras{
+        width:75%;
+    }

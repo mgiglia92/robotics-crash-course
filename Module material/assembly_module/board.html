@@ -4,11 +4,205 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Raft PCB Info</title>
+        <title>Raft Guide</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="boardstyle.css">
     
     </head>
     <body>
+        <div>
+            <h1>The Guide to your Raft</h1>
+        </div>
+        <div class="welcome">
+            <h2>Meet your PicoW Raft, Designed and Built for Robotics Crash Course 2023</h2>
+            <div class="tips">
+                <h3>Board Features:</h3>
+                <ul>
+                    <li>Access to all of the PicoW's GPIO pins</li>
+                    <li>Power distribution to power the Pico and any peripherals</li>
+                    <li>Screw Terminal for Access to full voltage of power supplied</li>
+                    <li>Two switches, one for powering the board and one for powering the screw terminal</li>
+                    <li>An easy to access RESET button</li>
+                    <li>A reverse polarity protection diode on the input power</li>
+                    <li>Two LED's indicting power to both the board and the screw terminal</li>
+                    <li>A host of *extras*</li>
+                    <ul>
+                        <li>I2C Breakout for 4 sensors on GPIO Pin 14&15</li>
+                        <li>On Board Potentiometer connected to ADC2 (GPIO28)</li>
+                        <li>A button that pulls GPIO22 to GND</li>
+                        <li>Servo Breakout with level shifters on GPIO16,17,18 to generate 5V PWM signals</li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="image-container">
+                <figure>
+                    <img id="hardware" src="board-images/rcc-pico-emptyfromkicad.png" alt="left to right: driver, fastener, washer, lock washer, nut, hex key">
+                </figure>
+                <figcaption>An empty board before components are added, RCC staff assembled all the boards over past 3 months</figcaption>
+            </div>
+        </div>
+        <hr>
+
+        <h2 class="center">A Bit of History...</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Origins</h3>
+                <ul class="bom">
+                    <li>Last summer, during RCC, the PicoW had just released and
+                    we were interested👀</li>
+                    <li>After working with Picos developing The Tank (an
+                    autonomous robot with 3 pico's inside) and Carrie (a
+                    wireless robotic car capable of parallel parking), we
+                    decided to make the switch to the Pico as the
+                    microcontroller for RCC2023.</li>
+                    <li>The Raft board allows RCC students to enjoy everything
+                    the PicoW has to offer and learn all about the amazing
+                    software that was developed .</li> 
+                    <li>As the name v0.3 suggests, we mass produced the third
+                    iteration of the board, and we're already working on v0.4
+                    for everyone from high school to first year undergraduates
+                    to graduate students building mobile robots.</li>
+                    <li>Most importantly, PicoW's are really fun! This board
+                    allows for easy and interfacing with any sensors and
+                    actuators and the Pico.</li>
+                </ul>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="board-images/raft-timeline.png" alt="timeline of the raft's development">
+                </figure>
+                <figcaption>From left to right: the first v0.1 boards made last
+                April, <br> the v0.2 board with added features, and mass
+                production of the v0.3 board, named the Raft.</figcaption>
+            </div>
+        </div>  
+
+        <hr>
+        <h2 class="center">Pinout of the Raft</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Meet the <a href="https://datasheets.raspberrypi.com/picow/pico-w-datasheet.pdf" target="_blank">PicoW</a></h3>
+                <ul class="bom">
+                    <li>Home to the <a href="https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf" target="_blank">RP2040</a> Microcontroller</li>
+                    <li>The Raft preserves all of its functionality</li>
+                </ul>
+                <h3>Raft Provides:</h3>
+                <ul class="bom">
+                    <li>Connection to all GPIO pins on the Pico, 3V3 power,
+                    and GND next to each pin for ease of adding
+                    peripherals.</li>
+                    <li>Steady 5V from a Buck converter connected to the input power.</li>
+                    <li>Ability to connect ADCREF to 3V3</li>
+                </ul>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" src="board-images/raft-pinout.png" alt="pinout of the raft">
+                </figure>
+                <figcaption>PicoW's GPIO capabilities and their location on the Raft</figcaption>
+            </div>
+        </div>
+
+        <hr>
+        <h2 class="center">Powering the Raft</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Procedure:</h3>
+                <ol class="bom">
+                    <li>We recommend a 9V Battery to power the board, but up to
+                    12V is allowable</li>
+                    <li>Turn both switches off (off position is towards the Pico
+                    for both)</li>
+                    <li>Plug in power supply</li>
+                    <li>Turn on Main Power, LED D1 will turn on, indicating the
+                    board is live</li>
+                    <li>Turn on Motor Power, LED D2 will turn on, indicating the
+                    screw terminal (and any boards connected to it) are
+                    live</li>
+                </ol>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" id="leds" src="board-images/raft-ledlabels.png" alt="diodes labeled on raft">
+                </figure>
+                <figcaption>To turn a switch on, toggle away from the Pico</figcaption>
+            </div>
+        </div>
+
+        <hr>
+        <h2 class="center">Using the Raft's *~Extras*~</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Yay! the Fun part:)</h3>
+                <h3 class="center">To use any extras, activate them first</h3>
+                <h3 class="center">Use a shunt to connect the GPIO and extras pins</h3>
+                <figure>
+                    <img class="view" src="board-images/raft-shunt.png" alt="shunt">
+                </figure>
+                <figcaption>Keep extra shunts ONLY on the Connector Storage
+                pins, it could be dangerous to short pins not intended to be
+                connected.</figcaption>
+            </div>
+            <div class="right-column">
+                <figure>
+                    <img class="view" id="extras" src="board-images/raft-extraslayout.png" alt="layout of extras on raft">
+                </figure>
+                <figcaption>14&15 activate I2C Bus <br> 
+                    16,17,18 activate level shifters for 5V PWM <br>
+                    22 activates the extra button <br>
+                    28 activates the potentiometer
+                </figcaption>
+            </div>
+        </div>
+
+        <hr>
+        <h2 class="center">More Info:</h2>
+        <div class="container">
+            <div class="left-column">
+                <h3>Some things to keep in mind:</h3>
+                <ul class="bom">
+                    <li>Some Rafts do not have operational level shifters, and
+                    servo's must be driven by a 3V3 PWM signal, this does not
+                    impact the functionality of the servo, but the wiring is a
+                    little different. The <a href="electrical.html"
+                    target="_blank">electrical assembly guide</a> shows how to
+                    plug in a servo in the case that the level shifters are not
+                    operational</li>  
+                    <li>Rafts with tested and working level shifters are marked
+                    with a sticker by Q1</li>
+
+                </ul>
+            </div>
+            <div class="half-column">
+                <h3>Board Fabrication:</h3>
+                <ul class="bom">
+                    <li>The Rafts were designed in KiCAD and the fabrication
+                    files can be <a href="https://github.com/jcirce/rcc-pico-shield" target="_blank">found here</a></li> 
+                    <li>All v0.3 Rafts were assembled in NYC with Lead-Free solder and solder paste</li>
+                    <li>Some Rafts have a different color palette, functionality
+                        is not impacted and we consider these boards "limited
+                        edition"</li> 
+                    <li>All v0.3 Rafts have a serial number and detailed notes
+                        were taken during the fabrication process, if your raft has
+                        a special quirk, there is a record and RCC staff will inform
+                        you if your board should have something to keep an eye
+                        on</li>
+                </ul>
+            </div>
+            <div class="half-column">
+                <h3>Future Work:</h3>
+                <ul class="bom">
+                    <li>The Raft is a working prototype and any feedback you
+                    have as a user is greatly appreciated! Let the RCC staff
+                    know or email circe@cooper.edu with any thoughts.</li>   
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
     </body>
