@@ -11,7 +11,7 @@ pico_sdk_init()
 add_subdirectory(include)
 add_subdirectory(../../lib lib)
 add_subdirectory(sensors)
-add_subdirectory(actuators)
+#add_subdirectory(actuators)
 add_subdirectory(util)
 
 macro(make_exec exec_name exec_dir)
